@@ -20,7 +20,7 @@
                 </div>
 
                 <!-- Lateral -->
-                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="border-style:solid; border-width: 2px; padding: 5px">
                     <jsp:include page = "vistas/lateral.jsp"/>
                 </div>
             </div>

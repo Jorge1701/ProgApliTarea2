@@ -5,6 +5,9 @@
         <jsp:include page="include.html"/>
     </head>
     <body>
+        <div class="row">
+            <div style="margin: 70px"></div>
+        </div>
         <div class="footer navbar-fixed-bottom" style="background-color: white; height: 60px" >
             <div class="row" style="border-top-style: solid ; border-top-width: 1px; border-top-color: buttonface">
                 <h5 class="text-center">© 2017 Espotify.</h5>
