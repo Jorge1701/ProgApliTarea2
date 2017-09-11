@@ -50,6 +50,7 @@
                     <span style="color: red; padding-left: 5px" id="mensajeAlerta">Faltan campos</span>
                 </div>
             </div>
+
         </div>
 
         <script src="scripts/iniciar_sesion.js"></script>

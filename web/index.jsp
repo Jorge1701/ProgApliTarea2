@@ -15,20 +15,20 @@
 
             <div class="row">
                 <!-- Contenido -->
-                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9" style="background-color: yellow">
+                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12" style="background-color: yellow">
                     <h1>Contenido</h1>
                 </div>
 
                 <!-- Lateral -->
-                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="background-color: green">
-                    <h1>Lateral</h1>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    <jsp:include page = "vistas/lateral.jsp"/>
                 </div>
             </div>
 
             <!-- Footer -->
-            <div class="row" style="background-color: orange">
-                <h1>Footer</h1>
-            </div>
+            <jsp:include page = "vistas/footer.jsp"/>
+
         </div>
-    </body>
+    </div>
+</body>
 </html>
