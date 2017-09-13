@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="servlets.IniciarSesionServlet"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -26,35 +27,41 @@
                 </form>
             </div>
 
-            <!-- Iniciar Sesion -->
+            <%
+                boolean logeado = false;
+                try {
+                    logeado = IniciarSesionServlet.usuarioLogeado(request);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
+                if (logeado) {
+            %>
+
+            <!-- Perfil de Usuario -->
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="padding-top: 10px" id="formPU">
+                <div>
+                    <img src="media/Heisenberg.jpg" class="img-circle pull-left" width="65" height="65" style="margin-right: 20px" id="puImagen">
+                    <text style="margin: 5px" id="puNombre">Nombre</text><br>
+                    <button class="btn btn-info btn-xs" style="margin: 5px"><span class="glyphicon glyphicon-star">Favoritos</span></button><br>
+                    <a href="/Tarea2/CerrarSesionServlet" class="btn btn-link btn-xs">Cerrar Sesion</a>
+                </div> 
+            </div>
+
+            <% }
+                if (!logeado) {
+            %>
+
+            <!-- Opciones -->
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="padding-top: 10px">
-                <div class="input-group input-group-md">
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                    <input type="text" class="form-control" placeholder="Nickname" id="txtNickname">
-
-
-                    <div class="input-group-btn">
-                        <button class="btn btn-default" id="btnIniciarSesion">Iniciar Sesion</button>
-                    </div>
-                </div>
-                <div class="input-group input-group-md">
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                    <input type="password" class="form-control" placeholder="Contraseña" id="txtContrasenia">
-
-                    <div class="input-group-btn">
-
-                        <button class="btn btn-default" id="btnRegistrarse">Registrarse</button>
-
-                    </div>
-                </div>
-                <div class="container" style="padding-top: 5px" hidden="hidden" id="alerta">
-                    <span class="glyphicon glyphicon-alert" style="color: red"></span>
-                    <span style="color: red; padding-left: 5px" id="mensajeAlerta">Faltan campos</span>
+                <div class="container">
+                    <a href="/Tarea2/PaginaISServlet" class="btn btn-default" style="margin-left: 60px">Iniciar Sesion</a>
+                    <a href="vistas/altaPerfil.jsp" class="btn btn-default" id="btnRegistrarse" style="margin: 15px">Registrarse</a>
                 </div>
             </div>
 
-        </div>
+            <% }%>
 
-        <script src="scripts/iniciar_sesion.js"></script>
+        </div>
     </body>
 </html>

@@ -1,9 +1,26 @@
+//Ocultar boton Registrarse
+
+$("#btnRegistrarse").hide();
+
 //Verificacion de contraseña
 
-$("#txtVerifContrasenia").focusout(function () {
+$("#txtContrasenia").focusout(function () {
+    var contrasenia = $("#txtContrasenia").val().toString();
+
+    if (contrasenia == "") {
+        $("#faltaContrasenia").show();
+        return false;
+    } else {
+        $("#faltaContrasenia").hide();
+        return true;
+    }
+});
+
+
+$("#txtConfContrasenia").focusout(function () {
 
     var contrasenia = $("#txtContrasenia").val().toString();
-    var verifContrasenia = $("#txtVerifContrasenia").val().toString();
+    var verifContrasenia = $("#txtConfContrasenia").val().toString();
 
     if (contrasenia != verifContrasenia) {
         $("#alertaContrasenia").show();
@@ -14,15 +31,16 @@ $("#txtVerifContrasenia").focusout(function () {
     }
 
 });
-
-$("#txtVerifContrasenia").click(function () {
-    $("#alertaContrasenia").hide();
-});
-
-
 $("#txtContrasenia").click(function () {
     $("#alertaContrasenia").hide();
+    $("#faltaContrasenia").hide();
 });
+
+$("#txtConfContrasenia").click(function () {
+    $("#alertaContrasenia").hide();
+});
+
+
 
 //Verificacion de Nombre y Apellido
 
@@ -52,11 +70,13 @@ $("#txtApellido").focusout(function () {
     }
 });
 
-$("#btnCliente").click(function (){
+// Mostrar o ocultar datos del Artista
+
+$("#btnCliente").click(function () {
     $("#datosArtista").hide();
 });
 
-$("#btnArtista").click(function (){
+$("#btnArtista").click(function () {
     $("#datosArtista").show();
 });
 

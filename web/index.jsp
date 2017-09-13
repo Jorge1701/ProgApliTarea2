@@ -4,7 +4,7 @@
     <head>
         <jsp:include page="vistas/include.html"/>
 
-        <title>Inicio</title>
+        <title>Espotify</title>
     </head>
     <body>
         <div class="container-fluid">
@@ -16,7 +16,7 @@
             <div class="row">
                 <!-- Contenido -->
                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12" style="background-color: yellow">
-                    <h1>Contenido</h1>
+                    <h1 id="asd">Contenido</h1>
                 </div>
 
                 <!-- Lateral -->
