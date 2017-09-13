@@ -1,6 +1,6 @@
 $("#btnIniciarSesion").click(function () {
-    var nick = $("#txtNickname").val().toString();
-    var cont = $("#txtContrasenia").val().toString();
+        var nick = $("#txtNickname").val().toString();
+        var cont = $("#txtContrasenia").val().toString();
 
     if (nick == "" || cont == "") {
         $("#alerta").show();
@@ -11,7 +11,7 @@ $("#btnIniciarSesion").click(function () {
 });
 
 $("#btnRegistrarse").click(function () {
-    alert("Ir a pagina para registrarse...");
+    window.location = "vistas/altaPerfil.jsp";
 });
 
 $("#txtNickname").click(function () {

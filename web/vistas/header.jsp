@@ -42,7 +42,9 @@
                     <input type="password" class="form-control" placeholder="Contraseña" id="txtContrasenia">
 
                     <div class="input-group-btn">
+
                         <button class="btn btn-default" id="btnRegistrarse">Registrarse</button>
+
                     </div>
                 </div>
                 <div class="container" style="padding-top: 5px" hidden="hidden" id="alerta">
