@@ -15,8 +15,11 @@
 
             <div class="row">
                 <!-- Contenido -->
-                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12" style="background-color: yellow">
-                    <h1 id="asd">Contenido</h1>
+                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12" style="background-color: black">
+
+                    <%if (request.getParameter("mensaje") != null) {%>
+                    <h1 class="text-center" style="color: white"><%= request.getParameter("mensaje").toString()%></h1>        
+                    <%}%>
                 </div>
 
                 <!-- Lateral -->
@@ -29,6 +32,6 @@
             <jsp:include page = "vistas/footer.jsp"/>
 
         </div>
-    </div>
-</body>
+
+    </body>
 </html>

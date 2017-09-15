@@ -10,26 +10,68 @@
         <div class="container-fluid">
             <!-- Header -->
             <jsp:include page="header.jsp"/>
-
             <hr>
 
             <div class="row">
+
                 <!-- Contenido -->
                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                     <!-- Relleno a la izquiera -->
                     <div class="col-lg-3 col-md-3 col-sm-2 col-xs-1"></div>
 
+
                     <div class="col-lg-6 col-md-6 col-sm-8 col-xs-10" style="background-color: buttonface">
-                        <form>
+                        <form id="formulario">
                             <div class="input-group input-group-lg" >
                                 <h4 class="text-center">Crea tu perfil</h4>
-                                <row class="col-xs-12 "><input type="text" class="form-control" placeholder="Nickname" id="txtNickname"></row>
-                                <row class="col-xs-12"><input type="text" class="form-control" placeholder="Email" id="txtEmail"></row>
+
+                                <row class="col-xs-12 "><input required="Campo obligatorio" type="text" class="form-control" placeholder="Nickname" id="txtNickname"></row>
+
+                                <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
+                                    <div  id="faltaNickname" hidden>
+                                        <span class="glyphicon glyphicon-alert" style="color: red"></span>
+                                        <span style="color: red; padding-left: 5px">Debes de ingresar un nickname.</span>
+                                    </div>
+                                </row>
+
+                                <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
+                                    <div  id="nicknameAlerta" hidden>
+                                        <span class="glyphicon glyphicon-alert" style="color: red"></span>
+                                        <span style="color: red; padding-left: 5px" >Nickname ya existe.</span>
+                                    </div>
+                                </row>
+                                <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
+                                    <div  id="nicknameSuccess" hidden>
+                                        <span class="glyphicon glyphicon-ok" style="color: green"></span>
+                                        <span style="color: green; padding-left: 5px" >Nickname disponible.</span>
+                                    </div>
+                                </row>
+                                <row class="col-xs-12"><input required="Campo obligatorio"  type="email" class="form-control" placeholder="Email" id="txtEmail"></row>
+
+                                <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
+                                    <div  id="faltaEmail" hidden>
+                                        <span class="glyphicon glyphicon-alert" style="color: red"></span>
+                                        <span style="color: red; padding-left: 5px">Debes de ingresar un email.</span>
+                                    </div>
+                                </row>
+
+                                <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
+                                    <div  id="emailAlerta" hidden>
+                                        <span class="glyphicon glyphicon-alert" style="color: red"></span>
+                                        <span style="color: red; padding-left: 5px" >Email ya en uso.</span>
+                                    </div>
+                                </row>
+                                <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
+                                    <div  id="emailSuccess" hidden>
+                                        <span class="glyphicon glyphicon-ok" style="color: green"></span>
+                                        <span style="color: green; padding-left: 5px" >Email disponible.</span>
+                                    </div>
+                                </row>
 
                                 <row class="col-xs-12"> <div style="margin: 20px"></div> </row>
 
-                                <row class="col-xs-6"><input type="text" class="form-control" placeholder="Nombre" id="txtNombre"></row>
-                                <row class="col-xs-6"> <input type="text" class="form-control" placeholder="Apellido" id="txtApellido"></row>
+                                <row class="col-xs-6"><input required="Campo obligatorio"  type="text" class="form-control" placeholder="Nombre" id="txtNombre"></row>
+                                <row class="col-xs-6"> <input required="Campo obligatorio" type="text" class="form-control" placeholder="Apellido" id="txtApellido"></row>
 
                                 <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
                                     <div  id="alertaNombre" hidden>
@@ -41,10 +83,10 @@
                                 <span style="color: black; padding-left: 15px">Fecha de nacimiento</span>
                                 <div class="form-group"> 
                                     <div class="col-xs-4">          
-                                        <input type="text" class="form-control" placeholder="Dia" id="txtDia">
+                                        <input required="Campo obligatorio" type="text" class="form-control" placeholder="Dia" id="txtDia">
                                     </div>
                                     <div class="col-xs-4 selectContainer">
-                                        <select class="form-control" name="Mes">
+                                        <select required="Campo obligatorio" class="form-control"  id="txtMes">
                                             <option value="mes">Mes</option>
                                             <option value="enero">Enero</option>
                                             <option value="febrero">Febrero</option>
@@ -61,11 +103,18 @@
                                         </select>
                                     </div>
                                     <div class="col-xs-4">
-                                        <input type="text" class="form-control" placeholder="Año" id="txtAño">
+                                        <input required="Campo obligatorio"  type="text" class="form-control" placeholder="Año" id="txtAnio">
                                     </div>
                                 </div>
 
-                                <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input type="password" class="form-control" placeholder="Crea una contraseña" id="txtContrasenia"></row>
+                                <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
+                                    <div  id="alertaFecha" hidden>
+                                        <span class="glyphicon glyphicon-alert" style="color: red"></span>
+                                        <span style="color: red; padding-left: 5px" >Indique una fecha valida.</span>
+                                    </div>
+                                </row>
+
+                                <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input required="Campo obligatorio" type="password" class="form-control" placeholder="Crea una contraseña" id="txtContrasenia"></row>
 
                                 <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
                                     <div  id="faltaContrasenia" hidden>
@@ -74,7 +123,7 @@
                                     </div>
                                 </row>
 
-                                <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input type="password" class="form-control" placeholder="Confirma tu contraseña" id="txtConfContrasenia"></row>
+                                <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input required="Campo obligatorio"  type="password" class="form-control" placeholder="Confirma tu contraseña" id="txtConfContrasenia"></row>
 
                                 <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
                                     <div  id="alertaContrasenia" hidden>
@@ -98,14 +147,13 @@
                                 </row>
 
                                 <div id="datosArtista" hidden >  
-                                    <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input type="text" class="form-control" placeholder="Biografia" style="margin-top:10px" id="txtBiografia"></row>
-                                    <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input type="text" class="form-control" placeholder="Link" id="txtLink"></row>
+                                    <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input  type="text" class="form-control" placeholder="Biografia" style="margin-top:10px" id="txtBiografia"></row>
+                                    <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input  class="form-control" placeholder="Link" id="txtLink"></row>
                                 </div>
 
-                                <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><a href="altaPerfil.jsp" class="btn btn-default pull-right" id="btnRegistro" style="margin-top: 8px">Registrarse</a></row>
+                                <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input type="button" class="btn btn-default pull-right" id="btnRegistro" style="margin-top: 8px" value="Registrarse"/></row>
 
-                                <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> <div style="margin: 15px"></div> </row>
-
+                                <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> <div style="margin: 15px"></div></row>
 
                             </div>
                         </form>
@@ -113,7 +161,7 @@
                     <!-- Relleno a la derecha -->
                     <div class="col-lg-3 col-md-3 col-sm-2 col-xs-1"></div>
 
-                    <script src="../scripts/altaPerfil.js"></script>
+                    <script src="../scripts/altaPerfil.js" type="text/javascript"></script>
 
                 </div>
 

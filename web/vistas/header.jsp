@@ -56,7 +56,7 @@
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="padding-top: 10px">
                 <div class="container">
                     <a href="/Tarea2/PaginaISServlet" class="btn btn-default" style="margin-left: 60px">Iniciar Sesion</a>
-                    <a href="vistas/altaPerfil.jsp" class="btn btn-default" id="btnRegistrarse" style="margin: 15px">Registrarse</a>
+                    <a href="vistas/registrarse.jsp" class="btn btn-default" id="btnRegistrarse" style="margin: 15px">Registrarse</a>
                 </div>
             </div>
 
