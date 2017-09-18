@@ -31,13 +31,13 @@ public class SSeguirUsuario extends HttpServlet {
             Suscripcion suscripcion = ((DtCliente) iUsuario.getDataUsuario(seguidor)).getSuscripcion();
             if (suscripcion != null && "vigente".equals(suscripcion.getEstado())) {
                 iUsuario.seguirUsuario(seguidor, seguido);
-                respuesta = "siguiendo";                                         // Texto para mostrar en el boton una vez presionado
+                respuesta = "Siguiendo";                                         // Texto para mostrar en el boton una vez presionado
             } else {
-                respuesta = "error, no tiene suscripcion o esta vencida";
+                respuesta = "Error, no tiene suscripcion o está vencida";
             }
         } else if ("dejarSeguir".equals(accion)) {
             iUsuario.dejarSeguirUsuario(seguidor, seguido);
-            respuesta = "seguir";
+            respuesta = "Seguir";
         }
 
         response.setContentType("text/plain");
