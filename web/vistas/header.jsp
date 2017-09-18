@@ -42,7 +42,7 @@
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="padding-top: 10px ; padding-left: 200px" id="formPU">
                 <div>
                     <img src="media/Heisenberg.jpg" class="img-circle pull-left" width="65" height="65" style="margin-right: 20px" id="puImagen">
-                    <div style="margin: 0px; color:lavender; text-shadow: 2px 2px 4px #000000" id="puNombre">Nombre Apellido</div>
+                    <div style="margin: 0px; color:lavender; text-shadow: 2px 2px 4px #000000" id="puNombre"><a href="/Tarea2/SConsultarPerfil?nickUs=el_padrino">Nombre Apellido</a></div>
                     <button class="btn btn-info btn-xs" style="margin-bottom : 3px"><span class="glyphicon glyphicon-star">Favoritos</span></button><br>
                     <a href="/Tarea2/CerrarSesionServlet" class="btn btn-link btn-xs">Cerrar Sesion</a>
                 </div> 
