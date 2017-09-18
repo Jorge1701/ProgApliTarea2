@@ -74,7 +74,7 @@ $("#txtNickname").keyup(function () {
 
 //Verificar que no exista el Email
 var correctoEmail = false;
-$("#txtEmail").focusout(function () {
+$("#txtEmail").keyup(function () {
     if ($("#txtEmail").val().toString() === "") {
         $("#emailAlerta").hide();
         $("#emailSuccess").hide();
