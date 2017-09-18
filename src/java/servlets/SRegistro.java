@@ -51,7 +51,8 @@ public class SRegistro extends HttpServlet {
             response.setContentType("text/plain");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(existe);
-        } else if("registro".equals(accion)){                                                                   //Ingreso del perfil
+
+        } else if ("registro".equals(accion)) {                            //Ingreso del perfil
             String contrasenia = request.getParameter("contrasenia");
             String nombre = request.getParameter("nombre");
             String apellido = request.getParameter("apellido");
@@ -95,11 +96,12 @@ public class SRegistro extends HttpServlet {
             if ("si".equals(artista)) {
                 dtu = new DtArtista(nickname, nombre, apellido, email, fechaNac, "", biografia, link, contrasenia);
             } else {
-                dtu = new DtCliente(nickname, nombre, apellido, email, fechaNac, "", contrasenia);
+                dtu = new DtCliente(nickname, nombre, apellido, email, fechaNac, "", contrasenia,null);
             }
             iUsuario.ingresarUsuario(dtu);
 
-            request.getRequestDispatcher("SInicio").forward(request, response);
+            getServletContext().getRequestDispatcher("/IniciarSesion").forward(request, response); 
+            //request.getRequestDispatcher("SInicio").forward(request, response);      //Redirigir utilizando el nombre del servlet
         }
 
     }

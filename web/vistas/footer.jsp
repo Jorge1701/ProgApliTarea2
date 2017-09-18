@@ -10,7 +10,7 @@
 
             <hr>
             <div class="text-center" style="color: lavender">© 2017 Espotify.</div>
-            <div class="text-center" style="color: lavender">Todos los derechos reservados.</div>
+
 
         </div>
 
