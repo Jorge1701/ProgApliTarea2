@@ -6,7 +6,8 @@
 
         <title>Crea tu perfil de Espotify</title>
     </head>
-    <body>
+    <body style="background-image: url('media/wallpaper2.jpg')">
+
         <div class="container-fluid">
             <!-- Header -->
             <jsp:include page="header.jsp"/>
@@ -20,12 +21,12 @@
                     <div class="col-lg-3 col-md-3 col-sm-2 col-xs-1"></div>
 
 
-                    <div class="col-lg-6 col-md-6 col-sm-8 col-xs-10" style="background-color: buttonface">
+                    <div class="col-lg-6 col-md-6 col-sm-8 col-xs-10" style="background-color: transparent">
                         <form id="formulario">
                             <div class="input-group input-group-lg" >
-                                <h4 class="text-center">Crea tu perfil</h4>
+                                <h4 class="text-center" style="color:lavender ">Crea tu perfil</h4>
 
-                                <row class="col-xs-12 "><input required="Campo obligatorio" type="text" class="form-control" placeholder="Nickname" id="txtNickname"></row>
+                                <row class="col-xs-12 "><input style="border-color: black" required="Campo obligatorio" type="text" class="form-control" placeholder="Nickname" id="txtNickname"></row>
 
                                 <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
                                     <div  id="faltaNickname" hidden>
@@ -46,7 +47,7 @@
                                         <span style="color: green; padding-left: 5px" >Nickname disponible.</span>
                                     </div>
                                 </row>
-                                <row class="col-xs-12"><input required="Campo obligatorio"  type="email" class="form-control" placeholder="Email" id="txtEmail"></row>
+                                <row class="col-xs-12"><input style="border-color: black" required="Campo obligatorio"  type="email" class="form-control" placeholder="Email" id="txtEmail"></row>
 
                                 <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
                                     <div  id="faltaEmail" hidden>
@@ -70,8 +71,8 @@
 
                                 <row class="col-xs-12"> <div style="margin: 20px"></div> </row>
 
-                                <row class="col-xs-6"><input required="Campo obligatorio"  type="text" class="form-control" placeholder="Nombre" id="txtNombre"></row>
-                                <row class="col-xs-6"> <input required="Campo obligatorio" type="text" class="form-control" placeholder="Apellido" id="txtApellido"></row>
+                                <row class="col-xs-6"><input style="border-color: black" required="Campo obligatorio"  type="text" class="form-control" placeholder="Nombre" id="txtNombre"></row>
+                                <row class="col-xs-6"> <input style="border-color: black" required="Campo obligatorio" type="text" class="form-control" placeholder="Apellido" id="txtApellido"></row>
 
                                 <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
                                     <div  id="alertaNombre" hidden>
@@ -80,13 +81,13 @@
                                     </div>
                                 </row>
 
-                                <span style="color: black; padding-left: 15px">Fecha de nacimiento</span>
+                                <span style="color: lavender; padding-left: 15px; font-weight: bold">Fecha de nacimiento:</span>
                                 <div class="form-group"> 
                                     <div class="col-xs-4">          
-                                        <input required="Campo obligatorio" type="text" class="form-control" placeholder="Dia" id="txtDia">
+                                        <input style="border-color: black" required="Campo obligatorio" type="text" class="form-control" placeholder="Dia" id="txtDia">
                                     </div>
                                     <div class="col-xs-4 selectContainer">
-                                        <select required="Campo obligatorio" class="form-control"  id="txtMes">
+                                        <select style="border-color: black" required="Campo obligatorio" class="form-control"  id="txtMes">
                                             <option value="mes">Mes</option>
                                             <option value="enero">Enero</option>
                                             <option value="febrero">Febrero</option>
@@ -103,7 +104,7 @@
                                         </select>
                                     </div>
                                     <div class="col-xs-4">
-                                        <input required="Campo obligatorio"  type="text" class="form-control" placeholder="Año" id="txtAnio">
+                                        <input style="border-color: black" required="Campo obligatorio"  type="text" class="form-control" placeholder="Año" id="txtAnio">
                                     </div>
                                 </div>
 
@@ -114,7 +115,7 @@
                                     </div>
                                 </row>
 
-                                <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input required="Campo obligatorio" type="password" class="form-control" placeholder="Crea una contraseña" id="txtContrasenia"></row>
+                                <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input style="border-color: black" required="Campo obligatorio" type="password" class="form-control" placeholder="Crea una contraseña" id="txtContrasenia"></row>
 
                                 <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
                                     <div  id="faltaContrasenia" hidden>
@@ -123,7 +124,7 @@
                                     </div>
                                 </row>
 
-                                <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input required="Campo obligatorio"  type="password" class="form-control" placeholder="Confirma tu contraseña" id="txtConfContrasenia"></row>
+                                <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input style="border-color: black" required="Campo obligatorio"  type="password" class="form-control" placeholder="Confirma tu contraseña" id="txtConfContrasenia"></row>
 
                                 <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
                                     <div  id="alertaContrasenia" hidden>
@@ -147,8 +148,8 @@
                                 </row>
 
                                 <div id="datosArtista" hidden >  
-                                    <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input  type="text" class="form-control" placeholder="Biografia" style="margin-top:10px" id="txtBiografia"></row>
-                                    <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input  class="form-control" placeholder="Link" id="txtLink"></row>
+                                    <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input style="border-color: black" type="text" class="form-control" placeholder="Biografia" style="margin-top:10px" id="txtBiografia"></row>
+                                    <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input style="border-color: black" class="form-control" placeholder="Link" id="txtLink"></row>
                                 </div>
 
                                 <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input type="button" class="btn btn-default pull-right" id="btnRegistro" style="margin-top: 8px" value="Registrarse"/></row>
@@ -161,20 +162,22 @@
                     <!-- Relleno a la derecha -->
                     <div class="col-lg-3 col-md-3 col-sm-2 col-xs-1"></div>
 
-                    <script src="../scripts/altaPerfil.js" type="text/javascript"></script>
-
                 </div>
 
                 <!-- Lateral -->
-                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="border-style:solid; border-width: 2px; padding: 5px">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="background-color: black; border-style:solid; border-width: 1px; padding: 15px; border-color: lavender">
                     <jsp:include page = "lateral.jsp"/>
                 </div>
             </div>
-
+            <div class="row">
+                <div style="margin: 24px"></div>
+            </div>
+            <hr>
             <!-- Footer -->
             <jsp:include page = "footer.jsp"/>
 
         </div>
     </div>
+    <script src="scripts/altaPerfil.js" type="text/javascript"></script>
 </body>
 </html>

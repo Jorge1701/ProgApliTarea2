@@ -6,28 +6,31 @@
 
         <title>Espotify</title>
     </head>
-    <body>
+    <body style="background-image: url('media/wallpaper2.jpg')">
         <div class="container-fluid">
             <!-- Header -->
             <jsp:include page="vistas/header.jsp"/>
 
             <hr>
-
+            <br>
             <div class="row">
                 <!-- Contenido -->
-                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12" style="background-color: black">
+                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
 
                     <%if (request.getParameter("mensaje") != null) {%>
-                    <h1 class="text-center" style="color: white"><%= request.getParameter("mensaje").toString()%></h1>        
+                    <h1 class="text-center" style="color: black; background-color: #00cc66"><%= request.getParameter("mensaje").toString()%></h1>        
                     <%}%>
                 </div>
 
                 <!-- Lateral -->
-                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="border-style:solid; border-width: 2px; padding: 5px">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="background-color: black; border-style:solid; border-width: 1px; padding: 15px; border-color: lavender">
                     <jsp:include page = "vistas/lateral.jsp"/>
                 </div>
             </div>
-
+            <div class="row">
+                <div style="margin: 40px"></div>
+            </div>
+            <hr>
             <!-- Footer -->
             <jsp:include page = "vistas/footer.jsp"/>
 

@@ -30,11 +30,14 @@ public class SRegistro extends HttpServlet {
         }
 
         String existe = "";
-        String verificacion = request.getParameter("verificacion");
+        String accion = request.getParameter("accion");
         String nickname = request.getParameter("nickname");
         String email = request.getParameter("email");
 
-        if ("nickname".equals(verificacion)) {                                  //Verficacion de nickname
+        if ("redirigir".equals(accion)) {                                         //Reridigir a la pagina de registro
+            this.getServletContext().getRequestDispatcher("/vistas/registrarse.jsp").forward(request, response);
+
+        } else if ("nickname".equals(accion)) {                                  //Verficacion de nickname
             DtUsuario usuario = iUsuario.getDataUsuario(nickname);
             if (usuario != null) {
                 existe = "si";
@@ -45,7 +48,7 @@ public class SRegistro extends HttpServlet {
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(existe);
 
-        } else if ("email".equals(verificacion)) {                              //Verficacion de email
+        } else if ("email".equals(accion)) {                              //Verficacion de email
 
             if (!iUsuario.correoExiste(email)) {
                 existe = "si";

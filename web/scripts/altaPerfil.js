@@ -1,4 +1,4 @@
-
+//Hacer registro y redireccionar al index
 $("#btnRegistro").click(function () {
     if (correctoNickname === true && correctoEmail === true
             && correctoContrasenia === true && correctoConfContrasenia === true
@@ -20,7 +20,7 @@ $("#btnRegistro").click(function () {
                 "biografia": $("#txtBiografia").val().toString(),
                 "link": $("#txtLink").val().toString(),
                 "artista": artista,
-                "verificacion": "registro"},
+                "accion": "registro"},
             success: function(data){
                 window.location = "/Tarea2/SInicio?mensaje=¡Bienvenido! Disfrute de la musica online en vivo";
             },
@@ -50,7 +50,7 @@ $("#txtNickname").focusout(function () {
         type: "POST",
         url: "/Tarea2/SRegistro",
         data: {"nickname": $("#txtNickname").val().toString(),
-            "verificacion": "nickname"},
+            "accion": "nickname"},
 
         success: function (data) {
             if (data === "si") {
@@ -86,7 +86,7 @@ $("#txtEmail").focusout(function () {
         type: "POST",
         url: "/Tarea2/SRegistro",
         data: {"email": $("#txtEmail").val().toString(),
-            "verificacion": "email"},
+            "accion": "email"},
 
         success: function (data) {
             if (data === "si") {
