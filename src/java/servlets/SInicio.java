@@ -2,7 +2,8 @@ package servlets;
 
 import Logica.Fabrica;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,15 +16,27 @@ public class SInicio extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        Fabrica.inicializarControladores();
+        System.out.println("servlets.SInicio.processRequest() SINICIO");
+        if (request.getParameter("primeraVez") != null) {
+            System.out.println("servlets.SInicio.processRequest() PRIMERA VEZ");
+            Fabrica.inicializarControladores();
 
-        try {
-            Fabrica.levantarDatos();
-        } catch (Exception ex) {
-            System.out.println("servlets.AltaPerfilServlet.processRequest()" + "error en la base de datos" + ex.getMessage());
+            try {
+                Fabrica.levantarDatos();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } else if (request.getParameter("cargarDatosPrueba") != null) {
+            System.out.println("servlets.SInicio.processRequest() CARGAR DATOS PRUEBA");
+            try {
+                Fabrica.cargaDatosPrueba();
+                request.getSession().removeAttribute("usuario");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
 
-       //getServletContext().getRequestDispatcher("/vistas/inicio.jsp").forward(request, response);         //Redirige a inicio(igual que la linea de abajo)
+        //getServletContext().getRequestDispatcher("/vistas/inicio.jsp").forward(request, response);         //Redirige a inicio(igual que la linea de abajo)
         request.getRequestDispatcher("vistas/inicio.jsp").forward(request, response);
     }
 

@@ -100,7 +100,7 @@ public class SRegistro extends HttpServlet {
             }
             iUsuario.ingresarUsuario(dtu);
 
-            getServletContext().getRequestDispatcher("/IniciarSesion").forward(request, response); 
+            getServletContext().getRequestDispatcher("/SSesion").forward(request, response); 
             //request.getRequestDispatcher("SInicio").forward(request, response);      //Redirigir utilizando el nombre del servlet
         }
 

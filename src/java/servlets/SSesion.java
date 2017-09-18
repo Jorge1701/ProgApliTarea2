@@ -1,5 +1,7 @@
 package servlets;
 
+import Logica.Fabrica;
+import Logica.IUsuario;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,26 +10,32 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet(name = "IniciarSesionServlet", urlPatterns = {"/IniciarSesion"})
-public class IniciarSesionServlet extends HttpServlet {
+@WebServlet(name = "SSesion", urlPatterns = {"/SSesion"})
+public class SSesion extends HttpServlet {
+
+    private IUsuario iUsuario;
+
+    public SSesion() {
+        iUsuario = Fabrica.getIControladorUsuario();
+    }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String nickname = request.getParameter("nickname");
-        String contrasenia = request.getParameter("contrasenia");
 
-        if (nickname.equals("jorge") && contrasenia.equals("1234")) {
-            request.removeAttribute("error");
-            HttpSession s = request.getSession();
-            s.setAttribute("nickname", nickname);
-            s.setAttribute("contrasenia", contrasenia);
+        if (request.getParameter("cerrarSesion") != null) {
+            request.getSession().removeAttribute("usuario");
             request.getRequestDispatcher("SInicio").forward(request, response);
-        } else {
-            HttpSession s = request.getSession();
-            s.removeAttribute("nickname");
-            s.removeAttribute("contrasenia");
-            request.setAttribute("error", "Nickname o Contraseña no validos");
-            this.getServletContext().getRequestDispatcher("/vistas/iniciar_sesion.jsp").forward(request, response);
+        } else if (request.getParameter("nickname") != null && request.getParameter("contrasenia") != null) {
+            String chequeo = iUsuario.chequearLogin(request.getParameter("nickname"), request.getParameter("contrasenia"));
+            if (chequeo.equals("")) {
+                request.getSession().setAttribute("usuario", iUsuario.getDataUsuario(request.getParameter("nickname")));
+                request.getRequestDispatcher("SInicio").forward(request, response);
+            } else {
+                request.setAttribute("error", chequeo);
+                request.getRequestDispatcher("/vistas/iniciar_sesion.jsp").forward(request, response);
+            }
+        } else if (request.getParameter("redirigir") != null) {
+            request.getRequestDispatcher("/vistas/iniciar_sesion.jsp").forward(request, response);
         }
     }
 

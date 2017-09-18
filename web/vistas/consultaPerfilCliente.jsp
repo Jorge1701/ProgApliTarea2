@@ -12,7 +12,7 @@
         <jsp:include page="include.html"/>
         <title>Consulta perfil Cliente</title>
     </head>
-    <body>
+    <body style="background-image: url('media/wallpaper2.jpg')">
         <%
             DtPerfilCliente dtPCliente = (DtPerfilCliente) request.getAttribute("DtPerfilCliente");
         %>
@@ -243,8 +243,7 @@
                 </div>
             </div>
 
-            <!-- Footer -->
-            <jsp:include page = "footer.jsp"/>
+            
         </div>
     </body>
 </html>
