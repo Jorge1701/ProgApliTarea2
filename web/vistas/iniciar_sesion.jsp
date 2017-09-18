@@ -57,13 +57,8 @@
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="background-color: black; border-style:solid; border-width: 1px; padding: 15px; border-color: lavender">
                     <jsp:include page = "lateral.jsp"/>
                 </div>
-            </div>
+            </div> 
 
-            <div class="row">
-                <div style="margin: 55px"></div>
-            </div>
-            <hr>   
-            
             <!-- Footer -->
             <jsp:include page = "footer.jsp"/>
         </div>

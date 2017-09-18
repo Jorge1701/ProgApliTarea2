@@ -6,11 +6,12 @@
     </head>
     <body>
 
-        <div class="footer navbar-fixed-bottom" style="height: 60px" >
-            <div class="row">
-                <h5 class="text-center" style="color: lavender">© 2017 Espotify.</h5>
-                <h5 class="text-center" style="color: lavender">Todos los derechos reservados.</h5>
-            </div>
+        <div class="footer navbar-fixed-bottom">
+
+            <hr>
+            <div class="text-center" style="color: lavender">© 2017 Espotify.</div>
+            <div class="text-center" style="color: lavender">Todos los derechos reservados.</div>
+
         </div>
 
     </body>

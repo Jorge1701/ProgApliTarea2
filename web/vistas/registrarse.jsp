@@ -169,10 +169,8 @@
                     <jsp:include page = "lateral.jsp"/>
                 </div>
             </div>
-            <div class="row">
-                <div style="margin: 24px"></div>
-            </div>
-            <hr>
+
+
             <!-- Footer -->
             <jsp:include page = "footer.jsp"/>
 
