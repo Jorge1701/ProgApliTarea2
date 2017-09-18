@@ -1,5 +1,6 @@
 package servlets;
 
+import Logica.Fabrica;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -14,8 +15,16 @@ public class SInicio extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        //.getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
-        request.getRequestDispatcher("/index.jsp").forward(request, response);
+        Fabrica.inicializarControladores();
+
+        try {
+            Fabrica.levantarDatos();
+        } catch (Exception ex) {
+            System.out.println("servlets.AltaPerfilServlet.processRequest()" + "error en la base de datos" + ex.getMessage());
+        }
+
+       //getServletContext().getRequestDispatcher("/vistas/inicio.jsp").forward(request, response);         //Redirige a inicio(igual que la linea de abajo)
+        request.getRequestDispatcher("vistas/inicio.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

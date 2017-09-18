@@ -16,7 +16,7 @@ public class CerrarSesionServlet extends HttpServlet {
         HttpSession s = request.getSession();
         s.removeAttribute("nickname");
         s.removeAttribute("contrasenia");
-        this.getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+        request.getRequestDispatcher("SInicio").forward(request, response);
     }
 
     @Override

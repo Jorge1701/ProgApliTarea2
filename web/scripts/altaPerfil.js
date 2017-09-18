@@ -21,10 +21,10 @@ $("#btnRegistro").click(function () {
                 "link": $("#txtLink").val().toString(),
                 "artista": artista,
                 "accion": "registro"},
-            success: function(data){
+            success: function (data) {
                 window.location = "/Tarea2/SInicio?mensaje=¡Bienvenido! Disfrute de la musica online en vivo";
             },
-            
+
             error: function () {
                 alert("Error en el servelt, al momento de ingresar el perfil");
             }
@@ -38,7 +38,7 @@ $("#btnRegistro").click(function () {
 
 //Verificar que no exista el nickname
 var correctoNickname = false;
-$("#txtNickname").focusout(function () {
+$("#txtNickname").keyup(function () {
     if ($("#txtNickname").val().toString() === "") {
         $("#nicknameAlerta").hide();
         $("#nicknameSuccess").hide();
@@ -131,17 +131,21 @@ $("#txtContrasenia").focusout(function () {
 
 var correctoConfContrasenia = false;
 $("#txtConfContrasenia").keyup(function () {
-
+    $("#alertaContrasenia").hide();
     var contrasenia = $("#txtContrasenia").val().toString();
     var verifContrasenia = $("#txtConfContrasenia").val().toString();
-    if (contrasenia !== verifContrasenia) {
+
+    if (contrasenia.indexOf(verifContrasenia) !== -1) {
+        if (contrasenia.length === verifContrasenia.length) {
+            $("#alertaContrasenia").hide();
+            return correctoConfContrasenia = true;
+        } else {
+            return correctoConfContrasenia = false;
+        }
+    } else {
         $("#alertaContrasenia").show();
         return correctoConfContrasenia = false;
-    } else {
-        $("#alertaContrasenia").hide();
-        return correctoConfContrasenia = true;
     }
-
 });
 $("#txtContrasenia").click(function () {
     $("#alertaContrasenia").hide();

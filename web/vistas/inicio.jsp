@@ -2,14 +2,14 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <jsp:include page="vistas/include.html"/>
+        <jsp:include page="include.html"/>
 
         <title>Espotify</title>
     </head>
     <body style="background-image: url('media/wallpaper2.jpg')">
         <div class="container-fluid">
             <!-- Header -->
-            <jsp:include page="vistas/header.jsp"/>
+            <jsp:include page="header.jsp"/>
 
             <hr>
             <br>
@@ -24,7 +24,7 @@
 
                 <!-- Lateral -->
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="background-color: black; border-style:solid; border-width: 1px; padding: 15px; border-color: lavender">
-                    <jsp:include page = "vistas/lateral.jsp"/>
+                    <jsp:include page = "lateral.jsp"/>
                 </div>
             </div>
             <div class="row">
@@ -32,7 +32,7 @@
             </div>
             <hr>
             <!-- Footer -->
-            <jsp:include page = "vistas/footer.jsp"/>
+            <jsp:include page = "footer.jsp"/>
 
         </div>
 

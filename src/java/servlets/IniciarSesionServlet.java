@@ -21,7 +21,7 @@ public class IniciarSesionServlet extends HttpServlet {
             HttpSession s = request.getSession();
             s.setAttribute("nickname", nickname);
             s.setAttribute("contrasenia", contrasenia);
-            this.getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+            request.getRequestDispatcher("SInicio").forward(request, response);
         } else {
             HttpSession s = request.getSession();
             s.removeAttribute("nickname");

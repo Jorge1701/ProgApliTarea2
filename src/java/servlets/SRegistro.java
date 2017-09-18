@@ -20,16 +20,9 @@ public class SRegistro extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Fabrica.inicializarControladores();
         iUsuario = Fabrica.getIControladorUsuario();
 
-        try {
-            Fabrica.levantarDatos();
-        } catch (Exception ex) {
-            System.out.println("servlets.AltaPerfilServlet.processRequest()" + "error en la base de datos" + ex.getMessage());
-        }
-
-        String existe = "";
+        String existe;
         String accion = request.getParameter("accion");
         String nickname = request.getParameter("nickname");
         String email = request.getParameter("email");
@@ -58,7 +51,7 @@ public class SRegistro extends HttpServlet {
             response.setContentType("text/plain");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(existe);
-        } else {                                                                   //Ingreso del perfil
+        } else if("registro".equals(accion)){                                                                   //Ingreso del perfil
             String contrasenia = request.getParameter("contrasenia");
             String nombre = request.getParameter("nombre");
             String apellido = request.getParameter("apellido");
@@ -106,7 +99,7 @@ public class SRegistro extends HttpServlet {
             }
             iUsuario.ingresarUsuario(dtu);
 
-            this.getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+            request.getRequestDispatcher("SInicio").forward(request, response);
         }
 
     }
