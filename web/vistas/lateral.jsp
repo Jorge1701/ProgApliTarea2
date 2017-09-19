@@ -30,7 +30,7 @@
 
         <div class="row">
             <div class="text-center" style="margin-bottom: 15px">
-                <audio id="aurepr" style="width: 250px" preload="auto" controls onended="get_next(1)"><source src="media/Oliver Heldens - Flamingo (Official Music Video).mp3" type="audio/mpeg"></audio>
+                <audio id="aurepr" style="width: 250px" preload="auto" controls onended="get_next(1)"><source src="/Tarea2/STema?audio=Mentira.mp3" type="audio/mpeg"></audio>
             </div>
         </div>
 

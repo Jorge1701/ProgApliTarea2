@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 public class SImagen extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String tarea1 = "C:/Users/Ale/Documents/NetBeansProjects/ProgApliTarea1/";
-        String tarea2 = "C:/Users/Ale/Documents/NetBeansProjects/ProgApliTarea2/";
+        String tarea1 = "C:/Users/Kopxe/Documents/NetBeansProjects/ProgApliTarea1/";
+        String tarea2 = "C:/Users/Kopxe/Documents/NetBeansProjects/ProgApliTarea2/";
 
         if (request.getParameter("logo") != null) {
             BufferedImage bi = ImageIO.read(new File(tarea2 + "web/media/" + request.getParameter("logo")));
