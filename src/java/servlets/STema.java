@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,9 +26,11 @@ public class STema extends HttpServlet {
 
         OutputStream out = response.getOutputStream();
         int readBytes = 0;
+
         while ((readBytes = buf.read()) != -1) {
             out.write(readBytes);
         }
+
         out.close();
     }
 
