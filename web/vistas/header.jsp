@@ -1,5 +1,7 @@
+<%@page import="Logica.DtUsuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="servlets.IniciarSesionServlet"%>
+<%@page import="servlets.SSesion"%>
+<%@page import="Logica.DtUsuario"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -28,23 +30,20 @@
             </div>
 
             <%
-                boolean logeado = false;
-                try {
-                    logeado = IniciarSesionServlet.usuarioLogeado(request);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+                DtUsuario usuario = (DtUsuario) request.getSession().getAttribute("usuario");
+                boolean logeado = usuario != null;
 
                 if (logeado) {
+                    String nombre = usuario.getNombre() + " " + usuario.getApellido();
             %>
 
             <!-- Perfil de Usuario -->
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="padding-top: 10px ; padding-left: 200px" id="formPU">
                 <div>
                     <img src="media/Heisenberg.jpg" class="img-circle pull-left" width="65" height="65" style="margin-right: 20px" id="puImagen">
-                    <div style="margin: 0px; color:lavender; text-shadow: 2px 2px 4px #000000" id="puNombre">Nombre Apellido</div>
-                    <button class="btn btn-info btn-xs" style="margin-bottom : 3px"><span class="glyphicon glyphicon-star">Favoritos</span></button><br>
-                    <a href="/Tarea2/CerrarSesionServlet" class="btn btn-link btn-xs">Cerrar Sesion</a>
+                    <div style="margin: 0px; color:lavender; text-shadow: 2px 2px 4px #000000" id="puNombre"><a href="/Tarea2/SConsultarPerfil?nickUs=<%= usuario.getNickname()%>"><%= nombre%></a></div>
+                    <a href="/Tarea2/SInicio?cargarDatosPrueba=si" class="btn btn-link btn-xs">Cargar Datos de Prueba</a>
+                    <a href="/Tarea2/SSesion?cerrarSesion=si" class="btn btn-link btn-xs">Cerrar Sesion</a>
                 </div> 
             </div>
 

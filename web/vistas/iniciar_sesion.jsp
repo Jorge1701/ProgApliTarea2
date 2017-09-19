@@ -1,5 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="servlets.IniciarSesionServlet"%>
+<%@page import="servlets.SSesion"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -19,7 +19,7 @@
                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                     <div class="row">
                         <div class="col-lg-5 col-md-6 col-sm-8 col-xs-12">
-                            <form action="/Tarea2/IniciarSesion" method="POST">
+                            <form action="/Tarea2/SSesion" method="POST">
                                 <div class="input-group input-group-md">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                                     <input type="text" class="form-control" name="nickname" placeholder="Nickname" required="required" autofocus="autofocus">
@@ -31,10 +31,8 @@
                                 </div>
                                 <%
                                     String error = "";
-                                    try {
-                                        error = IniciarSesionServlet.errorDeContrasenia(request);
-                                    } catch (Exception ex) {
-                                        ex.printStackTrace();
+                                    if (request.getAttribute("error") != null) {
+                                        error = request.getAttribute("error").toString();
                                     }
 
                                     if (!error.equals("")) {

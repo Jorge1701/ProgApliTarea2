@@ -1,0 +1,171 @@
+<%-- 
+    Document   : consultaPerfilArtista
+    Created on : 18/09/2017, 02:04:18 PM
+    Author     : Diego
+--%>
+
+<%@page import="Logica.DtCliente"%>
+<%@page import="java.util.Collection"%>
+<%@page import="Logica.DtAlbum"%>
+<%@page import="Logica.DtPerfilArtista"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Consulta Perfil Artista</title>
+    </head>
+    <body style="background-image: url('media/wallpaper2.jpg')">
+        <%
+            DtPerfilArtista dtPArtista = (DtPerfilArtista) request.getAttribute("dtPerfilArtista");
+        %>
+        
+        <div class="container-fluid">
+            <jsp:include page="header.jsp"/>
+            <hr>
+            <div class="row">
+
+                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12"></div>
+                <!-- Contenido -->
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#home">Informacion Basica</a></li>
+                        <li><a data-toggle="tab" href="#menu1">Albumes Publicados</a></li>
+                        <li><a data-toggle="tab" href="#menu2">Seguidores</a></li>                       
+                    </ul>
+
+                    <div class="tab-content">
+                        <div id="home" class="tab-pane fade in active">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class=" col-md-9 col-lg-9 "> 
+                                        <div class="col-sm-6">
+                                            <div  align="center"> <img alt="User Pic" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" id="profile-image1" class="img-circle img-responsive"> 
+
+                                                <input id="profile-image-upload" class="hidden" type="file">
+                                                <!--<div style="color:#999;" >click here to change profile image</div>
+                                                Upload Image Js And Css-->
+                                            </div>
+
+                                            <br>
+
+                                            <!-- /input-group -->
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <h4 style="color:#00b1b1;"><%= dtPArtista.getInfo().getNombre()%>  <%= dtPArtista.getInfo().getApellido()%> </h4></span>
+                                            <span><p>Cliente</p></span>            
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <hr style="margin:5px 0 5px 0;">
+                                        <table class="table table-user-information">
+                                            <tbody>
+                                                <tr>
+                                                    <td>NickName:</td>
+                                                    <td><%= dtPArtista.getInfo().getNickname()%></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Nombre</td>
+                                                    <td><%= dtPArtista.getInfo().getNombre()%>  <%= dtPArtista.getInfo().getApellido()%> </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Fecha Nacimiento:</td>
+                                                    <td><%= dtPArtista.getInfo().getFechaNac().toString()%></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Email</td>
+                                                    <td><%= dtPArtista.getInfo().getEmail()%></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Sitio Web</td>
+                                                    <td><%= dtPArtista.getWeb()%></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Biografia</td>
+                                                    <td><p><%= dtPArtista.getBiografia()%></p></td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+
+
+                                    </div>
+                                </div>
+                            </div>                           
+
+                        </div>    
+                        <div id="menu1" class="tab-pane fade">
+                            <h3>Albunes Publicados</h3>                         
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class=" col-md-9 col-lg-9 "> 
+                                        <table class="table table-striped">
+                                            <thead>                                                      
+                                                <tr>
+                                                    <th>Nombre:</th>                                                                                                        
+                                                </tr>
+                                            </thead>
+                                            <tbody>     
+                                                <% Collection<DtAlbum> lstA = dtPArtista.getAlbumes();
+                                                    for(DtAlbum dtA: lstA){%>
+                                                <tr>
+                                                    <td><%= dtA.getNombre()%></td>                                                    
+                                                </tr>
+
+                                                <% }%>  
+                                            </tbody>
+                                        </table>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="menu2" class="tab-pane fade">
+                            <h3>Seguidores</h3>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class=" col-md-9 col-lg-9 "> 
+                                        <table class="table table-striped">
+                                            <thead>                                                      
+                                                <tr>
+                                                    <th>NickName:</th>
+                                                    <th>Nombre</th>                                                        
+                                                </tr>
+                                            </thead>
+                                            <tbody> 
+                                             <% Collection<DtCliente> seguidores = dtPArtista.getSeguidores();
+                                                    for (DtCliente dtC : seguidores) {%>
+                                                <tr>
+                                                    <td><a href="/Tarea2/SConsultarPerfil?nickUs=<%= dtC.getNickname()%>"><%= dtC.getNickname()%></a></td>
+                                                    <td><%= dtC.getNombre()%>  <%= dtC.getApellido()%> </td>
+                                                </tr>
+
+                                                <% }%>      
+                                                
+                                            </tbody>
+                                        </table>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                                            
+                    </div>
+
+
+                </div>
+
+                <!-- Lateral -->
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="border-style:solid; border-width: 2px; padding: 5px">
+                    <jsp:include page = "lateral.jsp"/>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <jsp:include page = "footer.jsp"/>
+        </div>
+
+    </body>
+</html>
