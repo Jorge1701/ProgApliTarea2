@@ -1,6 +1,7 @@
 package servlets;
 
 import Logica.DtCliente;
+import Logica.DtSuscripcion;
 import Logica.Fabrica;
 import Logica.IUsuario;
 import Logica.Suscripcion;
@@ -28,7 +29,7 @@ public class SSeguirUsuario extends HttpServlet {
         String respuesta = "";
 
         if ("seguir".equals(accion)) {
-            Suscripcion suscripcion = ((DtCliente) iUsuario.getDataUsuario(seguidor)).getSuscripcion();
+            DtSuscripcion suscripcion = ((DtCliente) iUsuario.getDataUsuario(seguidor)).getSuscripcion();
             if (suscripcion != null && "vigente".equals(suscripcion.getEstado())) {
                 iUsuario.seguirUsuario(seguidor, seguido);
                 respuesta = "siguiendo";                                         // Texto para mostrar en el boton una vez presionado

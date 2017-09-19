@@ -54,7 +54,7 @@
             <!-- Opciones -->
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="padding-top: 10px">
                 <div class="container">
-                    <a href="/Tarea2/PaginaISServlet" class="btn btn-default" id="btnSesion" style="margin-left: 70px; border-color: black">Iniciar Sesion</a>
+                    <a href="/Tarea2/SSesion?redirigir=iniciar_sesion.jsp" class="btn btn-default" id="btnSesion" style="margin-left: 70px; border-color: black">Iniciar Sesion</a>
                     <a href="/Tarea2/SRegistro?accion=redirigir" class="btn btn-default" id="btnRegistrarse" style="margin: 20px; border-color: black ">Registrarse</a>
                 </div>
             </div>
