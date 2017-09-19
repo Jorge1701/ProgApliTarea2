@@ -12,7 +12,7 @@
             <!-- Logo y nombre -->
             <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
                 <div class="container">
-                    <img src="media/icono.png" class="pull-left" width="80" height="80">
+                    <img src="/Tarea2/SImagen?logo=icono.png" class="pull-left" width="80" height="80">
                     <h1 class="pull-left" style="padding-left: 5px ; color: lavender">Espotify</h1>
                 </div>
             </div>
@@ -40,7 +40,7 @@
             <!-- Perfil de Usuario -->
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="padding-top: 10px ; padding-left: 200px" id="formPU">
                 <div>
-                    <img src="media/Heisenberg.jpg" class="img-circle pull-left" width="65" height="65" style="margin-right: 20px" id="puImagen">
+                    <img src="/Tarea2/SImagen?usuario=<%= usuario.getImagen()%>" class="img-circle pull-left" width="65" height="65" style="margin-right: 20px" id="puImagen">
                     <div style="margin: 0px; color:lavender; text-shadow: 2px 2px 4px #000000" id="puNombre"><a href="/Tarea2/SConsultarPerfil?nickUs=<%= usuario.getNickname()%>"><%= nombre%></a></div>
                     <a href="/Tarea2/SInicio?cargarDatosPrueba=si" class="btn btn-link btn-xs">Cargar Datos de Prueba</a>
                     <a href="/Tarea2/SSesion?cerrarSesion=si" class="btn btn-link btn-xs">Cerrar Sesion</a>
