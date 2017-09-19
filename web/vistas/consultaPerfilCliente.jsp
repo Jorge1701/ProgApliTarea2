@@ -25,16 +25,16 @@
                 <!-- Contenido -->
                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
 
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a data-toggle="tab" href="#home">Informacion Basica</a></li>
-                        <li><a data-toggle="tab" href="#menu1">Listas Creadas</a></li>
-                        <li><a data-toggle="tab" href="#menu2">Seguidores</a></li>
-                        <li><a data-toggle="tab" href="#menu3">Album Favoritos</a></li>
-                        <li><a data-toggle="tab" href="#menu4">Listas Favoritos</a></li>
-                        <li><a data-toggle="tab" href="#menu5">Temas Favoritos</a></li>
+                    <ul class="nav nav-tabs" >
+                        <li class="active"><a data-toggle="tab" href="#home" style="color: black">Informacion Basica</a></li>
+                        <li><a data-toggle="tab" href="#menu1" style="color: black">Listas Creadas</a></li>
+                        <li><a data-toggle="tab" href="#menu2" style="color: black">Seguidores</a></li>
+                        <li><a data-toggle="tab" href="#menu3" style="color: black">Album Favoritos</a></li>
+                        <li><a data-toggle="tab" href="#menu4" style="color: black">Listas Favoritos</a></li>
+                        <li><a data-toggle="tab" href="#menu5" style="color: black">Temas Favoritos</a></li>
                     </ul>
 
-                    <div class="tab-content">
+                    <div class="tab-content" style="color: white">
                         <div id="home" class="tab-pane fade in active">
                             <div class="panel-body">
                                 <div class="row">
@@ -52,7 +52,7 @@
                                             <!-- /input-group -->
                                         </div>
                                         <div class="col-sm-6">
-                                            <h4 style="color:#00b1b1;"><%= dtPCliente.getInfo().getNombre()%>  <%= dtPCliente.getInfo().getApellido()%> </h4></span>
+                                            <h4 style="color:black;"><%= dtPCliente.getInfo().getNombre()%>  <%= dtPCliente.getInfo().getApellido()%> </h4></span>
                                             <span><p>Cliente</p></span>            
                                         </div>
                                         <div class="clearfix"></div>
@@ -238,12 +238,12 @@
                 </div>
 
                 <!-- Lateral -->
-                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="border-style:solid; border-width: 2px; padding: 5px">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="background-color: black; border-style:solid; border-width: 1px; padding: 15px; border-color: lavender">
                     <jsp:include page = "lateral.jsp"/>
                 </div>
             </div>
 
-            
+
         </div>
     </body>
 </html>
