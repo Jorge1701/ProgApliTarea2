@@ -40,7 +40,7 @@
                                 <div class="row">
                                     <div class=" col-md-9 col-lg-9 "> 
                                         <div class="col-sm-6">
-                                            <div  align="center"> <img alt="User Pic" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" id="profile-image1" class="img-circle img-responsive"> 
+                                            <div  align="center"> <img alt="User Pic" src="/Tarea2/SImagen?usuario=<%= dtPCliente.getInfo().getImagen()%>" id="profile-image1" class="img-circle img-responsive"> 
 
                                                 <input id="profile-image-upload" class="hidden" type="file">
                                                 <!--<div style="color:#999;" >click here to change profile image</div>
