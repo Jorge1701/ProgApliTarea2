@@ -16,9 +16,7 @@ public class SInicio extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        System.out.println("servlets.SInicio.processRequest() SINICIO");
         if (request.getParameter("primeraVez") != null) {
-            System.out.println("servlets.SInicio.processRequest() PRIMERA VEZ");
             Fabrica.inicializarControladores();
 
             try {

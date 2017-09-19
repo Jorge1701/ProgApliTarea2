@@ -34,7 +34,7 @@ public class SSesion extends HttpServlet {
                 request.getRequestDispatcher("/vistas/iniciar_sesion.jsp").forward(request, response);
             }
         } else if (request.getParameter("redirigir") != null) {
-            request.getRequestDispatcher("/vistas/iniciar_sesion.jsp").forward(request, response);
+            request.getRequestDispatcher("/vistas/" + request.getParameter("redirigir")).forward(request, response);
         }
     }
 
