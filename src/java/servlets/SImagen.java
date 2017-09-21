@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 public class SImagen extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String tarea1 = "C:/Users/Ale/Documents/NetBeansProjects/ProgApliTarea1/";
+        String tarea1 = "C:/Users/Luis/Documents/NetBeansProjects/ProgApliTarea1";
         String tarea2 = getServletContext().getRealPath("/");
 
         if (request.getParameter("logo") != null) {
