@@ -19,7 +19,7 @@ public class STema extends HttpServlet {
 
         String track = request.getParameter("audio");
         response.setContentType("audio/mpeg");
-        File mp3 = new File(tarea1 + "Recursos/Musica/" + track);
+        File mp3 = new File(tarea1 + "/Recursos/Musica/" + track);
         response.setContentLength((int) mp3.length());
         FileInputStream input = new FileInputStream(mp3);
         BufferedInputStream buf = new BufferedInputStream(input);

@@ -6,7 +6,7 @@
     </head>
     <body>
 
-        <div class="footer navbar-fixed-bottom">
+        <div class="footer">
 
             <hr>
             <div class="text-center" style="color: lavender">© 2017 Espotify.</div>
