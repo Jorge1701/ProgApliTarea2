@@ -13,18 +13,19 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "SInicio", urlPatterns = {"/SInicio"})
 public class SInicio extends HttpServlet {
 
+    @Override
+    public void init() throws ServletException {
+        try {
+            Fabrica.levantarDatos();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        if (request.getParameter("primeraVez") != null) {
-            Fabrica.inicializarControladores();
-
-            try {
-                Fabrica.levantarDatos();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        } else if (request.getParameter("cargarDatosPrueba") != null) {
+        if (request.getParameter("cargarDatosPrueba") != null) {
             System.out.println("servlets.SInicio.processRequest() CARGAR DATOS PRUEBA");
             try {
                 Fabrica.cargaDatosPrueba();
