@@ -37,41 +37,39 @@ public class SConsultarPerfil extends HttpServlet {
      */
     private IUsuario iUsuario;
 
-    public SConsultarPerfil() {        
+    public SConsultarPerfil() {
         iUsuario = Fabrica.getIControladorUsuario();
     }
-    
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
+
         String nickUs = request.getParameter("nickUs");
         log(nickUs);
         DtUsuario DtUs = iUsuario.getDataUsuario(nickUs);
-        if(DtUs != null){
+        if (DtUs != null) {
             log(DtUs.getNickname());
         } else {
             log("es null");
-        } 
-        
+        }
+
         log("llega");
-        
-        if(DtUs instanceof DtCliente){
-            
+
+        if (DtUs instanceof DtCliente) {
+
             DtPerfilCliente DtPerfilC = (DtPerfilCliente) iUsuario.obtenerPerfilCliente(nickUs);
             request.setAttribute("DtPerfilCliente", DtPerfilC);
-                                    
+
             request.getRequestDispatcher("/vistas/consultaPerfilCliente.jsp").
-					forward(request, response);
+                    forward(request, response);
         } else if (DtUs instanceof DtArtista) {
             log("obtengo el artisga");
-            DtPerfilArtista dtPerfilArtista = (DtPerfilArtista) iUsuario.obtenerPerfilArtista(nickUs);            
-            request.setAttribute("dtPerfilArtista", dtPerfilArtista);                                    
+            DtPerfilArtista dtPerfilArtista = (DtPerfilArtista) iUsuario.obtenerPerfilArtista(nickUs);
+            request.setAttribute("dtPerfilArtista", dtPerfilArtista);
             request.getRequestDispatcher("/vistas/consultaPerfilArtista.jsp").
-					forward(request, response);
+                    forward(request, response);
         }
-        
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

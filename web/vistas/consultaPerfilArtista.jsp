@@ -19,7 +19,7 @@
         <%
             DtPerfilArtista dtPArtista = (DtPerfilArtista) request.getAttribute("dtPerfilArtista");
         %>
-        
+
         <div class="container-fluid">
             <jsp:include page="header.jsp"/>
             <hr>
@@ -30,18 +30,18 @@
                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
 
                     <ul class="nav nav-tabs">
-                        <li class="active"><a data-toggle="tab" href="#home">Informacion Basica</a></li>
-                        <li><a data-toggle="tab" href="#menu1">Albumes Publicados</a></li>
-                        <li><a data-toggle="tab" href="#menu2">Seguidores</a></li>                       
+                        <li class="active"><a data-toggle="tab" href="#home" style="color: black">Informacion Basica</a></li>
+                        <li><a data-toggle="tab" href="#menu1" style="color: black">Albumes Publicados</a></li>
+                        <li><a data-toggle="tab" href="#menu2" style="color: black">Seguidores</a></li>                       
                     </ul>
 
-                    <div class="tab-content">
+                    <div class="tab-content" style="color: white">
                         <div id="home" class="tab-pane fade in active">
                             <div class="panel-body">
                                 <div class="row">
                                     <div class=" col-md-9 col-lg-9 "> 
                                         <div class="col-sm-6">
-                                            <div  align="center"> <img alt="User Pic" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" id="profile-image1" class="img-circle img-responsive"> 
+                                            <div  align="center"> <img alt="User Pic" src="/Tarea2/SImagen?usuario=<%= dtPArtista.getInfo().getImagen()%>" id="profile-image1" class="img-circle img-responsive"> 
 
                                                 <input id="profile-image-upload" class="hidden" type="file">
                                                 <!--<div style="color:#999;" >click here to change profile image</div>
@@ -53,7 +53,7 @@
                                             <!-- /input-group -->
                                         </div>
                                         <div class="col-sm-6">
-                                            <h4 style="color:#00b1b1;"><%= dtPArtista.getInfo().getNombre()%>  <%= dtPArtista.getInfo().getApellido()%> </h4></span>
+                                            <h4 style="color:black"><%= dtPArtista.getInfo().getNombre()%>  <%= dtPArtista.getInfo().getApellido()%> </h4></span>
                                             <span><p>Cliente</p></span>            
                                         </div>
                                         <div class="clearfix"></div>
@@ -107,7 +107,7 @@
                                             </thead>
                                             <tbody>     
                                                 <% Collection<DtAlbum> lstA = dtPArtista.getAlbumes();
-                                                    for(DtAlbum dtA: lstA){%>
+                                                    for (DtAlbum dtA : lstA) {%>
                                                 <tr>
                                                     <td><%= dtA.getNombre()%></td>                                                    
                                                 </tr>
@@ -134,15 +134,15 @@
                                                 </tr>
                                             </thead>
                                             <tbody> 
-                                             <% Collection<DtCliente> seguidores = dtPArtista.getSeguidores();
-                                                    for (DtCliente dtC : seguidores) {%>
+                                                <% Collection<DtCliente> seguidores = dtPArtista.getSeguidores();
+                                                 for (DtCliente dtC : seguidores) {%>
                                                 <tr>
                                                     <td><a href="/Tarea2/SConsultarPerfil?nickUs=<%= dtC.getNickname()%>"><%= dtC.getNickname()%></a></td>
                                                     <td><%= dtC.getNombre()%>  <%= dtC.getApellido()%> </td>
                                                 </tr>
 
                                                 <% }%>      
-                                                
+
                                             </tbody>
                                         </table>
 
@@ -151,14 +151,14 @@
                                 </div>
                             </div>
                         </div>
-                                            
+
                     </div>
 
 
                 </div>
 
                 <!-- Lateral -->
-                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="border-style:solid; border-width: 2px; padding: 5px">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="background-color: black; border-style:solid; border-width: 1px; padding: 15px; border-color: lavender">
                     <jsp:include page = "lateral.jsp"/>
                 </div>
             </div>

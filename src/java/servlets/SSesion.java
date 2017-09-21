@@ -8,7 +8,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "SSesion", urlPatterns = {"/SSesion"})
 public class SSesion extends HttpServlet {
@@ -35,7 +34,7 @@ public class SSesion extends HttpServlet {
                 request.getRequestDispatcher("/vistas/iniciar_sesion.jsp").forward(request, response);
             }
         } else if (request.getParameter("redirigir") != null) {
-            request.getRequestDispatcher("/vistas/iniciar_sesion.jsp").forward(request, response);
+            request.getRequestDispatcher("/vistas/" + request.getParameter("redirigir")).forward(request, response);
         }
     }
 

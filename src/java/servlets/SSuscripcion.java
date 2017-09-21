@@ -5,6 +5,9 @@
  */
 package servlets;
 
+import Logica.DtUsuario;
+import Logica.Fabrica;
+import Logica.IUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -13,13 +16,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "PaginaISServlet", urlPatterns = {"/PaginaISServlet"})
-public class PaginaISServlet extends HttpServlet {
 
+@WebServlet(name = "SSuscripcion", urlPatterns = {"/SSuscripcion"})
+public class SSuscripcion extends HttpServlet {
+
+    IUsuario iUsuario;
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        this.getServletContext().getRequestDispatcher("/vistas/iniciar_sesion.jsp").forward(request, response);
+        
+        iUsuario = Fabrica.getIControladorUsuario();
+        
+        
+        String nickname = request.getParameter("nickname");
+        
+        DtUsuario dtu = iUsuario.getDataUsuario(nickname);
+        
+        
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

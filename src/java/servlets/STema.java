@@ -1,50 +1,37 @@
 package servlets;
 
-import Logica.DtCliente;
-import Logica.DtSuscripcion;
-import Logica.Fabrica;
-import Logica.IUsuario;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "SSeguirUsuario", urlPatterns = {"/SSeguirUsuario"})
-public class SSeguirUsuario extends HttpServlet {
+@WebServlet(name = "STema", urlPatterns = {"/STema"})
+public class STema extends HttpServlet {
 
-    IUsuario iUsuario;
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String tarea1 = "C:/Users/Kopxe/Documents/NetBeansProjects/ProgApliTarea1/";
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+        String track = request.getParameter("audio");
+        response.setContentType("audio/mpeg");
+        File mp3 = new File(tarea1 + "Recursos/Musica/" + track);
+        response.setContentLength((int) mp3.length());
+        FileInputStream input = new FileInputStream(mp3);
+        BufferedInputStream buf = new BufferedInputStream(input);
 
-        iUsuario = Fabrica.getIControladorUsuario();
+        OutputStream out = response.getOutputStream();
+        int readBytes = 0;
 
-        String accion = request.getParameter("accion");
-        String seguidor = request.getParameter("seguidor");
-        String seguido = request.getParameter("seguido");
-        String respuesta = "";
-
-        if ("seguir".equals(accion)) {
-            DtSuscripcion suscripcion = ((DtCliente) iUsuario.getDataUsuario(seguidor)).getSuscripcion();
-            if (suscripcion != null && "vigente".equals(suscripcion.getEstado())) {
-                iUsuario.seguirUsuario(seguidor, seguido);
-                respuesta = "Siguiendo";                                         // Texto para mostrar en el boton una vez presionado
-            } else {
-                respuesta = "Error, no tiene suscripcion o está vencida";
-            }
-        } else if ("dejarSeguir".equals(accion)) {
-            iUsuario.dejarSeguirUsuario(seguidor, seguido);
-            respuesta = "Seguir";
+        while ((readBytes = buf.read()) != -1) {
+            out.write(readBytes);
         }
 
-        response.setContentType("text/plain");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(respuesta);
-
-        request.getRequestDispatcher("vistas/perfilUsuario.jsp").forward(request, response);
-
+        out.close();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
