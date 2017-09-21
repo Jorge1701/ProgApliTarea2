@@ -42,6 +42,7 @@
                 <div>
                     <img src="/Tarea2/SImagen?usuario=<%= usuario.getImagen()%>" class="img-circle pull-left" width="65" height="65" style="margin-right: 20px" id="puImagen">
                     <div style="margin: 0px; color:lavender; text-shadow: 2px 2px 4px #000000" id="puNombre"><a href="/Tarea2/SConsultarPerfil?nickUs=<%= usuario.getNickname()%>"><%= nombre%></a></div>
+                    <a href="/Tarea2/SSuscripcion?accion=redir" class="btn btn-link btn-xs">Contratar Suscripción</a>
                     <a href="/Tarea2/SInicio?cargarDatosPrueba=si" class="btn btn-link btn-xs">Cargar Datos de Prueba</a>
                     <a href="/Tarea2/SSesion?cerrarSesion=si" class="btn btn-link btn-xs">Cerrar Sesion</a>
                 </div> 

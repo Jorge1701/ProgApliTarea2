@@ -28,10 +28,9 @@ public class SSuscripcion extends HttpServlet {
         
         iUsuario = Fabrica.getIControladorUsuario();
         
-        
-        String nickname = request.getParameter("nickname");
-        
-        DtUsuario dtu = iUsuario.getDataUsuario(nickname);
+        if(request.getParameter("accion").equals("redir")){
+            this.getServletContext().getRequestDispatcher("/vistas/suscripcion.jsp").forward(request,response);
+        }
         
         
         
