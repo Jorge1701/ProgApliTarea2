@@ -6,6 +6,7 @@
 package servlets;
 
 import Logica.DtUsuario;
+import Logica.DtCliente;
 import Logica.Fabrica;
 import Logica.IUsuario;
 import java.io.IOException;
@@ -40,15 +41,16 @@ public class SSuscripcion extends HttpServlet {
              return;
             }
             DtUsuario usuario = (DtUsuario) request.getSession().getAttribute("usuario");
+            if(((DtCliente)usuario).getSuscripcion() != null){
+            return;
+            }
             String nickname = usuario.getNickname();
             String cuota = request.getParameter("Cuota");
             
             if (iUsuario.ingresarSuscripcion(nickname, cuota)) {
                 this.getServletContext().getRequestDispatcher("SInicio").forward(request, response);
             } else {
-                response.setContentType("text/plain");
-                response.setCharacterEncoding("UTF-8");
-                response.getWriter().write("ERROR");
+                return;
             }
 
         }
