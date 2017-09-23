@@ -15,11 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 public class STema extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String tarea1 = "C:/Users/Kopxe/Documents/NetBeansProjects/ProgApliTarea1/";
+        String tarea1 = "C:/Users/Ale/Documents/NetBeansProjects/ProgApliTarea1/";
 
         String track = request.getParameter("audio");
         response.setContentType("audio/mpeg");
-        File mp3 = new File(tarea1 + "Recursos/Musica/" + track);
+        File mp3 = new File(tarea1 + "/Recursos/Musica/" + track);
         response.setContentLength((int) mp3.length());
         FileInputStream input = new FileInputStream(mp3);
         BufferedInputStream buf = new BufferedInputStream(input);
