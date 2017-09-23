@@ -27,7 +27,7 @@
                     <jsp:include page = "lateral.jsp"/>
                 </div>
             </div>
-                
+
             <!-- Footer -->
             <jsp:include page = "footer.jsp"/>
 
