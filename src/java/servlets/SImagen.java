@@ -33,6 +33,16 @@ public class SImagen extends HttpServlet {
             OutputStream out = response.getOutputStream();
             ImageIO.write(bi, "png", out);
             out.close();
+        } else if (request.getParameter("album") != null) {
+            BufferedImage bi = null;
+            try {
+                bi = ImageIO.read(new File(tarea1 + "Recursos/Imagenes/Albumes/" + request.getParameter("album")));
+            } catch (IOException e) {
+                bi = ImageIO.read(new File(tarea1 + "Recursos/Imagenes/Albumes/albumDefault.png"));
+            }
+            OutputStream out = response.getOutputStream();
+            ImageIO.write(bi, "png", out);
+            out.close();
         }
     }
 

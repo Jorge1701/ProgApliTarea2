@@ -3,34 +3,34 @@
 <html>
     <head>
         <jsp:include page="include.html"/>
-        <title>lateral</title>
+        <jsp:include page="../scripts/lateral.html"/>
     </head>
     <body> 
 
         <div class="row">
             <div class="text-center" style="margin-bottom: 15px">
-                <img id="imagenRep" src="media/flamingo.jpg" width="150" height="150">
+                <img id="imgAlbumTema" src="/Tarea2/SImagen?album=albumDefault.png" width="150" height="150">
             </div>
         </div>
 
         <div class="row">
             <div class="text-center" style="margin-bottom: 15px">
                 <span id="txtNombreTema" style="color:lavender; text-shadow: 2px 2px 4px #000000">
-                    Flamingo
+                    ---
                 </span>
             </div>
         </div>
         <div class="row">
             <div class="text-center" style="margin-bottom: 15px">
-                <span id="txtNombreArtista" style="font-weight: bold;color:lavender; text-shadow: 2px 2px 4px #000000" >
-                    Oliver Heldens
+                <span id="txtNombreArtista" style="font-weight: bold;color:lavender; text-shadow: 2px 2px 4px #000000">
+                    ---
                 </span>
             </div>
         </div>
 
         <div class="row">
             <div class="text-center" style="margin-bottom: 15px">
-                <audio id="aurepr" style="width: 250px" preload="auto" controls onended="get_next(1)"><source src="/Tarea2/STema?audio=Mentira.mp3" type="audio/mpeg"></audio>
+                <audio id="aurepr" style="width: 250px" preload="auto" controls onended="get_next(1)"><source src="" type="audio/mpeg"></audio>
             </div>
         </div>
 

@@ -19,9 +19,15 @@
 
             <!-- Buscador -->
             <div class="col-lg-5 col-md-5 col-sm-4 col-xs-12" style="padding-top: 23px">
-                <form>
+                <form action="/Tarea2/SBuscador" method="GET">
                     <div class="input-group input-group-lg">
-                        <input type="text" style="border-color: black" class="form-control" placeholder="Tema, Lista o Album">
+                        <input type="text" style="border-color: black" name="busqueda" class="form-control" placeholder="Tema, Lista o Album"
+                               <%
+                                   if (request.getAttribute("busqueda") != null) {
+                                       out.print("value=\"" + request.getAttribute("busqueda") + "\"");
+                                   }
+                               %>
+                               >
                         <div class="input-group-btn">
                             <button class="btn btn-default" type="submit" style="border-color: black"><span class="glyphicon glyphicon-search"></span></button>
                         </div>
