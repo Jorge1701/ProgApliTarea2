@@ -26,7 +26,7 @@ $("#btnConfirmar").click(function () {
         url: "/Tarea2/SSuscripcion",
         data: {
             "Cuota": $("#Cuota").val().toString(),
-            "accion": "registro",},
+            "accion": "registro"},
         success: function (data) {
             window.location = "/Tarea2/SInicio";
         },

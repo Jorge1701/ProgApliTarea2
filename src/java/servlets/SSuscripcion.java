@@ -48,6 +48,8 @@ public class SSuscripcion extends HttpServlet {
             String cuota = request.getParameter("Cuota");
             
             if (iUsuario.ingresarSuscripcion(nickname, cuota)) {
+                DtUsuario usr = iUsuario.getDataUsuario(nickname);
+                request.getSession().setAttribute("usuario", usr);
                 this.getServletContext().getRequestDispatcher("SInicio").forward(request, response);
             } else {
                 return;
