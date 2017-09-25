@@ -15,6 +15,7 @@ public class SInicio extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
+        Fabrica.inicializarControladores();
         try {
             Fabrica.levantarDatos();
         } catch (Exception ex) {
