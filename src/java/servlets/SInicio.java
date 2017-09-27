@@ -1,9 +1,8 @@
 package servlets;
 
 import Logica.Fabrica;
+import Logica.IContenido;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "SInicio", urlPatterns = {"/SInicio"})
 public class SInicio extends HttpServlet {
+    
+    private IContenido iContenido;
+    
+    public SInicio() {
+        iContenido = Fabrica.getIControladorContenido();
+    }
 
     @Override
     public void init() throws ServletException {
@@ -23,9 +28,7 @@ public class SInicio extends HttpServlet {
         }
     }
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getParameter("cargarDatosPrueba") != null) {
             System.out.println("servlets.SInicio.processRequest() CARGAR DATOS PRUEBA");
             try {
@@ -35,7 +38,9 @@ public class SInicio extends HttpServlet {
                 ex.printStackTrace();
             }
         }
-
+        
+        request.setAttribute("generos", iContenido.obtenerGeneros());
+        
         //getServletContext().getRequestDispatcher("/vistas/inicio.jsp").forward(request, response);         //Redirige a inicio(igual que la linea de abajo)
         request.getRequestDispatcher("vistas/inicio.jsp").forward(request, response);
     }
