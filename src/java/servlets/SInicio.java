@@ -1,7 +1,10 @@
 package servlets;
 
+import Logica.DtCliente;
+import Logica.DtUsuario;
 import Logica.Fabrica;
 import Logica.IContenido;
+import Logica.IUsuario;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,10 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "SInicio", urlPatterns = {"/SInicio"})
 public class SInicio extends HttpServlet {
-    
+
+    private IUsuario iUsuario;
     private IContenido iContenido;
-    
+
     public SInicio() {
+        iUsuario = Fabrica.getIControladorUsuario();
         iContenido = Fabrica.getIControladorContenido();
     }
 
@@ -30,7 +35,6 @@ public class SInicio extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getParameter("cargarDatosPrueba") != null) {
-            System.out.println("servlets.SInicio.processRequest() CARGAR DATOS PRUEBA");
             try {
                 Fabrica.cargaDatosPrueba();
                 request.getSession().removeAttribute("usuario");
@@ -38,10 +42,18 @@ public class SInicio extends HttpServlet {
                 ex.printStackTrace();
             }
         }
-        
+
         request.setAttribute("generos", iContenido.obtenerGeneros());
-        
-        //getServletContext().getRequestDispatcher("/vistas/inicio.jsp").forward(request, response);         //Redirige a inicio(igual que la linea de abajo)
+        request.setAttribute("artistas", iUsuario.listarArtistas());
+        request.setAttribute("clientes", iUsuario.listarClientes());
+        if (request.getSession().getAttribute("usuario") != null) {
+            DtUsuario u = (DtUsuario) request.getSession().getAttribute("usuario");
+
+            if (u instanceof DtCliente) {
+                request.setAttribute("seguidos", iUsuario.listarSeguidosDe(u.getNickname()));
+            }
+        }
+
         request.getRequestDispatcher("vistas/inicio.jsp").forward(request, response);
     }
 
