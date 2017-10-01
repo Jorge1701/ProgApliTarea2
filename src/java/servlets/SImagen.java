@@ -15,20 +15,25 @@ import javax.servlet.http.HttpServletResponse;
 public class SImagen extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String tarea1 = "C:/Users/Ale/Documents/NetBeansProjects/ProgApliTarea1/";
-        String tarea2 = getServletContext().getRealPath("/");
-
-        if (request.getParameter("logo") != null) {
-            BufferedImage bi = ImageIO.read(new File(tarea2 + "media/" + request.getParameter("logo")));
-            OutputStream out = response.getOutputStream();
-            ImageIO.write(bi, "png", out);
-            out.close();
-        } else if (request.getParameter("usuario") != null) {
+        String tarea1 = "/home/jorge/NetBeansProjects/ProgApliTarea1/";
+        // getServletContext().getRealPath("/")
+        
+        if (request.getParameter("usuario") != null) {
             BufferedImage bi = null;
             try {
                 bi = ImageIO.read(new File(tarea1 + "Recursos/Imagenes/Usuarios/" + request.getParameter("usuario")));
             } catch (IOException e) {
                 bi = ImageIO.read(new File(tarea1 + "Recursos/Imagenes/Usuarios/userDefaullt.png"));
+            }
+            OutputStream out = response.getOutputStream();
+            ImageIO.write(bi, "png", out);
+            out.close();
+        } else if (request.getParameter("album") != null) {
+            BufferedImage bi = null;
+            try {
+                bi = ImageIO.read(new File(tarea1 + "Recursos/Imagenes/Albumes/" + request.getParameter("album")));
+            } catch (IOException e) {
+                bi = ImageIO.read(new File(tarea1 + "Recursos/Imagenes/Albumes/albumDefault.png"));
             }
             OutputStream out = response.getOutputStream();
             ImageIO.write(bi, "png", out);

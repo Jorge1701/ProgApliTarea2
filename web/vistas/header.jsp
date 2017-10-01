@@ -6,22 +6,29 @@
 <html>
     <head>
         <jsp:include page="include.html"/>
+        <jsp:include page="../scripts/header.html"/>
     </head>
-    <body class="navbar-fixed-top">        
+    <body>
         <div class="row" style="padding-top: 20px">
             <!-- Logo y nombre -->
             <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-                <div class="container">
-                    <img src="/Tarea2/SImagen?logo=icono.png" class="pull-left" width="80" height="80">
+                <div class="container" onclick="irInicio()">
+                    <img src="media/icono.png" class="pull-left" width="80" height="80">
                     <h1 class="pull-left" style="padding-left: 5px ; color: lavender">Espotify</h1>
                 </div>
             </div>
 
             <!-- Buscador -->
             <div class="col-lg-5 col-md-5 col-sm-4 col-xs-12" style="padding-top: 23px">
-                <form>
+                <form action="/Tarea2/SBuscador" method="GET">
                     <div class="input-group input-group-lg">
-                        <input type="text" style="border-color: black" class="form-control" placeholder="Tema, Lista o Album">
+                        <input type="text" style="border-color: black" name="busqueda" class="form-control" placeholder="Tema, Lista o Album"
+                               <%
+                                   if (request.getAttribute("busqueda") != null) {
+                                       out.print("value=\"" + request.getAttribute("busqueda") + "\"");
+                                   }
+                               %>
+                               >
                         <div class="input-group-btn">
                             <button class="btn btn-default" type="submit" style="border-color: black"><span class="glyphicon glyphicon-search"></span></button>
                         </div>

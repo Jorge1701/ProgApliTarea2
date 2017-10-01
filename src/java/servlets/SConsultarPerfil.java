@@ -41,8 +41,7 @@ public class SConsultarPerfil extends HttpServlet {
         iUsuario = Fabrica.getIControladorUsuario();
     }
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String nickUs = request.getParameter("nickUs");
         DtUsuario DtUs = iUsuario.getDataUsuario(nickUs);
