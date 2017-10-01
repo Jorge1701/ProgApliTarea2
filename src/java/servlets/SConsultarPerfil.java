@@ -45,15 +45,12 @@ public class SConsultarPerfil extends HttpServlet {
             throws ServletException, IOException {
 
         String nickUs = request.getParameter("nickUs");
-        log(nickUs);
         DtUsuario DtUs = iUsuario.getDataUsuario(nickUs);
         if (DtUs != null) {
             log(DtUs.getNickname());
         } else {
-            log("es null");
+            log("Usuario es null");
         }
-
-        log("llega");
 
         if (DtUs instanceof DtCliente) {
 
@@ -63,7 +60,6 @@ public class SConsultarPerfil extends HttpServlet {
             request.getRequestDispatcher("/vistas/consultaPerfilCliente.jsp").
                     forward(request, response);
         } else if (DtUs instanceof DtArtista) {
-            log("obtengo el artisga");
             DtPerfilArtista dtPerfilArtista = (DtPerfilArtista) iUsuario.obtenerPerfilArtista(nickUs);
             request.setAttribute("dtPerfilArtista", dtPerfilArtista);
             request.getRequestDispatcher("/vistas/consultaPerfilArtista.jsp").
