@@ -70,7 +70,7 @@
                                             }
                                             out.print("<div class=\"col-lg-3\">"); // El 3 sale de 12 / generos por columnas
                                             out.print("<div class=\"panel panel-default\" onclick=\"irAGenero('" + generos.get(i) + "')\">"); // Llama a la funcion irAGenero con el nombre del genero
-                                            out.print("<h1>" + generos.get(i) + "</h1>"); // Muestra el nombre de genero
+                                            out.print("<h1 class=\"text-center\">" + generos.get(i) + "</h1>"); // Muestra el nombre de genero
                                             out.print("</div>");
                                             out.print("</div>");
                                         }
@@ -241,7 +241,7 @@
 
                                         // Si no lo sigue
                                         if (!siguiendo) {
-                                            out.print("<a href=\"/Tarea2/SSeguir?accion=seguir&seguidor=" + dtu.getNickname() + "&seguido=" + c.getNickname() + "\" class=\"btn btn-success btnSeguimiento\">Seguir este artista</a>");
+                                            out.print("<a href=\"/Tarea2/SSeguir?accion=seguir&seguidor=" + dtu.getNickname() + "&seguido=" + c.getNickname() + "\" class=\"btn btn-success btnSeguimiento\">Seguir este cliente</a>");
                                         } else { // Si si lo sigue
                                             out.print("<a href=\"/Tarea2/SSeguir?accion=dejarSeguir&seguidor=" + dtu.getNickname() + "&seguido=" + c.getNickname() + "\" class=\"btn btn-danger btnSeguimiento\">Dejar de seguir</a>");
                                         }
