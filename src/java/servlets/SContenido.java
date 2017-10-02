@@ -1,5 +1,6 @@
 package servlets;
 
+import Logica.DtCliente;
 import Logica.DtUsuario;
 import Logica.Fabrica;
 import Logica.IContenido;
@@ -46,17 +47,26 @@ public class SContenido extends HttpServlet {
                         String genero = request.getParameter("genero");
                         if (iContenido.existeGenero(genero)) {
                             if (request.getSession().getAttribute("usuario") != null) {
-                                request.setAttribute("listasFav", iUsuario.obtenerListasFav(((DtUsuario) request.getSession().getAttribute("usuario")).getNickname()));
+                                DtUsuario dtu = (DtUsuario) request.getSession().getAttribute("usuario");
+                                if (dtu instanceof DtCliente) {
+                                    request.setAttribute("listasFav", iUsuario.obtenerListasFav(dtu.getNickname()));
+                                    request.setAttribute("albumesFav", iUsuario.obtenerAlbumesFav(dtu.getNickname()));
+                                }
                             }
 
                             request.setAttribute("genero", genero);
                             request.setAttribute("listas", iContenido.listarLisReproduccionGen(genero));
+                            request.setAttribute("albumes", iContenido.listarAlbumesGenero(genero));
                             request.getRequestDispatcher("vistas/consultar_genero.jsp").forward(request, response);
                         } else {
                             request.setAttribute("mensaje_error", "El genero no existe");
                             request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
                         }
                     }
+                    break;
+                case "consultarLista":
+                    request.setAttribute("mensaje_error", "No esta implementado");
+                    request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
                     break;
                 default:
                     request.setAttribute("mensaje_error", "Accion desconocida");
