@@ -13,7 +13,7 @@
 <html>
     <head>
         <jsp:include page="include.html"/>
-        
+
         <link rel="stylesheet" type="text/css" href="estilos/busqueda.css">
 
         <title>Espotify</title>
@@ -33,10 +33,16 @@
                             DtLista lista = ((DtLista) request.getAttribute("lista"));
                         %>
                         <div class="container" id="info">
-                            <img id="imgLista" src="/Tarea2/SImagen?lista=<%= lista.getImagen()%>" class="img-circle pull-left" width="30" height="30">
+                            <img id="imgLista" src="/Tarea2/SImagen?lista=<%= lista.getImagen()%>" class="pull-left" width="30" height="30">
                             <div id="resultados"><text><%= lista.getNombre()%></text></div>
                             <div id="resultados">
                                 <text><%= lista.getTemas().size()%> temas</text>
+                            </div>
+                            <div id="leyenda">
+                                <text>Leyenda:</text>
+                                <text><span class="glyphicon glyphicon-cloud"></span>Remoto</text>
+                                <text><span class="glyphicon glyphicon-floppy-disk"></span>Local</text>
+
                             </div>
                         </div>
                         <hr>
@@ -56,6 +62,11 @@
                                     <span class="glyphicon glyphicon-play-circle"></span>
                                 </td>
                                 <td>
+                                    <span class="glyphicon glyphicon-cloud"></span>
+                                </td>
+
+                                <td>
+
                                     <%= temaRemoto.getNombre()%>
                                 </td>
                                 <% } else if (tema instanceof DtTemaLocal) {
@@ -65,6 +76,10 @@
                                 <td>
                                     <span class="glyphicon glyphicon-play-circle"></span>
                                 </td>
+                                <td>
+                                    <span class="glyphicon glyphicon-floppy-disk"></span>
+                                </td>
+
                                 <td>
                                     <%= temaLocal.getNombre()%>
                                 </td>
