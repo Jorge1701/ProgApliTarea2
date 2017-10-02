@@ -1,3 +1,4 @@
+<%@page import="java.net.URLEncoder"%>
 <%@page import="Logica.DtListaDefecto"%>
 <%@page import="Logica.DtLista"%>
 <%@page import="java.util.ArrayList"%>
@@ -72,9 +73,9 @@
                                     }
 
                                     if (!enFavorito) {
-                                        out.print("<a href=\"\" class=\"btn btn-success btnSeguimiento\">Agregar a favoritos</a>");
+                                        out.print("<button onClick=\"favorito('" + request.getAttribute("genero") + "', '" + lista.getNombre() + "')\" class=\"btn btn-success btnFav\">Agregar a favoritos</button>");
                                     } else {
-                                        out.print("<a href=\"\" class=\"btn btn-danger btnSeguimiento\">Quitar de favoritos</a>");
+                                        out.print("<button onClick=\"quitarfav('" + request.getAttribute("genero") + "', '" + lista.getNombre() + "')\" class=\"btn btn-danger btnFav\">Quitar de favoritos</button>");
                                     }
                                 }
                             %>

@@ -16,42 +16,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "SFavorito", urlPatterns = {"/SFavorito"})
-public class SFavorito extends HttpServlet {
+@WebServlet(name = "SQuitarFav", urlPatterns = {"/SQuitarFav"})
+public class SQuitarFav extends HttpServlet {
 
     private IUsuario iUsuario;
     private IContenido iContenido;
 
-    public SFavorito() {
+    public SQuitarFav() {
         iUsuario = Fabrica.getIControladorUsuario();
         iContenido = Fabrica.getIControladorContenido();
     }
 
-    /*
-    Como utilizar:
-        Reemplazar los 'X' con las variables correspondientes
-    
-    Agregar Lista Defecto:
-        /Tarea2/SFavorito?accion=listaDefecto&nomGenero=X&nomLista=X
-    
-    Agregar Lista Particular:
-        /Tarea2/SFavorito?accion=listaParticular&nickDienio=X&nomLista=X
-    
-    Agregar Album:
-        /Tarea2/SFavorito?accion=album&nickArtista=X&nomAlbum=X
-    
-    Agregar Tema:
-        /Tarea2/SFavorito?accion=tema&nickArtista=X&nomAlbum=X&nomTema=X
-    
-    Ejemplo (Desde JavaScript):
-        // La funcion encodeURI() recibe un string y reemplaza los espacios con %20 y los & con %24
-        window.location = "/Tarea2/SFavorito?accion=listaDefecto&nomGenero=" + encodeURI("Rock Latino") + "&nomLista=" + encodeURI("Rock En Español");
-    
-    Si todo sale bien, redirigue al inicio con el mensaje de "Se ha agregado tema/lista/album a favoritos"
-    
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getSession().getAttribute("usuario") == null) {
+        if (true) {
+            request.setAttribute("mensaje_error", "No esta implementado");
+            request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+        } else if (request.getSession().getAttribute("usuario") == null) {
             request.setAttribute("mensaje_error", "Debe de estar logueado");
             request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
         } else if (false) {

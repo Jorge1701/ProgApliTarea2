@@ -22,6 +22,14 @@ public class SContenido extends HttpServlet {
         iContenido = Fabrica.getIControladorContenido();
     }
 
+    /*
+    Como utilizar:
+        Reemplazar los X con los valores reales
+    
+    Consultar Genero:
+        /Tarea2/SContenido?accion=consultarGenero&genero=X
+    
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getParameter("accion") == null) {
             request.setAttribute("mensaje_error", "Falta una accion");
