@@ -19,7 +19,7 @@ public class SImagen extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String ruta = getServletContext().getRealPath("/");
         String[] parte = ruta.split("ProgApliTarea2");
-        String tarea1 = parte[0] + "ProgApliTarea1\\";
+        String tarea1 = parte[0] + "ProgApliTarea1" + File.separator;
 
         if (request.getParameter("usuario") != null) {
             BufferedImage bi = null;
