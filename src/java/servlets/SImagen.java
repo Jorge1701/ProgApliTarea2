@@ -18,12 +18,7 @@ public class SImagen extends HttpServlet {
         String tarea1 = "C:/Users/Luis/Documents/NetBeansProjects/ProgApliTarea1";
         String tarea2 = getServletContext().getRealPath("/");
 
-        if (request.getParameter("logo") != null) {
-            BufferedImage bi = ImageIO.read(new File(tarea2 + "media/" + request.getParameter("logo")));
-            OutputStream out = response.getOutputStream();
-            ImageIO.write(bi, "png", out);
-            out.close();
-        } else if (request.getParameter("usuario") != null) {
+        if (request.getParameter("usuario") != null) {
             BufferedImage bi = null;
             try {
                 bi = ImageIO.read(new File(tarea1 + "Recursos/Imagenes/Usuarios/" + request.getParameter("usuario")));
@@ -39,6 +34,16 @@ public class SImagen extends HttpServlet {
                 bi = ImageIO.read(new File(tarea1 + "Recursos/Imagenes/Albumes/" + request.getParameter("album")));
             } catch (IOException e) {
                 bi = ImageIO.read(new File(tarea1 + "Recursos/Imagenes/Albumes/albumDefault.png"));
+            }
+            OutputStream out = response.getOutputStream();
+            ImageIO.write(bi, "png", out);
+            out.close();
+        } else if (request.getParameter("lista") != null) {
+            BufferedImage bi = null;
+            try {
+                bi = ImageIO.read(new File(tarea1 + "Recursos/Imagenes/Listas/" + request.getParameter("lista")));
+            } catch (IOException e) {
+                bi = ImageIO.read(new File(tarea1 + "Recursos/Imagenes/Listas/listaDefault.png"));
             }
             OutputStream out = response.getOutputStream();
             ImageIO.write(bi, "png", out);

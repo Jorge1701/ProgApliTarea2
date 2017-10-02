@@ -29,11 +29,11 @@ $("#btnConfirmar").click(function () {
             "accion": "registro"},
         success: function (data) {
             alert("Su suscripción fue ingresada con éxito");
-            
+            window.location = "/Tarea2/SInicio";
         },
 
         error: function () {
-            alert("Ha ocurrido un error *bttn-confirmar*");
+            alert("Ha ocurrido un error al procesar su solicitud");
         }
     });
 });

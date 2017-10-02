@@ -41,7 +41,5 @@
                 <button id="btnDer" class="btn btn-default" type="submit" style="margin-left: 3px"> <span class="glyphicon glyphicon-forward"></span></button>         
             </div>
         </div>
-
-        <script src="scripts/lateral.js"></script>
     </body>
 </html>

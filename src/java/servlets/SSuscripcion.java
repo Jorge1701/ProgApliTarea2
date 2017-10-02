@@ -37,22 +37,20 @@ public class SSuscripcion extends HttpServlet {
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(String.valueOf(monto));
         } else if (request.getParameter("accion").equals("registro")) {
-            if(request.getSession().getAttribute("usuario") == null){
-             return;
+            if (request.getSession().getAttribute("usuario") == null) {
+                return;
             }
             DtUsuario usuario = (DtUsuario) request.getSession().getAttribute("usuario");
-            if(((DtCliente)usuario).getSuscripcion() != null){
-            return;
+            if (((DtCliente) usuario).getSuscripcion() != null) {
+                return;
             }
             String nickname = usuario.getNickname();
             String cuota = request.getParameter("Cuota");
-            
+
             if (iUsuario.ingresarSuscripcion(nickname, cuota)) {
                 DtUsuario usr = iUsuario.getDataUsuario(nickname);
                 request.getSession().setAttribute("usuario", usr);
-                this.getServletContext().getRequestDispatcher("SInicio").forward(request, response);
-            } else {
-                return;
+                getServletContext().getRequestDispatcher("/SInicio").forward(request, response); 
             }
 
         }

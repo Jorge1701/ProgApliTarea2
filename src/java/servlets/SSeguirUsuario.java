@@ -16,8 +16,7 @@ public class SSeguirUsuario extends HttpServlet {
 
     IUsuario iUsuario;
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         iUsuario = Fabrica.getIControladorUsuario();
 

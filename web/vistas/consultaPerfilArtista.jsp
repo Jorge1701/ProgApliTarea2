@@ -54,7 +54,7 @@
                                         </div>
                                         <div class="col-sm-6">
                                             <h4 style="color:black"><%= dtPArtista.getInfo().getNombre()%>  <%= dtPArtista.getInfo().getApellido()%> </h4></span>
-                                            <span><p>Cliente</p></span>            
+                                            <span><p>Artista</p></span>            
                                         </div>
                                         <div class="clearfix"></div>
                                         <hr style="margin:5px 0 5px 0;">

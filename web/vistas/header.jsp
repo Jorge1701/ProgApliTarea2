@@ -6,13 +6,14 @@
 <html>
     <head>
         <jsp:include page="include.html"/>
+        <jsp:include page="../scripts/header.html"/>
     </head>
-    <body class="navbar-fixed-top">        
+    <body>
         <div class="row" style="padding-top: 20px">
             <!-- Logo y nombre -->
             <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-                <div class="container">
-                    <img src="/Tarea2/SImagen?logo=icono.png" class="pull-left" width="80" height="80">
+                <div class="container" onclick="irInicio()">
+                    <img src="media/icono.png" class="pull-left" width="80" height="80">
                     <h1 class="pull-left" style="padding-left: 5px ; color: lavender">Espotify</h1>
                 </div>
             </div>
