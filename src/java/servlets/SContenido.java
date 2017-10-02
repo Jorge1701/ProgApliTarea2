@@ -1,10 +1,13 @@
 package servlets;
 
+import Logica.DtCliente;
+import Logica.DtLista;
 import Logica.DtUsuario;
 import Logica.Fabrica;
 import Logica.IContenido;
 import Logica.IUsuario;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -40,17 +43,22 @@ public class SContenido extends HttpServlet {
             switch (accion) {
                 case "consultarGenero":
                     if (request.getParameter("genero") == null) {
-                        request.setAttribute("mensaje_error", "Falta el nombre del genero");
+                        request.setAttribute("mensaje_error", "Faltan parámetros");
                         request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
                     } else {
                         String genero = request.getParameter("genero");
                         if (iContenido.existeGenero(genero)) {
                             if (request.getSession().getAttribute("usuario") != null) {
-                                request.setAttribute("listasFav", iUsuario.obtenerListasFav(((DtUsuario) request.getSession().getAttribute("usuario")).getNickname()));
+                                DtUsuario dtu = (DtUsuario) request.getSession().getAttribute("usuario");
+                                if (dtu instanceof DtCliente) {
+                                    request.setAttribute("listasFav", iUsuario.obtenerListasFav(dtu.getNickname()));
+                                    request.setAttribute("albumesFav", iUsuario.obtenerAlbumesFav(dtu.getNickname()));
+                                }
                             }
 
                             request.setAttribute("genero", genero);
                             request.setAttribute("listas", iContenido.listarLisReproduccionGen(genero));
+                            request.setAttribute("albumes", iContenido.listarAlbumesGenero(genero));
                             request.getRequestDispatcher("vistas/consultar_genero.jsp").forward(request, response);
                         } else {
                             request.setAttribute("mensaje_error", "El genero no existe");
@@ -60,18 +68,28 @@ public class SContenido extends HttpServlet {
                     break;
                 case "consultarLista":
                     if (request.getParameter("nomGenero") == null || request.getParameter("nomLista") == null) {
-                        request.setAttribute("mensaje_error", "Falta el nombre del genero o el nombre de la lista");
+                        request.setAttribute("mensaje_error", "Faltan parámetros");
                         request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
                     } else {
                         String genero = request.getParameter("nomGenero");
                         if (iContenido.existeGenero(genero)) {
-                            if (request.getSession().getAttribute("usuario") != null) {
-                                request.setAttribute("listasFav", iUsuario.obtenerListasFav(((DtUsuario) request.getSession().getAttribute("usuario")).getNickname()));
+                            String nomLista = request.getParameter("nomLista");
+                            DtLista lEncontrada = null;
+                            ArrayList<DtLista> listas = iContenido.listarLisReproduccionGen(genero);
+                            for (DtLista l : listas) {
+                                if (l.getNombre().equals(nomLista)) {
+                                    lEncontrada = l;
+                                    break;
+                                }
+                            }
+                            if (lEncontrada == null) {
+                                request.setAttribute("mensaje_error", "La lista no existe");
+                                request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                            } else {
+                                request.setAttribute("lista", lEncontrada);
+                                request.getRequestDispatcher("vistas/consultar_lista.jsp").forward(request, response);
                             }
 
-                            request.setAttribute("genero", genero);
-                            request.setAttribute("listas", iContenido.listarLisReproduccionGen(genero));
-                            request.getRequestDispatcher("vistas/consultar_genero.jsp").forward(request, response);
                         } else {
                             request.setAttribute("mensaje_error", "El genero no existe");
                             request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
