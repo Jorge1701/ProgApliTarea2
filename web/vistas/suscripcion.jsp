@@ -27,9 +27,6 @@
                             <div class="input-group input-group-lg" >
                                 <h4 class="text-center" style="color:lavender ">Contratar Suscripción</h4>
 
-                                <!--                                <row class="col-xs-12"> <div style="margin: 20px"></div> </row>-->
-
-
                                 <span style="color: lavender; padding-left: 15px; font-weight: bold">Tipo de Cuota:</span>
                                 <div class="form-group"> 
                                     <div class="col-xs-4 selectContainer">

@@ -17,7 +17,7 @@ $("#Cuota").change(function () {
 
 });
 
-//
+//lo de arriba saca el monto a pagar
 
 $("#btnConfirmar").click(function () {
 
@@ -28,11 +28,14 @@ $("#btnConfirmar").click(function () {
             "Cuota": $("#Cuota").val().toString(),
             "accion": "registro"},
         success: function (data) {
-            window.location = "/Tarea2/SInicio";
+            alert("Su suscripción fue ingresada con éxito");
+            
         },
 
         error: function () {
-            alert("Error en el servelt, al momento de ingresar la suscripcion");
+            alert("Ha ocurrido un error *bttn-confirmar*");
         }
     });
 });
+
+//envio del formulario 
