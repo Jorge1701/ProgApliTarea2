@@ -58,6 +58,26 @@ public class SContenido extends HttpServlet {
                         }
                     }
                     break;
+                case "consultarLista":
+                    if (request.getParameter("nomGenero") == null || request.getParameter("nomLista") == null) {
+                        request.setAttribute("mensaje_error", "Falta el nombre del genero o el nombre de la lista");
+                        request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                    } else {
+                        String genero = request.getParameter("nomGenero");
+                        if (iContenido.existeGenero(genero)) {
+                            if (request.getSession().getAttribute("usuario") != null) {
+                                request.setAttribute("listasFav", iUsuario.obtenerListasFav(((DtUsuario) request.getSession().getAttribute("usuario")).getNickname()));
+                            }
+
+                            request.setAttribute("genero", genero);
+                            request.setAttribute("listas", iContenido.listarLisReproduccionGen(genero));
+                            request.getRequestDispatcher("vistas/consultar_genero.jsp").forward(request, response);
+                        } else {
+                            request.setAttribute("mensaje_error", "El genero no existe");
+                            request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                        }
+                    }
+                    break;
                 default:
                     request.setAttribute("mensaje_error", "Accion desconocida");
                     request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
