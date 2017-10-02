@@ -5,7 +5,7 @@
 <%@page import="Logica.DtGenero"%>
 <html>
     <head>
-        <jsp:include page="include.html"/>
+           <jsp:include page="include.html"/>
 
         <title>Espotify</title>
 
@@ -101,11 +101,11 @@
                             </div>                           
                         </form>
                         <br>            
-                        <form action="SContenido" method="post" enctype="multipart/form-data">
+                        <form accion="subir" method="post" enctype="multipart/form-data">
                             <table>
                                 <tr>
-                                    <td><input type="file" name="file"/></td>
-                                    <td><input type="submit" value="SUBIR ARCHIVO"/></td>
+                                    <td><input type="file" name="fileUploader" id="fileUploader"/></td>
+                                    <td><input type="submit" value="SUBIR ARCHIVO" /></td>
                                 </tr>
                             </table>
                         </form>

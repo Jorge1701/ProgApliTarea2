@@ -1,0 +1,13 @@
+<script>
+    function irALista(genero, lista) {
+        window.location = "";
+    }
+
+    function favorito(genero, lista) {
+        window.location = "/Tarea2/SFavorito?accion=listaDefecto&nomGenero=" + encodeURI(genero) + "&nomLista=" + encodeURI(lista);
+    }
+
+    function quitarfav(genero, lista) {
+        window.location = "/Tarea2/SQuitarFav?accion=listaDefecto&nomGenero=" + encodeURI(genero) + "&nomLista=" + encodeURI(lista);
+    }
+</script>

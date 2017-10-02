@@ -34,3 +34,40 @@ $("#btnQuitar").click(function(){
 
     
 });
+
+$('#fileUploader').on('change', uploadFile);
+
+
+function uploadFile(event)
+	{
+	    event.stopPropagation(); 
+	    event.preventDefault(); 
+	    var files = event.target.files; 
+	    var data = new FormData();
+	    $.each(files, function(key, value)
+	    {
+	        data.append(key, value);
+	    });
+	    postFilesData(data); 
+	 }
+	
+function postFilesData(data)
+	{
+	 $.ajax({
+        url: "/Tarea2/SContenido",
+        type: "POST",
+        data: data,
+        cache: false,
+        dataType: 'json',
+        processData: false, 
+        contentType: false, 
+        success: function(data, textStatus, jqXHR)
+        {
+        	window.location("/Tarea2/SContenido?accion=subirImagen")
+        },
+        error: function(jqXHR, textStatus, errorThrown)
+        {
+            console.log('ERRORS: ' + textStatus);
+        }
+	    });
+	}

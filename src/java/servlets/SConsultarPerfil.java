@@ -1,9 +1,16 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package servlets;
 
+import Logica.DtArtista;
 import Logica.DtCliente;
+import Logica.DtPerfilArtista;
+import Logica.DtPerfilCliente;
 import Logica.DtUsuario;
 import Logica.Fabrica;
-import Logica.IContenido;
 import Logica.IUsuario;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -12,53 +19,56 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "SInicio", urlPatterns = {"/SInicio"})
-public class SInicio extends HttpServlet {
-    
+/**
+ *
+ * @author Diego
+ */
+@WebServlet(name = "SConsultarPerfil", urlPatterns = {"/SConsultarPerfil"})
+public class SConsultarPerfil extends HttpServlet {
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     private IUsuario iUsuario;
-    private IContenido iContenido;
-    
-    public SInicio() {
+
+    public SConsultarPerfil() {
         iUsuario = Fabrica.getIControladorUsuario();
-        iContenido = Fabrica.getIControladorContenido();
     }
-    
-    @Override
-    public void init() throws ServletException {
-        Fabrica.inicializarControladores();
-        try {
-            Fabrica.levantarDatos();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getParameter("cargarDatosPrueba") != null) {
-            try {
-                Fabrica.cargaDatosPrueba();
-                request.getSession().removeAttribute("usuario");
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+
+        String nickUs = request.getParameter("nickUs");
+        log(nickUs);
+        DtUsuario DtUs = iUsuario.getDataUsuario(nickUs);
+        if (DtUs != null) {
+            log(DtUs.getNickname());
+        } else {
+            log("es null");
         }
-        
-        request.setAttribute("generos", iContenido.obtenerGeneros());
-        request.setAttribute("artistas", iUsuario.listarArtistas());
-        request.setAttribute("clientes", iUsuario.listarClientes());
-        if (request.getSession().getAttribute("usuario") != null) {
-            DtUsuario u = (DtUsuario) request.getSession().getAttribute("usuario");
-            
-            if (u instanceof DtCliente) {
-                request.setAttribute("seguidos", iUsuario.listarSeguidosDe(u.getNickname()));
-            }
+
+        log("llega");
+
+        if (DtUs instanceof DtCliente) {
+
+            DtPerfilCliente DtPerfilC = (DtPerfilCliente) iUsuario.obtenerPerfilCliente(nickUs);
+            request.setAttribute("DtPerfilCliente", DtPerfilC);
+
+            request.getRequestDispatcher("/vistas/consultaPerfilCliente.jsp").
+                    forward(request, response);
+        } else if (DtUs instanceof DtArtista) {
+            log("obtengo el artisga");
+            DtPerfilArtista dtPerfilArtista = (DtPerfilArtista) iUsuario.obtenerPerfilArtista(nickUs);
+            request.setAttribute("dtPerfilArtista", dtPerfilArtista);
+            request.getRequestDispatcher("/vistas/consultaPerfilArtista.jsp").
+                    forward(request, response);
         }
-        
-        if (request.getParameter("mensaje") != null) {
-            request.setAttribute("mensaje", request.getParameter("mensaje"));
-        }
-        
-        request.getRequestDispatcher("vistas/inicio.jsp").forward(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

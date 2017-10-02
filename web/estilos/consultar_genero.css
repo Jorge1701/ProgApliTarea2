@@ -1,0 +1,31 @@
+.imgLista {
+    margin: 15px 0px 15px 0px;
+    border-radius: 5px;
+}
+
+.infoLista {
+    padding: 10px 0px 0px 20px;
+}
+
+.nombreLista {
+    font-size: 25px;
+}
+
+.btnFav {
+    margin-top: 5px;
+}
+
+.panelTexto {
+    border-style: solid;
+    border-color: black;
+    border-radius: 15px;
+    border-width: 2px;
+    background-color: #00cc66;
+    margin-bottom: 20px;
+}
+
+.mensaje {
+    font-size: 30px;
+    color: black;
+    padding-top: 10px;
+}

@@ -5,23 +5,8 @@
         <jsp:include page="include.html"/>
 
         <title>Crea tu perfil de Espotify</title>
-        <style>
-            body{
-                background-image: url('media/wallpaper2.jpg');
-                background-repeat:no-repeat;
-                background-position:center center;
-                background-attachment:fixed;
-                -o-background-size: 100% 100%, auto;
-                -moz-background-size: 100% 100%, auto;
-                -webkit-background-size: 100% 100%, auto;
-                background-size: 100% 100%, auto;
-            }
-
-        </style>
-
-
     </head>
-    <body >
+    <body style="background-image: url('media/wallpaper2.jpg')">
 
         <div class="container-fluid">
             <!-- Header -->
@@ -32,6 +17,7 @@
 
                 <!-- Contenido -->
                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+
                     <!-- Relleno a la izquiera -->
                     <div class="col-lg-3 col-md-3 col-sm-2 col-xs-1"></div>
 
@@ -193,4 +179,4 @@
     </div>
     <script src="scripts/altaPerfil.js" type="text/javascript"></script>
 </body>
-</html> 
+</html>

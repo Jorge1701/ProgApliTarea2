@@ -1,0 +1,10 @@
+<script>
+    function reproducirLocal(tema, nombre, artista, imagen) {
+        document.getElementById("txtNombreTema").textContent = nombre;
+        document.getElementById("txtNombreArtista").textContent = artista;
+        document.getElementById("imgAlbumTema").src = "/Tarea2/SImagen?album=" + imagen;
+        var repr = document.getElementById("aurepr");
+        repr.src = "/Tarea2/STema?audio=" + tema;
+        repr.play();
+    }
+</script>

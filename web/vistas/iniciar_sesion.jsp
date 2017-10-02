@@ -1,8 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="servlets.SSesion"%>
 <!DOCTYPE html>
-
-
 <html>
     <head>
         <jsp:include page="include.html"/>
