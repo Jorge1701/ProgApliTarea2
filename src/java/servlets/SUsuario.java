@@ -4,7 +4,6 @@ import Logica.DtUsuario;
 import Logica.Fabrica;
 import Logica.IUsuario;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
