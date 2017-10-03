@@ -4,6 +4,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Set;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,8 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 public class SImagen extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String tarea1 = "C:/Users/Luis/Documents/NetBeansProjects/ProgApliTarea1";
-        String tarea2 = getServletContext().getRealPath("/");
+        String ruta = getServletContext().getRealPath("/");
+        String[] parte = ruta.split("ProgApliTarea2");
+        String tarea1 = parte[0] + "ProgApliTarea1" + File.separator;
 
         if (request.getParameter("usuario") != null) {
             BufferedImage bi = null;

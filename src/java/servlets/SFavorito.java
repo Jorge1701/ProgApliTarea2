@@ -147,7 +147,7 @@ public class SFavorito extends HttpServlet {
                     ArrayList<DtAlbum> albumes = iUsuario.listarAlbumesArtista(nickArtista);
                     for (DtAlbum album : albumes) {
                         if (album.getNombre().equals(nomAlbum)) {
-                            existeListaP = true;
+                            existeAlbum = true;
                             break;
                         }
                     }
