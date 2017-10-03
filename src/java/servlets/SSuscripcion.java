@@ -8,10 +8,12 @@ package servlets;
 import Logica.DtArtista;
 import Logica.DtUsuario;
 import Logica.DtCliente;
+import Logica.DtSuscripcion;
 import Logica.Fabrica;
 import Logica.IUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,7 +34,7 @@ public class SSuscripcion extends HttpServlet {
         if (request.getParameter("accion").equals("redir")) {
             if (request.getSession().getAttribute("usuario") != null) {
                 DtUsuario usr = (DtUsuario) request.getSession().getAttribute("usuario");
-                //!iUsuario.esCliente(usr.getNickname())
+
                 if (usr instanceof DtArtista) {
                     request.setAttribute("mensaje_error", "Esta página esta reservada para nuestros clientes");
                     request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
@@ -48,18 +50,21 @@ public class SSuscripcion extends HttpServlet {
         } else if (request.getParameter("accion").equals("redir1")) {
             if (request.getSession().getAttribute("usuario") != null) {
                 DtUsuario usr = (DtUsuario) request.getSession().getAttribute("usuario");
-                if (!((DtCliente) usr).getTipo().equals("Cliente")) {
+
+                if (usr instanceof DtArtista) {
                     request.setAttribute("mensaje_error", "Esta página esta reservada para nuestros clientes");
                     request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
                 } else {
-                    this.getServletContext().getRequestDispatcher("/vistas/estado_sus.jsp").forward(request, response);
+                    request.setAttribute("suscripcion", ((DtCliente) usr).getSuscripcion());
+                    request.setAttribute("suscripciones",(ArrayList<DtSuscripcion>) ((DtCliente) usr).getSuscripciones());
+                    request.getRequestDispatcher("vistas/estado_sus.jsp").forward(request, response);
+                    //this.getServletContext().getRequestDispatcher("/vistas/estado_sus.jsp").forward(request, response);
                 }
 
             } else {
                 request.setAttribute("mensaje_error", "Debe estar logueado para ver esta página");
                 request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
             }
-            
 
         } else if (request.getParameter("accion").equals("monto")) {
             String cuota = request.getParameter("Cuota");
@@ -69,11 +74,13 @@ public class SSuscripcion extends HttpServlet {
             response.getWriter().write(String.valueOf(monto));
         } else if (request.getParameter("accion").equals("registro")) {
             if (request.getSession().getAttribute("usuario") == null) {
-                return;
+                request.setAttribute("mensaje_error", "Debe estar logueado para ver esta página");
+                request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
             }
             DtUsuario usuario = (DtUsuario) request.getSession().getAttribute("usuario");
             if (((DtCliente) usuario).getSuscripcion() != null) {
-                return;
+               request.setAttribute("mensaje_error", "Ya posee una suscripción");
+                request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
             }
             String nickname = usuario.getNickname();
             String cuota = request.getParameter("Cuota");

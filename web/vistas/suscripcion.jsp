@@ -6,10 +6,14 @@
     <head>
         <jsp:include page="include.html"/>
         <% DtUsuario usr = (DtUsuario) request.getSession().getAttribute("usuario");%>
-        <% if(!((DtCliente)usr).getTipo().equals("Cliente")) {
-        request.setAttribute("mensaje_error", "Esta página está reservada para nuestros clientes");
-            request.getRequestDispatcher("pagina_error.jsp").forward(request, response);
-        } %>
+        <% if (!((DtCliente) usr).getTipo().equals("Cliente")) {
+                request.setAttribute("mensaje_error", "Esta página está reservada para nuestros clientes");
+                request.getRequestDispatcher("pagina_error.jsp").forward(request, response);
+            } else if (((DtCliente)usr).getSuscripcion() != null) {
+                request.setAttribute("mensaje_error", "Ya posee una suscripción");
+                request.getRequestDispatcher("pagina_error.jsp").forward(request, response);
+            }
+        %>
         <title>Contratar Suscripción de Espotify</title>
     </head>
     <body style="background-image: url('media/wallpaper2.jpg')">
