@@ -57,8 +57,7 @@
                                             <span><p>Artista</p></span>            
                                         </div>
                                         <div class="clearfix"></div>
-                                        <hr style="margin:5px 0 5px 0;">
-                                        <table class="table table-user-information">
+                                          <table class="table table-user-information">
                                             <tbody>
                                                 <tr>
                                                     <td>NickName:</td>
