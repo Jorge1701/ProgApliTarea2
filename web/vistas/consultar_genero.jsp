@@ -1,3 +1,4 @@
+<%@page import="java.net.URLEncoder"%>
 <%@page import="Logica.DtListaDefecto"%>
 <%@page import="Logica.DtLista"%>
 <%@page import="java.util.ArrayList"%>
@@ -39,14 +40,14 @@
                             for (int i = 0; i < listas.size(); i++) {
                                 DtLista lista = listas.get(i);
 
-                                if (i == 0 || i % 3 == 0) {
+                                if (i == 0 || i % 2 == 0) {
                                     if (i != 0) {
                                         out.print("</div>");
                                     }
                                     out.print("<div class=\"row\">");
                                 }
 
-                                out.print("<div class=\"col-lg-4\">");
+                                out.print("<div class=\"col-lg-6\">");
                                 out.print("<div class=\"panel panel-default\">");
                     %>
 
@@ -72,9 +73,9 @@
                                     }
 
                                     if (!enFavorito) {
-                                        out.print("<a href=\"\" class=\"btn btn-success btnSeguimiento\">Agregar a favoritos</a>");
+                                        out.print("<button onClick=\"favorito('" + request.getAttribute("genero") + "', '" + lista.getNombre() + "')\" class=\"btn btn-success btnFav\">Agregar a favoritos</button>");
                                     } else {
-                                        out.print("<a href=\"\" class=\"btn btn-danger btnSeguimiento\">Quitar de favoritos</a>");
+                                        out.print("<button onClick=\"quitarfav('" + request.getAttribute("genero") + "', '" + lista.getNombre() + "')\" class=\"btn btn-danger btnFav\">Quitar de favoritos</button>");
                                     }
                                 }
                             %>
