@@ -51,7 +51,8 @@
                                 </thead>
                                 <tbody>
                                     <% ArrayList<DtSuscripcion> sus = (ArrayList<DtSuscripcion>) request.getAttribute("suscripciones");
-                                            for (DtSuscripcion dts : sus) {
+                                       
+                                    for (DtSuscripcion dts : sus) {
                                         %>
                                     <tr class="active">
                                         <td><%= dts.getEstado()%></td>
