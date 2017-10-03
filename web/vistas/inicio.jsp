@@ -37,20 +37,31 @@
                     <div>
                         <ul class="nav nav-tabs">
                             <!-- class="active" marca la pestania seleccionada -->
-                            <li class="active"><a data-toggle="tab" href="#generos"><h3 class="pestania">Generos</h3></a></li>
-                            <li><a data-toggle="tab" href="#artistas"><h3 class="pestania">Artistas</h3></a></li>
+                            <%
+                                String pestania = "";
+
+                                if (request.getAttribute("pestania") != null) {
+                                    pestania = request.getAttribute("pestania").toString();
+                                }
+
+                                if (pestania.equals("")) {
+                                    pestania = "Generos";
+                                }
+                            %>
+                            <li <%= (pestania.equals("Generos") ? " class=\"active\"" : "")%>><a data-toggle="tab" href="#generos"><h3 class="pestania">Generos</h3></a></li>
+                            <li <%= (pestania.equals("Artistas") ? " class=\"active\"" : "")%>><a data-toggle="tab" href="#artistas"><h3 class="pestania">Artistas</h3></a></li>
                                 <%
                                     // Solo si hay un usario logueado se muestra la pestania clientes
                                     if (request.getSession().getAttribute("usuario") != null) {
                                 %>
-                            <li><a data-toggle="tab" href="#clientes"><h3 class="pestania">Clientes</h3></a></li>
+                            <li <%= (pestania.equals("Clientes") && request.getSession().getAttribute("usuario") != null ? " class=\"active\"" : "")%>><a data-toggle="tab" href="#clientes"><h3 class="pestania">Clientes</h3></a></li>
                                 <%}%>
                         </ul>
 
                         <div class="tab-content">
 
                             <!-- Generos -->
-                            <div id="generos" class ="tab-pane fade in active">
+                            <div id="generos" class ="tab-pane fade <%= (pestania.equals("Generos") ? " in active" : "")%>">
                                 <%
                                     // Cargar Generos
                                     ArrayList<String> generos = (ArrayList<String>) request.getAttribute("generos");
@@ -83,7 +94,7 @@
                             </div>
 
                             <!-- Artistas -->
-                            <div id="artistas" class ="tab-pane fade">
+                            <div id="artistas" class ="tab-pane fade <%= (pestania.equals("Artistas") ? " in active" : "")%>">
                                 <%
                                     // Se obtienen los artistas
                                     ArrayList<DtUsuario> artistas = (ArrayList<DtUsuario>) request.getAttribute("artistas");
@@ -177,7 +188,7 @@
                             </div>
 
                             <!-- Cientes -->
-                            <div id="clientes" class ="tab-pane fade">
+                            <div id="clientes" class ="tab-pane fade <%= (pestania.equals("Clientes") && request.getSession().getAttribute("usuario") != null ? " in active" : "")%>">
 
                                 <%
                                     // Se obtienen los clientes

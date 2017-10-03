@@ -87,9 +87,9 @@
                                         }
 
                                         if (!enFavorito) {
-                                            out.print("<button onClick=\"favorito('" + request.getAttribute("genero") + "', '" + lista.getNombre() + "')\" class=\"btn btn-success btnFav\">Agregar a favoritos</button>");
+                                            out.print("<button onclick=\"favorito('" + request.getAttribute("genero") + "', '" + lista.getNombre() + "')\" class=\"btn btn-success btnFav\">Agregar a favoritos</button>");
                                         } else {
-                                            out.print("<button onClick=\"quitarfav('" + request.getAttribute("genero") + "', '" + lista.getNombre() + "')\" class=\"btn btn-danger btnFav\">Quitar de favoritos</button>");
+                                            out.print("<button onclick=\"quitarfav('" + request.getAttribute("genero") + "', '" + lista.getNombre() + "')\" class=\"btn btn-danger btnFav\">Quitar de favoritos</button>");
                                         }
                                     }
                                 }
@@ -159,9 +159,9 @@
                                         }
 
                                         if (!enFavorito) {
-                                            out.print("<button onClick=\"albumfav('" + album.getNickArtista() + "', '" + album.getNombre() + "')\" class=\"btn btn-success btnFav\">Agregar a favoritos</button>");
+                                            out.print("<button onclick=\"albumfav('" + album.getNickArtista() + "', '" + album.getNombre() + "')\" class=\"btn btn-success btnFav\">Agregar a favoritos</button>");
                                         } else {
-                                            out.print("<button onClick=\"quitaralbumfav('" + album.getNickArtista() + "', '" + album.getNombre() + "')\" class=\"btn btn-danger btnFav\">Quitar de favoritos</button>");
+                                            out.print("<button onclick=\"quitaralbumfav('" + album.getNickArtista() + "', '" + album.getNombre() + "')\" class=\"btn btn-danger btnFav\">Quitar de favoritos</button>");
                                         }
                                     }
                                 }
