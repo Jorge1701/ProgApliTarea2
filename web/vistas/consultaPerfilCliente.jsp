@@ -1,3 +1,4 @@
+<%@page import="Logica.DtUsuario"%>
 <%@page import="Logica.DtLista"%>
 <%@page import="Logica.DtAlbum"%>
 <%@page import="Logica.DtCliente"%>
@@ -9,12 +10,16 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <jsp:include page="include.html"/>
+        <jsp:include page="include.html"/>        
         <title>Consulta perfil Cliente</title>
     </head>
     <body style="background-image: url('media/wallpaper2.jpg')">
         <%
             DtPerfilCliente dtPCliente = (DtPerfilCliente) request.getAttribute("DtPerfilCliente");
+            DtCliente dtCli = null;
+            if (dtPCliente.getInfo() instanceof DtCliente){
+                dtCli = (DtCliente) dtPCliente.getInfo();                       
+            }
         %>
         <div class="container-fluid">
             <jsp:include page="header.jsp"/>
@@ -27,11 +32,16 @@
 
                     <ul class="nav nav-tabs" >
                         <li class="active"><a data-toggle="tab" href="#home" style="color: black">Informacion Basica</a></li>
-                        <li><a data-toggle="tab" href="#menu1" style="color: black">Listas Creadas</a></li>
+                        <li><a data-toggle="tab" href="#menu1" style="color: black">Listas</a></li>
                         <li><a data-toggle="tab" href="#menu2" style="color: black">Seguidores</a></li>
                         <li><a data-toggle="tab" href="#menu3" style="color: black">Album Favoritos</a></li>
                         <li><a data-toggle="tab" href="#menu4" style="color: black">Listas Favoritos</a></li>
                         <li><a data-toggle="tab" href="#menu5" style="color: black">Temas Favoritos</a></li>
+                        <%
+                             if(dtCli.getSuscripcion().getEstado().equals("Vigente")){
+                        %>
+                        <li><a data-toggle="tab" href="#menu6" style="color: black">Sigue</a></li>
+                        <%}%>
                     </ul>
 
                     <div class="tab-content" style="color: white">
@@ -90,7 +100,7 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class=" col-md-9 col-lg-9 "> 
-                                        <table class="table table-striped">
+                                        <table class="table table-user-information">
                                             <thead>                                                      
                                                 <tr>
                                                     <th>Nombre:</th>
@@ -119,7 +129,7 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class=" col-md-9 col-lg-9 "> 
-                                        <table class="table table-striped">
+                                        <table class="table table-user-information">
                                             <thead>                                                      
                                                 <tr>
                                                     <th>NickName:</th>
@@ -148,7 +158,7 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class=" col-md-9 col-lg-9 "> 
-                                        <table class="table table-striped">
+                                        <table class="table table-user-information">
                                             <thead>                                                      
                                                 <tr>
                                                     <th>Artista:</th>
@@ -179,7 +189,7 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class=" col-md-9 col-lg-9 "> 
-                                        <table class="table table-striped">
+                                        <table class="table table-user-information">
                                             <thead>                                                      
                                                 <tr>
                                                     <th>Nombre:</th>
@@ -208,7 +218,7 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class=" col-md-9 col-lg-9 "> 
-                                        <table class="table table-striped">
+                                        <table class="table table-user-information">
                                             <thead>                                                      
                                                 <tr>
                                                     <th>Nombre:</th>
@@ -231,7 +241,46 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>                    
+                        </div>
+                        <%
+                             if(dtCli.getSuscripcion().getEstado().equals("Vigente")){
+                        %>                    
+                        <div id="menu6" class="tab-pane fade">
+                            <h3>Temas Favoritos</h3>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class=" col-md-9 col-lg-9 "> 
+                                        <table class="table table-user-information">
+                                            <thead>                                                      
+                                                <tr>
+                                                    <th>NicName:</th>
+                                                    <th>Nombre:</th>
+                                                    <th>Perfil:</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>     
+                                                <% Collection<DtUsuario> dtUs = dtPCliente.getSeguidos();                                                   
+                                                    for (DtUsuario dtU : dtUs) {%>
+                                                <tr>
+                                                    <td><a href="/Tarea2/SConsultarPerfil?nickUs=<%= dtU.getNickname()%>"><%= dtU.getNickname()%></a></td>
+                                                    <td><%= dtU.getNombre()%>  <%= dtU.getApellido()%> </td>
+                                                    <% if(dtU instanceof DtCliente){ %>
+                                                    <td>Cliente</td>
+                                                    <%}else{%>
+                                                    <td>Artista</td>
+                                                    <% }%>
+                                                </tr>
+
+                                                <% }%>  
+                                            </tbody>
+                                        </table>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <%}%>                    
                     </div>
 
 
