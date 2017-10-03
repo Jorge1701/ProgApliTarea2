@@ -1,9 +1,15 @@
+<%@page import="Logica.DtCliente"%>
+<%@page import="Logica.DtUsuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <jsp:include page="include.html"/>
-
+        <% DtUsuario usr = (DtUsuario) request.getSession().getAttribute("usuario");%>
+        <% if(!((DtCliente)usr).getTipo().equals("Cliente")) {
+        request.setAttribute("mensaje_error", "Esta página está reservada para nuestros clientes");
+            request.getRequestDispatcher("pagina_error.jsp").forward(request, response);
+        } %>
         <title>Contratar Suscripción de Espotify</title>
     </head>
     <body style="background-image: url('media/wallpaper2.jpg')">
@@ -25,7 +31,7 @@
                     <div class="col-lg-6 col-md-6 col-sm-8 col-xs-10" style="background-color: transparent">
                         <form id="formulario">
                             <div class="input-group input-group-lg" >
-                                <h4 class="text-center" style="color:lavender ">Contratar Suscripción</h4>
+                                <h3 class="text-center" style="color:lavender ">Contratar Suscripción</h3>
 
                                 <span style="color: lavender; padding-left: 15px; font-weight: bold">Tipo de Cuota:</span>
                                 <div class="form-group"> 
@@ -66,7 +72,6 @@
 
             <!-- Footer -->
             <jsp:include page = "footer.jsp"/>
-
         </div>
     </div>
     <script src="scripts/suscripcion.js" type="text/javascript"></script>
