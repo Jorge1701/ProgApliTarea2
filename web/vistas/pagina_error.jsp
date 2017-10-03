@@ -23,7 +23,7 @@
                     <div class="panelTexto">
                         <p class="text-center mensaje"><%= request.getAttribute("mensaje_error")%></p> 
                     </div>
-                    <div class="container">
+                    <div>
                         <a href="/Tarea2/SInicio" class="btn btn-default btn-lg btn-block">Ir al Inicio</a>
                     </div>
                 </div>
