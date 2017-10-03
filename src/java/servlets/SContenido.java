@@ -66,7 +66,7 @@ public class SContenido extends HttpServlet {
                         }
                     }
                     break;
-                case "consultarLista":
+                case "consultarListaDefecto":
                     if (request.getParameter("nomGenero") == null || request.getParameter("nomLista") == null) {
                         request.setAttribute("mensaje_error", "Faltan parámetros");
                         request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
@@ -96,6 +96,38 @@ public class SContenido extends HttpServlet {
                         }
                     }
                     break;
+                case "consultarListaParticular":
+                    if (request.getParameter("nickCliente") == null || request.getParameter("nomLista") == null) {
+                        request.setAttribute("mensaje_error", "Faltan parámetros");
+                        request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                    } else {
+                        String nickCliente = request.getParameter("nickCliente");
+                        if (iUsuario.getDataUsuario(nickCliente) != null) {
+                            String nomLista = request.getParameter("nomLista");
+                            DtLista lEncontrada = null;
+                            ArrayList<DtLista> listas = iUsuario.listarLisReproduccion(nickCliente);
+                            for (DtLista l : listas) {
+                                if (l.getNombre().equals(nomLista)) {
+                                    lEncontrada = l;
+                                    break;
+                                }
+                            }
+                            if (lEncontrada == null) {
+                                request.setAttribute("mensaje_error", "La lista no existe");
+                                request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                            } else {
+                                request.setAttribute("lista", lEncontrada);
+                                request.getRequestDispatcher("vistas/consultar_lista.jsp").forward(request, response);
+                            }
+
+                        } else {
+                            request.setAttribute("mensaje_error", "El cliente no existe");
+                            request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                        }
+                    }
+
+                    break;
+
                 default:
                     request.setAttribute("mensaje_error", "Accion desconocida");
                     request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);

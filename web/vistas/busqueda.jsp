@@ -106,12 +106,12 @@
                                     if (o instanceof DtListaParticular) {
                                         DtListaParticular listaParticular = (DtListaParticular) o;
                                 %>
-                            <tr>
+                            <tr onclick="irListaParticular('<%= listaParticular.getNombre().replace("'", "\\'")%>', '<%=listaParticular.getNickDuenio().replace("'", "\\'")%>')">
                                 <td>
                                     <span class="glyphicon glyphicon-list"></span>
                                 </td>
                                 <td>
-                                    ListaParticular    Nombre: <%= listaParticular.getNombre()%> (<%= listaParticular.getFecha().getAnio()%>)
+                                    <%= listaParticular.getNombre()%> (<%= listaParticular.getFecha().getAnio()%>)
                                 </td>
 
                                 <%} else if (o instanceof DtListaDefecto) {
@@ -122,7 +122,7 @@
                                     <span class="glyphicon glyphicon-list"></span>
                                 </td>
                                 <td >
-                                    ListaDefecto    Nombre: <%= listaDefecto.getNombre()%> (<%= listaDefecto.getFecha().getAnio()%>)
+                                    <%= listaDefecto.getNombre()%> (<%= listaDefecto.getFecha().getAnio()%>)
                                 </td>
 
                                 <%}%>
