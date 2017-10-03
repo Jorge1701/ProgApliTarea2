@@ -4,8 +4,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Set;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,7 +27,6 @@ public class SImagen extends HttpServlet {
                 bi = ImageIO.read(new File(tarea1 + "Recursos/Imagenes/Usuarios/userDefaullt.png"));
             }
             OutputStream out = response.getOutputStream();
-            System.out.println("servlets.SImagen.processRequest() = " + request.getParameter("usuario"));
             ImageIO.write(bi, "png", out);
             out.close();
         } else if (request.getParameter("album") != null) {

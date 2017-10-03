@@ -1,12 +1,8 @@
 <%@page import="Logica.DtTemaLocal"%>
 <%@page import="Logica.DtTemaRemoto"%>
-<%@page import="Logica.DtListaDefecto"%>
-<%@page import="Logica.DtListaParticular"%>
 <%@page import="Logica.DtLista"%>
 <%@page import="Logica.DtTema"%>
 <%@page import="Logica.DtAlbum"%>
-<%@page import="Logica.DtArtista"%>
-<%@page import="Logica.DtCliente"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -42,7 +38,6 @@
                                 <text>Leyenda:</text>
                                 <text><span class="glyphicon glyphicon-cloud"></span>Remoto</text>
                                 <text><span class="glyphicon glyphicon-floppy-disk"></span>Local</text>
-
                             </div>
                         </div>
                         <hr>

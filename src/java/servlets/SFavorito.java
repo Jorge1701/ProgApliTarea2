@@ -43,10 +43,6 @@ public class SFavorito extends HttpServlet {
     Agregar Tema:
         /Tarea2/SFavorito?accion=tema&nickArtista=X&nomAlbum=X&nomTema=X
     
-    Ejemplo (Desde JavaScript):
-        // La funcion encodeURI() recibe un string y reemplaza los espacios con %20 y los & con %24
-        window.location = "/Tarea2/SFavorito?accion=listaDefecto&nomGenero=" + encodeURI("Rock Latino") + "&nomLista=" + encodeURI("Rock En Español");
-    
     Si todo sale bien, redirigue al inicio con el mensaje de "Se ha agregado tema/lista/album a favoritos"
     
      */
@@ -58,7 +54,7 @@ public class SFavorito extends HttpServlet {
             // TODO: chequear por suscripcion
             request.setAttribute("mensaje_error", "Debe tener una suscripcion vigente");
             request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
-        } else if (request.getParameter("accion") != null) {
+        } else if (request.getParameter("objeto") != null && request.getParameter("accion") != null) {
             DtUsuario usuario = (DtUsuario) request.getSession().getAttribute("usuario");
 
             if (iUsuario.obtenerUsuario(usuario.getNickname()) == null) {
@@ -68,13 +64,15 @@ public class SFavorito extends HttpServlet {
             }
 
             String nickCliente = usuario.getNickname();
+            String objeto = request.getParameter("objeto");
             String accion = request.getParameter("accion");
 
             String nomLista = "";
             String nickArtista = "";
             String nomAlbum = "";
+            String mensaje = "";
 
-            switch (accion) {
+            switch (objeto) {
                 case "listaDefecto":
                     if (request.getParameter("nomGenero") == null || request.getParameter("nomLista") == null) {
                         request.setAttribute("mensaje_error", "Faltan parametros");
@@ -100,9 +98,27 @@ public class SFavorito extends HttpServlet {
                         return;
                     }
 
-                    iUsuario.agregarLDFav(nickCliente, nomGenero, nomLista);
+                    mensaje = "";
+                    switch (accion) {
+                        case "agregar":
+                            iUsuario.agregarLDFav(nickCliente, nomGenero, nomLista);
+                            mensaje = ("Lista '" + nomLista + "' agregada a favoritos!").replaceAll(" ", "%20");
+                            break;
+                        case "quitar":
+                            iUsuario.quitarLDFav(nickCliente, nomGenero, nomLista);
+                            mensaje = ("Lista '" + nomLista + "' quidata de favoritos!").replaceAll(" ", "%20");
+                            break;
+                        default:
+                            request.setAttribute("mensaje_error", "Accion desconocida");
+                            request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                            return;
+                    }
 
-                    request.getRequestDispatcher("/SInicio?mensaje=" + ("Lista " + nomLista + " agregada a favoritos!").replaceAll(" ", "%20")).forward(request, response);
+                    if (request.getParameter("redirigir") != null) {
+                        request.getRequestDispatcher(request.getParameter("redirigir")).forward(request, response);
+                    } else {
+                        request.getRequestDispatcher("/SInicio?mensaje=" + mensaje).forward(request, response);
+                    }
                     break;
                 case "listaParticular":
                     if (request.getParameter("nickDuenio") == null || request.getParameter("nomLista") == null) {
@@ -129,9 +145,27 @@ public class SFavorito extends HttpServlet {
                         return;
                     }
 
-                    iUsuario.agregarLPFav(nickCliente, nickDuenio, nomLista);
+                    mensaje = "";
+                    switch (accion) {
+                        case "agregar":
+                            iUsuario.agregarLPFav(nickCliente, nickDuenio, nomLista);
+                            mensaje = ("Lista '" + nomLista + "' agregada a favoritos!").replaceAll(" ", "%20");
+                            break;
+                        case "quitar":
+                            iUsuario.quitarLPFav(nickCliente, nickCliente, nomLista);
+                            mensaje = ("Lista '" + nomLista + "' quidata de favoritos!").replaceAll(" ", "%20");
+                            break;
+                        default:
+                            request.setAttribute("mensaje_error", "Accion desconocida");
+                            request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                            return;
+                    }
 
-                    request.getRequestDispatcher("/SInicio?mensaje=" + ("Lista " + nomLista + " agregada a favoritos!").replaceAll(" ", "%20")).forward(request, response);
+                    if (request.getParameter("redirigir") != null) {
+                        request.getRequestDispatcher(request.getParameter("redirigir")).forward(request, response);
+                    } else {
+                        request.getRequestDispatcher("/SInicio?mensaje=" + mensaje).forward(request, response);
+                    }
                     break;
                 case "album":
                     if (request.getParameter("nickArtista") == null || request.getParameter("nomAlbum") == null) {
@@ -158,9 +192,27 @@ public class SFavorito extends HttpServlet {
                         return;
                     }
 
-                    iUsuario.agregarAlbumFav(nickCliente, nickArtista, nomAlbum);
+                    mensaje = "";
+                    switch (accion) {
+                        case "agregar":
+                            iUsuario.agregarAlbumFav(nickCliente, nickArtista, nomAlbum);
+                            mensaje = ("Album '" + nomAlbum + "' agregado a favoritos!").replaceAll(" ", "%20");
+                            break;
+                        case "quitar":
+                            iUsuario.quitarAlbumFav(nickCliente, nickArtista, nomAlbum);
+                            mensaje = ("Album '" + nomAlbum + "' quitado de favoritos!").replaceAll(" ", "%20");
+                            break;
+                        default:
+                            request.setAttribute("mensaje_error", "Accion desconocida");
+                            request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                            return;
+                    }
 
-                    request.getRequestDispatcher("/SInicio?mensaje=" + ("Album " + nomAlbum + " agregado a favoritos!").replaceAll(" ", "%20")).forward(request, response);
+                    if (request.getParameter("redirigir") != null) {
+                        request.getRequestDispatcher(request.getParameter("redirigir")).forward(request, response);
+                    } else {
+                        request.getRequestDispatcher("/SInicio?mensaje=" + mensaje).forward(request, response);
+                    }
                     break;
                 case "tema":
                     if (request.getParameter("nickArtista") == null || request.getParameter("nomAlbum") == null || request.getParameter("nomTema") == null) {
@@ -194,12 +246,30 @@ public class SFavorito extends HttpServlet {
                         return;
                     }
 
-                    iUsuario.agregarTemaFav(nickCliente, nickArtista, nomAlbum, nomTema);
+                    mensaje = "";
+                    switch (accion) {
+                        case "agregar":
+                            iUsuario.agregarTemaFav(nickCliente, nickArtista, nomAlbum, nomTema);
+                            mensaje = ("Tema '" + nomTema + "' agregado a favoritos!").replaceAll(" ", "%20");
+                            break;
+                        case "quitar":
+                            iUsuario.quitarTemaFav(nickCliente, nickArtista, nomAlbum, nomTema);
+                            mensaje = ("Tema '" + nomTema + "' quitado de favoritos!").replaceAll(" ", "%20");
+                            break;
+                        default:
+                            request.setAttribute("mensaje_error", "Accion desconocida");
+                            request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                            return;
+                    }
 
-                    request.getRequestDispatcher("/SInicio?mensaje=" + ("Tema " + nomTema + " agregado a favoritos!").replaceAll(" ", "%20")).forward(request, response);
+                    if (request.getParameter("redirigir") != null) {
+                        request.getRequestDispatcher(request.getParameter("redirigir")).forward(request, response);
+                    } else {
+                        request.getRequestDispatcher("/SInicio?mensaje=" + mensaje).forward(request, response);
+                    }
                     break;
                 default:
-                    request.setAttribute("mensaje_error", "Accion desconocida");
+                    request.setAttribute("mensaje_error", "Objeto desconocido");
                     request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
                     break;
             }
@@ -209,43 +279,20 @@ public class SFavorito extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
-
+    }
 }

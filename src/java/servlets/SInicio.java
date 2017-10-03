@@ -14,15 +14,15 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "SInicio", urlPatterns = {"/SInicio"})
 public class SInicio extends HttpServlet {
-
+    
     private IUsuario iUsuario;
     private IContenido iContenido;
-
+    
     public SInicio() {
         iUsuario = Fabrica.getIControladorUsuario();
         iContenido = Fabrica.getIControladorContenido();
     }
-
+    
     @Override
     public void init() throws ServletException {
         Fabrica.inicializarControladores();
@@ -32,7 +32,7 @@ public class SInicio extends HttpServlet {
             ex.printStackTrace();
         }
     }
-
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getParameter("cargarDatosPrueba") != null) {
             try {
@@ -42,20 +42,24 @@ public class SInicio extends HttpServlet {
                 ex.printStackTrace();
             }
         }
-
+        
         request.setAttribute("generos", iContenido.obtenerGeneros());
         request.setAttribute("artistas", iUsuario.listarArtistas());
         request.setAttribute("clientes", iUsuario.listarClientes());
         if (request.getSession().getAttribute("usuario") != null) {
             DtUsuario u = (DtUsuario) request.getSession().getAttribute("usuario");
-
+            
             if (u instanceof DtCliente) {
                 request.setAttribute("seguidos", iUsuario.listarSeguidosDe(u.getNickname()));
             }
         }
-
+        
         if (request.getParameter("mensaje") != null) {
             request.setAttribute("mensaje", request.getParameter("mensaje"));
+        }
+        
+        if (request.getParameter("pestania") != null) {
+            request.setAttribute("pestania", request.getParameter("pestania"));
         }
         
         request.getRequestDispatcher("vistas/inicio.jsp").forward(request, response);

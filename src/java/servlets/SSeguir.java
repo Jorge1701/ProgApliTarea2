@@ -1,5 +1,7 @@
 package servlets;
 
+import Logica.DtCliente;
+import Logica.DtUsuario;
 import Logica.Fabrica;
 import Logica.IUsuario;
 import java.io.IOException;
@@ -33,14 +35,29 @@ public class SSeguir extends HttpServlet {
                 String seguidor = request.getParameter("seguidor");
                 String seguido = request.getParameter("seguido");
 
+                DtUsuario dtuSeguido;
                 switch (accion) {
                     case "seguir":
-                        iUsuario.seguirUsuario(seguidor, seguido);
-                        request.getRequestDispatcher("/SInicio").forward(request, response);
+                        dtuSeguido = iUsuario.getDataUsuario(seguido);
+
+                        if (dtuSeguido == null) {
+                            request.setAttribute("mensaje_error", "El usuario que se desea seguir no existe");
+                            request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                        } else {
+                            iUsuario.seguirUsuario(seguidor, seguido);
+                            request.getRequestDispatcher("/SInicio?pestania=" + (dtuSeguido instanceof DtCliente ? "Clientes" : "Artistas")).forward(request, response);
+                        }
                         break;
                     case "dejarSeguir":
-                        iUsuario.dejarSeguirUsuario(seguidor, seguido);
-                        request.getRequestDispatcher("/SInicio").forward(request, response);
+                        dtuSeguido = iUsuario.getDataUsuario(seguido);
+
+                        if (dtuSeguido == null) {
+                            request.setAttribute("mensaje_error", "El usuario que se desea dejar de seguir no existe");
+                            request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                        } else {
+                            iUsuario.dejarSeguirUsuario(seguidor, seguido);
+                            request.getRequestDispatcher("/SInicio?pestania=" + (dtuSeguido instanceof DtCliente ? "Clientes" : "Artistas")).forward(request, response);
+                        }
                         break;
                     default:
                         request.setAttribute("mensaje_error", "No se pudo completar la tarea, accion desconocida");

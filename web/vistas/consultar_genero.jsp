@@ -18,6 +18,10 @@
 
     </head>
     <body style="background-image: url('media/wallpaper2.jpg')">
+        <%
+            String url = URLEncoder.encode("/SContenido?" + request.getQueryString(), "UTF-8");
+        %>
+
         <div class="container-fluid">
             <!-- Header -->
             <jsp:include page="header.jsp"/>
@@ -28,11 +32,10 @@
                 <!-- Contenido -->
                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                     <div class="panelTexto">
-                        <p class="text-center mensaje"><%= request.getAttribute("genero")%>:</p> 
+                        <p class="text-center mensaje"><%= request.getAttribute("genero")%>:</p>
                     </div>
 
                     <!-- Listas -->
-
                     <%
                         ArrayList<DtLista> listas = (ArrayList<DtLista>) request.getAttribute("listas");
 
@@ -87,9 +90,9 @@
                                         }
 
                                         if (!enFavorito) {
-                                            out.print("<button onClick=\"favorito('" + request.getAttribute("genero") + "', '" + lista.getNombre() + "')\" class=\"btn btn-success btnFav\">Agregar a favoritos</button>");
+                                            out.print("<a href=\"/Tarea2/SFavorito?objeto=listaDefecto&accion=agregar&nomGenero=" + request.getAttribute("genero") + "&nomLista=" + lista.getNombre() + "&redirigir=" + url + "\" class=\"btn btn-success btnFav\">Agregar a favoritos</a>");
                                         } else {
-                                            out.print("<button onClick=\"quitarfav('" + request.getAttribute("genero") + "', '" + lista.getNombre() + "')\" class=\"btn btn-danger btnFav\">Quitar de favoritos</button>");
+                                            out.print("<a href=\"/Tarea2/SFavorito?objeto=listaDefecto&accion=quitar&nomGenero=" + request.getAttribute("genero") + "&nomLista=" + lista.getNombre() + "&redirigir=" + url + "\" class=\"btn btn-danger btnFav\">Quitar de favoritos</a>");
                                         }
                                     }
                                 }
@@ -159,9 +162,9 @@
                                         }
 
                                         if (!enFavorito) {
-                                            out.print("<button onClick=\"albumfav('" + album.getNickArtista() + "', '" + album.getNombre() + "')\" class=\"btn btn-success btnFav\">Agregar a favoritos</button>");
+                                            out.print("<a href=\"/Tarea2/SFavorito?objeto=album&accion=agregar&nickArtista=" + album.getNickArtista() + "&nomAlbum=" + album.getNombre() + "&redirigir=" + url + "\" class=\"btn btn-success btnFav\">Agregar a favoritos</a>");
                                         } else {
-                                            out.print("<button onClick=\"quitaralbumfav('" + album.getNickArtista() + "', '" + album.getNombre() + "')\" class=\"btn btn-danger btnFav\">Quitar de favoritos</button>");
+                                            out.print("<a href=\"/Tarea2/SFavorito?objeto=album&accion=quitar&nickArtista=" + album.getNickArtista() + "&nomAlbum=" + album.getNombre() + "&redirigir=" + url + "\" class=\"btn btn-danger btnFav\">Quitar de favoritos</a>");
                                         }
                                     }
                                 }
