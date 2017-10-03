@@ -1,5 +1,25 @@
 <script>
     function irALista(genero, lista) {
-        window.location = "";
+        window.location = "/Tarea2/SContenido?accion=consultarLista&nomGenero=" + encodeURI(genero) + "&nomLista=" + encodeURI(lista);
+    }
+
+    function irAAlbum(nickArtista, nomAlbum) {
+        window.location = "/Tarea2/SContenido?accion=consultarAlbum&nickArtista=" + encodeURI(nickArtista) + "&nomAlbum=" + encodeURI(nomAlbum);
+    }
+
+    function favorito(genero, lista) {
+        window.location = "/Tarea2/SFavorito?accion=listaDefecto&nomGenero=" + encodeURI(genero) + "&nomLista=" + encodeURI(lista);
+    }
+
+    function quitarfav(genero, lista) {
+        window.location = "/Tarea2/SQuitarFav?accion=listaDefecto&nomGenero=" + encodeURI(genero) + "&nomLista=" + encodeURI(lista);
+    }
+
+    function albumfav(nickArtista, nomAlbum) {
+        window.location = "/Tarea2/SFavorito?accion=album&nickArtista=" + encodeURI(nickArtista) + "&nomAlbum=" + encodeURI(nomAlbum);
+    }
+
+    function quitaralbumfav(nickArtista, nomAlbum) {
+        window.location = "/Tarea2/SQuitarFav?accion=album&nickArtista=" + encodeURI(nickArtista) + "&nomAlbum=" + encodeURI(nomAlbum);
     }
 </script>

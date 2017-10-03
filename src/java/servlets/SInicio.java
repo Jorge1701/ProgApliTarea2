@@ -54,6 +54,10 @@ public class SInicio extends HttpServlet {
             }
         }
 
+        if (request.getParameter("mensaje") != null) {
+            request.setAttribute("mensaje", request.getParameter("mensaje"));
+        }
+
         request.getRequestDispatcher("vistas/inicio.jsp").forward(request, response);
     }
 

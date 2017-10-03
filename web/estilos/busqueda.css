@@ -39,3 +39,8 @@ span {
 #pResultados {
     font-size: 30px;
 }
+
+#imgLista {
+    margin-right: 15px;
+    border-radius: 5px;
+}

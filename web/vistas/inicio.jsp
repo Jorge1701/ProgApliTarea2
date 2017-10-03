@@ -22,18 +22,19 @@
             <hr>
             <br>
             <div class="row">
+
                 <!-- Contenido -->
                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
 
-                    <!-- Si hay un mensaje se muestra antes de los paneles -->
+                    <!-- Mensaje -->
                     <%if (request.getParameter("mensaje") != null) {%>
                     <div class="panelTexto">
                         <p class="text-center mensaje"><%= request.getParameter("mensaje").toString()%></p> 
                     </div>
                     <%}%>
 
-                    <!-- Para mostrar las tres opciones "Generos", "Artistas", "Clientes" -->
-                    <div class="container">
+                    <!-- Paneles -->
+                    <div>
                         <ul class="nav nav-tabs">
                             <!-- class="active" marca la pestania seleccionada -->
                             <li class="active"><a data-toggle="tab" href="#generos"><h3 class="pestania">Generos</h3></a></li>
@@ -46,9 +47,10 @@
                                 <%}%>
                         </ul>
 
-                        <!-- Panel de generos -->
                         <div class="tab-content">
-                            <div id="generos" class="tab-pane fade in active">
+
+                            <!-- Generos -->
+                            <div id="generos" class ="tab-pane fade in active">
                                 <%
                                     // Cargar Generos
                                     ArrayList<String> generos = (ArrayList<String>) request.getAttribute("generos");
@@ -80,8 +82,8 @@
                                 %>
                             </div>
 
-                            <!-- Panel de artistas -->
-                            <div id="artistas" class="tab-pane fade">
+                            <!-- Artistas -->
+                            <div id="artistas" class ="tab-pane fade">
                                 <%
                                     // Se obtienen los artistas
                                     ArrayList<DtUsuario> artistas = (ArrayList<DtUsuario>) request.getAttribute("artistas");
@@ -133,7 +135,6 @@
                                     <div class="pull-left infoUsuario">
                                         <text class="nombreUsuario"><%= a.getNombre() + " " + a.getApellido()%></text><br>
                                         <text><%= a.getNickname()%></text>
-
                                         <!-- Boton para seguir -->
                                         <%
                                             // Si hay un usuario logueado
@@ -165,112 +166,119 @@
                                             }%>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <%}%>
-                    </div>
-                    <%}%>
-                </div>
 
-                <!-- Panel de clientes -->
-                <div id="clientes" class="tab-pane fade">
-                    <%
-                        // Se obtienen los clientes
-                        ArrayList<DtUsuario> clientes = (ArrayList<DtUsuario>) request.getAttribute("clientes");
-
-                        // Misma logica que en la parte del artista
-                        if (request.getSession().getAttribute("usuario") != null) {
-                            DtUsuario dtu = (DtUsuario) request.getSession().getAttribute("usuario");
-                            if (dtu instanceof DtCliente) {
-                                for (int i = 0; i < clientes.size(); i++) {
-                                    if (clientes.get(i).getNickname().equals(dtu.getNickname())) {
-                                        clientes.remove(i);
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-
-                        if (clientes.size() == 0) {
-                            // Si no hay clientes se muestra un mensaje
-                            out.print("<div class=\"panel panel-default\"><h1>No hay clientes</h1></div>");
-                        } else {
-                            // Separador al comienzo para dejar un margen
-                            out.print("<div class=\"row\"><div style=\"margin-top: 20px\"></div></div>");
-
-                            ArrayList<DtUsuario> seguidos = null;
-                            if (request.getAttribute("seguidos") != null) {
-                                seguidos = (ArrayList<DtUsuario>) request.getAttribute("seguidos");
-                            }
-
-                            // Misma logica que en generos y artistas
-                            for (int i = 0; i < clientes.size(); i++) {
-                                DtCliente c = (DtCliente) clientes.get(i);
-                                if (i == 0 || i % 3 == 0) {
-                                    if (i != 0) {
+                                <%
+                                            out.print("</div>");
+                                            out.print("</div>");
+                                        }
                                         out.print("</div>");
                                     }
-                                    out.print("<div class=\"row\">");
-                                }
-                                out.print("<div class=\"col-lg-4\">");
-                                out.print("<div class=\"panel panel-default\" onclick=\"consultarPerfil('" + c.getNickname() + "')\">");
-                    %>
+                                %>
+                            </div>
 
-                    <div class="container">
-                        <img src="/Tarea2/SImagen?usuario=<%= c.getImagen()%>" class="img-circle pull-left imgUsuario" width="80" height="80">
-                        <div class="pull-left infoUsuario">
-                            <text class="nombreUsuario"><%= c.getNombre() + " " + c.getApellido()%></text><br>
-                            <text><%= c.getNickname()%></text>
+                            <!-- Cientes -->
+                            <div id="clientes" class ="tab-pane fade">
 
-                            <%
-                                // Misma logica que en artistas
-                                if (request.getSession().getAttribute("usuario") != null) {
-                                    DtUsuario dtu = (DtUsuario) request.getSession().getAttribute("usuario");
-                                    if (dtu instanceof DtCliente) {
-                                        boolean siguiendo = false;
-                                        if (seguidos != null) {
-                                            for (int j = 0; j < seguidos.size(); j++) {
-                                                if (seguidos.get(j).getNickname().equals(c.getNickname())) {
-                                                    siguiendo = true;
+                                <%
+                                    // Se obtienen los clientes
+                                    ArrayList<DtUsuario> clientes = (ArrayList<DtUsuario>) request.getAttribute("clientes");
+
+                                    // Misma logica que en la parte del artista
+                                    if (request.getSession().getAttribute("usuario") != null) {
+                                        DtUsuario dtu = (DtUsuario) request.getSession().getAttribute("usuario");
+                                        if (dtu instanceof DtCliente) {
+                                            for (int i = 0; i < clientes.size(); i++) {
+                                                if (clientes.get(i).getNickname().equals(dtu.getNickname())) {
+                                                    clientes.remove(i);
                                                     break;
                                                 }
                                             }
                                         }
-
-                                        out.print("<br>");
-
-                                        // Si no lo sigue
-                                        if (!siguiendo) {
-                                            out.print("<a href=\"/Tarea2/SSeguir?accion=seguir&seguidor=" + dtu.getNickname() + "&seguido=" + c.getNickname() + "\" class=\"btn btn-success btnSeguimiento\">Seguir este cliente</a>");
-                                        } else { // Si si lo sigue
-                                            out.print("<a href=\"/Tarea2/SSeguir?accion=dejarSeguir&seguidor=" + dtu.getNickname() + "&seguido=" + c.getNickname() + "\" class=\"btn btn-danger btnSeguimiento\">Dejar de seguir</a>");
-                                        }
                                     }
-                                }%>
+
+                                    if (clientes.size() == 0) {
+                                        // Si no hay clientes se muestra un mensaje
+                                        out.print("<div class=\"panel panel-default\"><h1>No hay clientes</h1></div>");
+                                    } else {
+                                        // Separador al comienzo para dejar un margen
+                                        out.print("<div class=\"row\"><div style=\"margin-top: 20px\"></div></div>");
+
+                                        ArrayList<DtUsuario> seguidos = null;
+                                        if (request.getAttribute("seguidos") != null) {
+                                            seguidos = (ArrayList<DtUsuario>) request.getAttribute("seguidos");
+                                        }
+
+                                        // Misma logica que en generos y artistas
+                                        for (int i = 0; i < clientes.size(); i++) {
+                                            DtCliente c = (DtCliente) clientes.get(i);
+                                            if (i == 0 || i % 3 == 0) {
+                                                if (i != 0) {
+                                                    out.print("</div>");
+                                                }
+                                                out.print("<div class=\"row\">");
+                                            }
+                                            out.print("<div class=\"col-lg-4\">");
+                                            out.print("<div class=\"panel panel-default\" onclick=\"consultarPerfil('" + c.getNickname() + "')\">");
+                                %>
+
+                                <div class="container">
+                                    <img src="/Tarea2/SImagen?usuario=<%= c.getImagen()%>" class="img-circle pull-left imgUsuario" width="80" height="80">
+                                    <div class="pull-left infoUsuario">
+                                        <text class="nombreUsuario"><%= c.getNombre() + " " + c.getApellido()%></text><br>
+                                        <text><%= c.getNickname()%></text>
+
+                                        <%
+                                            // Misma logica que en artistas
+                                            if (request.getSession().getAttribute("usuario") != null) {
+                                                DtUsuario dtu = (DtUsuario) request.getSession().getAttribute("usuario");
+                                                if (dtu instanceof DtCliente) {
+                                                    boolean siguiendo = false;
+                                                    if (seguidos != null) {
+                                                        for (int j = 0; j < seguidos.size(); j++) {
+                                                            if (seguidos.get(j).getNickname().equals(c.getNickname())) {
+                                                                siguiendo = true;
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+
+                                                    out.print("<br>");
+
+                                                    // Si no lo sigue
+                                                    if (!siguiendo) {
+                                                        out.print("<a href=\"/Tarea2/SSeguir?accion=seguir&seguidor=" + dtu.getNickname() + "&seguido=" + c.getNickname() + "\" class=\"btn btn-success btnSeguimiento\">Seguir este cliente</a>");
+                                                    } else { // Si si lo sigue
+                                                        out.print("<a href=\"/Tarea2/SSeguir?accion=dejarSeguir&seguidor=" + dtu.getNickname() + "&seguido=" + c.getNickname() + "\" class=\"btn btn-danger btnSeguimiento\">Dejar de seguir</a>");
+                                                    }
+                                                }
+                                            }%>
+
+                                    </div>
+                                </div>
+
+                                <%
+                                            out.print("</div>");
+                                            out.print("</div>");
+                                        }
+
+                                        out.print("</div>");
+                                    }
+                                %>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Lateral -->
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="background-color: black; border-style:solid; border-width: 1px; padding: 15px; border-color: lavender">
+                    <jsp:include page = "lateral.jsp"/>
+                </div>
             </div>
-            <%}%>
+
+            <!-- Footer -->
+            <jsp:include page = "footer.jsp"/>
+
         </div>
-        <%}%>
-    </div>
 
-</div>
-</div>
-
-</div>
-
-<!-- Lateral -->
-<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="background-color: black; border-style:solid; border-width: 1px; padding: 15px; border-color: lavender">
-    <jsp:include page = "lateral.jsp"/>
-</div>
-</div>
-
-<!-- Footer -->
-<jsp:include page = "footer.jsp"/>
-
-</div>
-
-</body>
+    </body>
 </html>
