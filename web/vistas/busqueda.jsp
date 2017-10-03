@@ -102,16 +102,14 @@
                                 </td>
 
                                 <%}%>
-                                <%} else if (o instanceof DtLista) {%>
+                                <%} else if (o instanceof DtLista) {
+                                    if (o instanceof DtListaParticular) {
+                                        DtListaParticular listaParticular = (DtListaParticular) o;
+                                %>
                             <tr>
                                 <td>
                                     <span class="glyphicon glyphicon-list"></span>
                                 </td>
-                                <%
-                                    if (o instanceof DtListaParticular) {
-                                        DtListaParticular listaParticular = (DtListaParticular) o;
-                                %>
-
                                 <td>
                                     ListaParticular    Nombre: <%= listaParticular.getNombre()%> (<%= listaParticular.getFecha().getAnio()%>)
                                 </td>
@@ -119,8 +117,11 @@
                                 <%} else if (o instanceof DtListaDefecto) {
                                     DtListaDefecto listaDefecto = (DtListaDefecto) o;
                                 %>
-
+                            <tr onclick="irListaDefecto('<%= listaDefecto.getNombre().replace("'", "\\'")%>', '<%=listaDefecto.getGenero().getNombre().replace("'", "\\'")%>')">
                                 <td>
+                                    <span class="glyphicon glyphicon-list"></span>
+                                </td>
+                                <td >
                                     ListaDefecto    Nombre: <%= listaDefecto.getNombre()%> (<%= listaDefecto.getFecha().getAnio()%>)
                                 </td>
 
