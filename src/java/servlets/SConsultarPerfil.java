@@ -43,19 +43,14 @@ public class SConsultarPerfil extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String nickUs;
-
-        if (request.getParameter("nickUs") != null) {
-            nickUs = request.getParameter("nickUs");
-        } else {
-            nickUs = request.getAttribute("nickUs").toString();
-        }
-
+        String nickUs = request.getParameter("nickUs");
         DtUsuario DtUs = iUsuario.getDataUsuario(nickUs);
         if (DtUs != null) {
             log(DtUs.getNickname());
         } else {
             log("Usuario es null");
+            request.setAttribute("mensaje_error", "No existe Perfil de Usuario");
+            request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
         }
 
         if (DtUs instanceof DtCliente) {

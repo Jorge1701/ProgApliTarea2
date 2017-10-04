@@ -89,7 +89,7 @@
         <%
             DtAlbumContenido albumes = (DtAlbumContenido) request.getAttribute("Album");
             DtAlbum inf = (DtAlbum) albumes.getInfo();
-            String Generos = albumes.getGeneros2();
+            ArrayList<String> Generos = albumes.getGeneros();
             ArrayList<DtTema> temas = albumes.getTemas();
             String nickArtista = inf.getNickArtista();
             String imagen = inf.getImagen();
