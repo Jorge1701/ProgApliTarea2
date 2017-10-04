@@ -49,7 +49,7 @@ public class SContenido extends HttpServlet {
 
             switch (accion) {
             case "subirImagen":
-            String archivourl = "C:\\Users\\brian\\Documents\\NetBeansProjects\\Tarea1\\Recursos\\Imagenes\\Albumes";
+            String archivourl = "C:\\Users\\luis\\Documents\\NetBeansProjects\\ProgApliTarea1\\Recursos\\Imagenes\\Albumes";
             
             DiskFileItemFactory factory = new DiskFileItemFactory();
             
