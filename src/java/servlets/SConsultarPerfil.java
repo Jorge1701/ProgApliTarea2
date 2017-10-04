@@ -56,6 +56,8 @@ public class SConsultarPerfil extends HttpServlet {
             log(DtUs.getNickname());
         } else {
             log("Usuario es null");
+            request.setAttribute("mensaje_error", "No existe Perfil de Usuario");
+            request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
         }
 
         if (DtUs instanceof DtCliente) {
