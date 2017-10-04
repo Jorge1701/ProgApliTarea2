@@ -15,7 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 public class STema extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String tarea1 = "C:/Users/brian/Documents/NetBeansProjects/Tarea1/";
+        String ruta = getServletContext().getRealPath("/");
+        String[] parte = ruta.split("Tarea2");
+        String tarea1 = parte[0] + "Tarea1" + File.separator;
 
         String track = request.getParameter("audio");
         response.setContentType("audio/mpeg");

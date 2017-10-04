@@ -1,19 +1,34 @@
-/*
-$("btnCrear").click(
+$("btnAceptar").click(
         function () {
+            var cantidad = $("listaGeneroFinal").size();
+             var iterator  = document.getElementById("listaGeneroFinal").values();          
+            var array = []; 
+            while( iterator.next() ){
+                array.push(iterator.next().toString());
+                
+            }
+
             $.ajax({
                 type: "POST",
                 url: "/Tarea2/SContenido",
                 data:{
                     "nombreAlbum": $("#txtnombreAlbum").val().toString(),
-                    "anio": $("txtanio").val().toString(),
-                    "mes": $("txtmes").val().toString(),
-                    "dia": $("txtdia").val().toString(),
-                    "accion": "registroAlbum"},
+                    "anio": $("#txtanio").val().toString(),
+                    "imagen": document.getElementById("nombreImagen").files[0].name,
+                    "genero": array ,
+                    "accion":"crearAlbum"
+                }, 
+                 success: function (data) {
+           window.location = "/Tarea2/SInicio?mensaje=El Album Fue Creado Exitosamente";
+            },
+             error: function () {
+                alert("Error en el servelt, al momento de ingresar el album");
+            }
                              
-            })
-     }
-)*/
+              });
+     });
+     
+
 
 $("#btnAgregar").click(function(){
         var lista  = document.getElementById("listaGeneros");
@@ -21,8 +36,6 @@ $("#btnAgregar").click(function(){
         var genero = document.createElement("option");
         genero.textContent = lista.options[lista.selectedIndex].value;
         listafinal.add(genero);
-
-    
     
     
 });
@@ -34,40 +47,3 @@ $("#btnQuitar").click(function(){
 
     
 });
-
-$('#fileUploader').on('change', uploadFile);
-
-
-function uploadFile(event)
-	{
-	    event.stopPropagation(); 
-	    event.preventDefault(); 
-	    var files = event.target.files; 
-	    var data = new FormData();
-	    $.each(files, function(key, value)
-	    {
-	        data.append(key, value);
-	    });
-	    postFilesData(data); 
-	 }
-	
-function postFilesData(data)
-	{
-	 $.ajax({
-        url: "/Tarea2/SContenido",
-        type: "POST",
-        data: data,
-        cache: false,
-        dataType: 'json',
-        processData: false, 
-        contentType: false, 
-        success: function(data, textStatus, jqXHR)
-        {
-        	window.location("/Tarea2/SContenido?accion=subirImagen")
-        },
-        error: function(jqXHR, textStatus, errorThrown)
-        {
-            console.log('ERRORS: ' + textStatus);
-        }
-	    });
-	}

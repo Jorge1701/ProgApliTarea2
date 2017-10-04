@@ -1,7 +1,8 @@
 package servlets;
 
-import Logica.DtAlbum;
+import Logica.DtAlbumContenido;
 import Logica.DtGenero;
+import Logica.DtCliente;
 import Logica.DtUsuario;
 import Logica.Fabrica;
 import Logica.IContenido;
@@ -45,20 +46,40 @@ public class SContenido extends HttpServlet {
         } else {
             String accion = request.getParameter("accion");
 
-            if ("ConsultaAlbumArtista".equals(accion)) {
-
-            }
-            if ("AltaAlbum".equals(accion)) {
-
-            }
-            if ("agregarGenero".equals(accion)) {
-
-            }
-            if ("subirImagen".equals(accion)) {
-
-            }
-
             switch (accion) {
+            case "subirImagen":
+            String archivourl = "C:\\Users\\brian\\Documents\\NetBeansProjects\\Tarea1\\Recursos\\Imagenes\\Albumes";
+            
+            DiskFileItemFactory factory = new DiskFileItemFactory();
+            
+            factory.setSizeThreshold(1024);
+            
+            factory.setRepository(new File(archivourl));
+            
+            ServletFileUpload upload = new ServletFileUpload(factory);
+            
+            
+            try{
+                
+                List<FileItem> partes = upload.parseRequest(request);
+                
+                for(FileItem items: partes){
+                    File file = new File(archivourl,items.getName());
+                    items.write(file);
+                }
+                
+                System.out.println("<h2>ARCHIVO CORRECTAMENTE SUBIDO.....</h2>"+"\n\n"+"<a href='index.jsp'>VOVLER AL MENU</a>");
+                
+            }catch(Exception e){
+                System.out.println("Exception: "+e.getMessage()+"");
+            } 
+                break;
+                case "AltaAlbum":
+                    ArrayList<DtGenero> generos = ((DtGenero) iContenido.listarGenero()).getSubGeneros();
+                    request.setAttribute("Generos", generos);
+                    request.getRequestDispatcher("/vistas/AltaAlbum.jsp").forward(request, response);
+                    break;
+
                 case "consultarGenero":
                     if (request.getParameter("genero") == null) {
                         request.setAttribute("mensaje_error", "Falta el nombre del genero");
@@ -67,11 +88,16 @@ public class SContenido extends HttpServlet {
                         String genero = request.getParameter("genero");
                         if (iContenido.existeGenero(genero)) {
                             if (request.getSession().getAttribute("usuario") != null) {
-                                request.setAttribute("listasFav", iUsuario.obtenerListasFav(((DtUsuario) request.getSession().getAttribute("usuario")).getNickname()));
+                                DtUsuario dtu = (DtUsuario) request.getSession().getAttribute("usuario");
+                                if (dtu instanceof DtCliente) {
+                                    request.setAttribute("listasFav", iUsuario.obtenerListasFav(dtu.getNickname()));
+                                    request.setAttribute("albumesFav", iUsuario.obtenerAlbumesFav(dtu.getNickname()));
+                                }
                             }
 
                             request.setAttribute("genero", genero);
                             request.setAttribute("listas", iContenido.listarLisReproduccionGen(genero));
+                            request.setAttribute("albumes", iContenido.listarAlbumesGenero(genero));
                             request.getRequestDispatcher("vistas/consultar_genero.jsp").forward(request, response);
                         } else {
                             request.setAttribute("mensaje_error", "El genero no existe");
@@ -79,27 +105,26 @@ public class SContenido extends HttpServlet {
                         }
                     }
                     break;
-                case "ConsultaAlbum":
-                    String nombreGenero = request.getParameter("Genero");
-                    ArrayList<DtAlbum> albumes = iContenido.listarAlbumesGenero(nombreGenero);
-                    request.setAttribute("Albumes", albumes);
+
+                case "consultarAlbum":
+                    String nickArtista = request.getParameter("nickArtista");
+                    String nomAlbum = request.getParameter("nomAlbum");
+                    DtAlbumContenido dtAlbum = iUsuario.obtenerAlbumContenido(nickArtista, nomAlbum);
+                    request.setAttribute("Album", dtAlbum);
                     request.getRequestDispatcher("/vistas/consultaAlbum.jsp").forward(request, response);
                     break;
+                    
 
-                case "AltaAlbum":
-                    ArrayList<DtGenero> generos = ((DtGenero) iContenido.listarGenero()).getSubGeneros();
-                    request.setAttribute("Generos", generos);
-                    request.getRequestDispatcher("/vistas/AltaAlbum.jsp").forward(request, response);
+                case "consultarLista":
+                    request.setAttribute("mensaje_error", "No esta implementado");
+                    request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
                     break;
-                case "agregarGenero":
-                    String nombreGeneroSelect = request.getParameter("GeneroSelect");
-                    log(nombreGeneroSelect);
-                    DtGenero genero = (DtGenero) iContenido.selecGenero(nombreGeneroSelect);
-                    request.setAttribute("Genero", genero);
-                    request.getRequestDispatcher("/vistas/AltaAlbum.jsp").forward(request, response);
-                    break;
-               
-               
+                case "crearAlbum":
+                    String nombreAlbum = request.getParameter("nombreAlbum");
+                    int anio = Integer.parseInt(request.getParameter("anio"));
+                    String[] generos1 = request.getParameterValues("genero");
+                    String imagen = request.getParameter("imagen");
+                    iContenido.ingresarAlbum(nombreAlbum, anio, null, imagen, null);
                 default:
                     request.setAttribute("mensaje_error", "Accion desconocida");
                     request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
@@ -115,25 +140,12 @@ public class SContenido extends HttpServlet {
         processRequest(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
         return "Short description";

@@ -5,7 +5,7 @@
 <%@page import="Logica.DtGenero"%>
 <html>
     <head>
-           <jsp:include page="include.html"/>
+        <jsp:include page="include.html"/>
 
         <title>Espotify</title>
 
@@ -41,34 +41,12 @@
 
                                 <span style="color: lavender; padding-left: 15px; font-weight: bold">Fecha de nacimiento:</span>
                                 <div class="form-group"> 
-                                    <div class="col-xs-4">          
-                                        <input style="border-color: black" required="Campo obligatorio" type="text" class="form-control" placeholder="Dia" id="txtDia">
-                                    </div>
-                                    <div class="col-xs-4 selectContainer">
-                                        <select style="border-color: black" required="Campo obligatorio" class="form-control"  id="txtMes">
-                                            <option value="mes">Mes</option>
-                                            <option value="enero">Enero</option>
-                                            <option value="febrero">Febrero</option>
-                                            <option value="marzo">Marzo</option>
-                                            <option value="abril">Abril</option>
-                                            <option value="mayo">Mayo</option>
-                                            <option value="junio">Junio</option>
-                                            <option value="julio">Julio</option>
-                                            <option value="agosto">Agosto</option>
-                                            <option value="setiembre">Setiembre</option>
-                                            <option value="octubre">Octubre</option>
-                                            <option value="noviembre">Noviembre</option>
-                                            <option value="diciembre">Diciembre</option>
-                                        </select>
-                                    </div>
                                     <div class="col-xs-4">
                                         <input style="border-color: black" required="Campo obligatorio"  type="text" class="form-control" placeholder="Año" id="txtAnio">
                                     </div>
+
+                                    <span style="color: lavender; padding-left: 15px; font-weight: bold">Elegir Generos:</span>
                                 </div>
-
-                                <span style="color: lavender; padding-left: 15px; font-weight: bold">Elegir Generos:</span>
-                                <br>
-
                                 <row class="col-xs-3">
                                     <div class=" styled-select ">
 
@@ -78,7 +56,7 @@
 
                                         <select  id="listaGeneros"  class="form-control" size="2" style="width: 100px; height: 100px">
 
-                                            <%                                             
+                                            <%
                                                 for (DtGenero genero : generos) {
                                             %>
                                             <option> <%= genero.getNombre()%> </option>   
@@ -101,14 +79,18 @@
                             </div>                           
                         </form>
                         <br>            
-                        <form accion="subir" method="post" enctype="multipart/form-data">
+                        <form action="vistas/uploadfile.jsp" method="post" enctype="multipart/form-data">
                             <table>
                                 <tr>
-                                    <td><input type="file" name="fileUploader" id="fileUploader"/></td>
-                                    <td><input type="submit" value="SUBIR ARCHIVO" /></td>
+                                    <td>
+                                        <input type="file" name="file"/>
+                                        <input type="submit" value="SUBIR ARCHIVO"/>
+                                    </td>
                                 </tr>
                             </table>
                         </form>
+
+                        <div><input type="button" class="btn btn-default pull-right" id="btnAceptar" style="margin-top: 8px" value="Aceptar"/></div>
                     </div>
                     <!-- Relleno a la derecha -->
                     <div class="col-lg-3 col-md-3 col-sm-2 col-xs-1"></div>

@@ -61,7 +61,6 @@
                                             <span><p>Artista</p></span>
                                             <a href="/Tarea2/SContenido?accion=AltaAlbum" class="btn btn-default" id="btnCrearAlbum" style="margin-left: 70px; border-color: black">Crear Album</a>    
 
-
                                         </div>
                                         <div class="clearfix"></div>
                                         <hr style="margin:5px 0 5px 0;">

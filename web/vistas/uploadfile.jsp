@@ -39,7 +39,7 @@
                     items.write(file);
                 }
                 
-                out.print("<h2>ARCHIVO CORRECTAMENTE SUBIDO.....</h2>"+"\n\n"+"<a href='index.jsp'>VOVLER AL MENU</a>");
+                out.print("<h2>ARCHIVO CORRECTAMENTE SUBIDO.....</h2>"+"\n\n"+"<a href='../index.html'>VOVLER AL MENU</a>");
                 
             }catch(Exception e){
                 out.print("Exception: "+e.getMessage()+"");

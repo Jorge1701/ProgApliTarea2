@@ -1,50 +1,55 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package servlets;
 
-import Logica.DtCliente;
-import Logica.DtSuscripcion;
-import Logica.Fabrica;
-import Logica.IUsuario;
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import static java.lang.System.out;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-@WebServlet(name = "SSeguirUsuario", urlPatterns = {"/SSeguirUsuario"})
-public class SSeguirUsuario extends HttpServlet {
+/**
+ *
+ * @author brian
+ */
+@WebServlet(name = "SubirArchivo", urlPatterns = {"/SubirArchivo"})
+public class SubirArchivo extends HttpServlet {
 
-    IUsuario iUsuario;
-
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        iUsuario = Fabrica.getIControladorUsuario();
-
-        String accion = request.getParameter("accion");
-        String seguidor = request.getParameter("seguidor");
-        String seguido = request.getParameter("seguido");
-        String respuesta = "";
-
-        if ("seguir".equals(accion)) {
-            DtSuscripcion suscripcion = ((DtCliente) iUsuario.getDataUsuario(seguidor)).getSuscripcion();
-            if (suscripcion != null && "vigente".equals(suscripcion.getEstado())) {
-                iUsuario.seguirUsuario(seguidor, seguido);
-                respuesta = "siguiendo";                                         // Texto para mostrar en el boton una vez presionado
-            } else {
-                respuesta = "error, no tiene suscripcion o esta vencida";
-            }
-        } else if ("dejarSeguir".equals(accion)) {
-            iUsuario.dejarSeguirUsuario(seguidor, seguido);
-            respuesta = "seguir";
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet SubirArchivo</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet SubirArchivo at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
-
-        response.setContentType("text/plain");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(respuesta);
-
-        request.getRequestDispatcher("vistas/perfilUsuario.jsp").forward(request, response);
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -73,7 +78,8 @@ public class SSeguirUsuario extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+    PrintWriter out = response.getWriter();
+    out.println("Llego a Subir archivo");
     }
 
     /**
