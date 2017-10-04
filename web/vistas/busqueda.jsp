@@ -102,26 +102,27 @@
                                 </td>
 
                                 <%}%>
-                                <%} else if (o instanceof DtLista) {%>
-                            <tr>
-                                <td>
-                                    <span class="glyphicon glyphicon-list"></span>
-                                </td>
-                                <%
+                                <%} else if (o instanceof DtLista) {
                                     if (o instanceof DtListaParticular) {
                                         DtListaParticular listaParticular = (DtListaParticular) o;
                                 %>
-
+                            <tr onclick="irListaParticular('<%= listaParticular.getNombre().replace("'", "\\'")%>', '<%=listaParticular.getNickDuenio().replace("'", "\\'")%>')">
                                 <td>
-                                    ListaParticular    Nombre: <%= listaParticular.getNombre()%> (<%= listaParticular.getFecha().getAnio()%>)
+                                    <span class="glyphicon glyphicon-list"></span>
+                                </td>
+                                <td>
+                                    <%= listaParticular.getNombre()%> (<%= listaParticular.getFecha().getAnio()%>)
                                 </td>
 
                                 <%} else if (o instanceof DtListaDefecto) {
                                     DtListaDefecto listaDefecto = (DtListaDefecto) o;
                                 %>
-
+                            <tr onclick="irListaDefecto('<%= listaDefecto.getNombre().replace("'", "\\'")%>', '<%=listaDefecto.getGenero().getNombre().replace("'", "\\'")%>')">
                                 <td>
-                                    ListaDefecto    Nombre: <%= listaDefecto.getNombre()%> (<%= listaDefecto.getFecha().getAnio()%>)
+                                    <span class="glyphicon glyphicon-list"></span>
+                                </td>
+                                <td >
+                                    <%= listaDefecto.getNombre()%> (<%= listaDefecto.getFecha().getAnio()%>)
                                 </td>
 
                                 <%}%>

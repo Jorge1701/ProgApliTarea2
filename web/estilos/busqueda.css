@@ -41,5 +41,6 @@ span {
 }
 
 #imgLista {
-    margin-right: 150px;
+    margin-right: 15px;
+    border-radius: 5px;
 }

@@ -5,36 +5,94 @@
  */
 package servlets;
 
+import Logica.DtArtista;
 import Logica.DtUsuario;
+import Logica.DtCliente;
+import Logica.DtSuscripcion;
 import Logica.Fabrica;
 import Logica.IUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 @WebServlet(name = "SSuscripcion", urlPatterns = {"/SSuscripcion"})
 public class SSuscripcion extends HttpServlet {
 
     IUsuario iUsuario;
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         iUsuario = Fabrica.getIControladorUsuario();
-        
-        
-        String nickname = request.getParameter("nickname");
-        
-        DtUsuario dtu = iUsuario.getDataUsuario(nickname);
-        
-        
-        
+
+        if (request.getParameter("accion").equals("redir")) {
+            if (request.getSession().getAttribute("usuario") != null) {
+                DtUsuario usr = (DtUsuario) request.getSession().getAttribute("usuario");
+
+                if (usr instanceof DtArtista) {
+                    request.setAttribute("mensaje_error", "Esta página esta reservada para nuestros clientes");
+                    request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                } else {
+                    this.getServletContext().getRequestDispatcher("/vistas/suscripcion.jsp").forward(request, response);
+                }
+
+            } else {
+                request.setAttribute("mensaje_error", "Debe estar logueado para ver esta página");
+                request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+            }
+
+        } else if (request.getParameter("accion").equals("redir1")) {
+            if (request.getSession().getAttribute("usuario") != null) {
+                DtUsuario usr = (DtUsuario) request.getSession().getAttribute("usuario");
+
+                if (usr instanceof DtArtista) {
+                    request.setAttribute("mensaje_error", "Esta página esta reservada para nuestros clientes");
+                    request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                } else {
+                    request.setAttribute("suscripcion", ((DtCliente) usr).getSuscripcion());
+                    request.setAttribute("suscripciones",(ArrayList<DtSuscripcion>) ((DtCliente) usr).getSuscripciones());
+                    request.getRequestDispatcher("vistas/estado_sus.jsp").forward(request, response);
+                    //this.getServletContext().getRequestDispatcher("/vistas/estado_sus.jsp").forward(request, response);
+                }
+
+            } else {
+                request.setAttribute("mensaje_error", "Debe estar logueado para ver esta página");
+                request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+            }
+
+        } else if (request.getParameter("accion").equals("monto")) {
+            String cuota = request.getParameter("Cuota");
+            int monto = iUsuario.getMonto(cuota);
+            response.setContentType("text/plain");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(String.valueOf(monto));
+        } else if (request.getParameter("accion").equals("registro")) {
+            if (request.getSession().getAttribute("usuario") == null) {
+                request.setAttribute("mensaje_error", "Debe estar logueado para ver esta página");
+                request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+            }
+            DtUsuario usuario = (DtUsuario) request.getSession().getAttribute("usuario");
+            if (((DtCliente) usuario).getSuscripcion() != null) {
+               request.setAttribute("mensaje_error", "Ya posee una suscripción");
+                request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+            }
+            String nickname = usuario.getNickname();
+            String cuota = request.getParameter("Cuota");
+
+            if (iUsuario.ingresarSuscripcion(nickname, cuota)) {
+                DtUsuario usr = iUsuario.getDataUsuario(nickname);
+                request.getSession().setAttribute("usuario", usr);
+                getServletContext().getRequestDispatcher("/SInicio").forward(request, response);
+            }
+
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

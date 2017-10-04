@@ -3,6 +3,7 @@ package servlets;
 import Logica.DtAlbumContenido;
 import Logica.DtGenero;
 import Logica.DtCliente;
+import Logica.DtLista;
 import Logica.DtUsuario;
 import Logica.Fabrica;
 import Logica.IContenido;
@@ -82,7 +83,7 @@ public class SContenido extends HttpServlet {
 
                 case "consultarGenero":
                     if (request.getParameter("genero") == null) {
-                        request.setAttribute("mensaje_error", "Falta el nombre del genero");
+                        request.setAttribute("mensaje_error", "Faltan parámetros");
                         request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
                     } else {
                         String genero = request.getParameter("genero");
@@ -118,6 +119,35 @@ public class SContenido extends HttpServlet {
                 case "consultarLista":
                     request.setAttribute("mensaje_error", "No esta implementado");
                     request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                case "consultarListaDefecto":
+                    if (request.getParameter("nomGenero") == null || request.getParameter("nomLista") == null) {
+                        request.setAttribute("mensaje_error", "Faltan parámetros");
+                        request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                    } else {
+                        String genero = request.getParameter("nomGenero");
+                        if (iContenido.existeGenero(genero)) {
+                            String nomLista = request.getParameter("nomLista");
+                            DtLista lEncontrada = null;
+                            ArrayList<DtLista> listas = iContenido.listarLisReproduccionGen(genero);
+                            for (DtLista l : listas) {
+                                if (l.getNombre().equals(nomLista)) {
+                                    lEncontrada = l;
+                                    break;
+                                }
+                            }
+                            if (lEncontrada == null) {
+                                request.setAttribute("mensaje_error", "La lista no existe");
+                                request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                            } else {
+                                request.setAttribute("lista", lEncontrada);
+                                request.getRequestDispatcher("vistas/consultar_lista.jsp").forward(request, response);
+                            }
+
+                        } else {
+                            request.setAttribute("mensaje_error", "El genero no existe");
+                            request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                        }
+                    }
                     break;
                 case "crearAlbum":
                     String nombreAlbum = request.getParameter("nombreAlbum");
@@ -125,6 +155,38 @@ public class SContenido extends HttpServlet {
                     String[] generos1 = request.getParameterValues("genero");
                     String imagen = request.getParameter("imagen");
                     iContenido.ingresarAlbum(nombreAlbum, anio, null, imagen, null);
+                case "consultarListaParticular":
+                    if (request.getParameter("nickCliente") == null || request.getParameter("nomLista") == null) {
+                        request.setAttribute("mensaje_error", "Faltan parámetros");
+                        request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                    } else {
+                        String nickCliente = request.getParameter("nickCliente");
+                        if (iUsuario.getDataUsuario(nickCliente) != null) {
+                            String nomLista = request.getParameter("nomLista");
+                            DtLista lEncontrada = null;
+                            ArrayList<DtLista> listas = iUsuario.listarLisReproduccion(nickCliente);
+                            for (DtLista l : listas) {
+                                if (l.getNombre().equals(nomLista)) {
+                                    lEncontrada = l;
+                                    break;
+                                }
+                            }
+                            if (lEncontrada == null) {
+                                request.setAttribute("mensaje_error", "La lista no existe");
+                                request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                            } else {
+                                request.setAttribute("lista", lEncontrada);
+                                request.getRequestDispatcher("vistas/consultar_lista.jsp").forward(request, response);
+                            }
+
+                        } else {
+                            request.setAttribute("mensaje_error", "El cliente no existe");
+                            request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                        }
+                    }
+
+                    break;
+
                 default:
                     request.setAttribute("mensaje_error", "Accion desconocida");
                     request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);

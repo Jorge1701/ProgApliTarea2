@@ -63,8 +63,7 @@
 
                                         </div>
                                         <div class="clearfix"></div>
-                                        <hr style="margin:5px 0 5px 0;">
-                                        <table class="table table-user-information">
+                                          <table class="table table-user-information">
                                             <tbody>
                                                 <tr>
                                                     <td>NickName:</td>
@@ -105,7 +104,7 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class=" col-md-9 col-lg-9 "> 
-                                        <table class="table table-striped">
+                                        <table class="table table-user-information">
                                             <thead>                                                      
                                                 <tr>
                                                     <th>Nombre:</th>                                                                                                        
@@ -132,7 +131,7 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class=" col-md-9 col-lg-9 "> 
-                                        <table class="table table-striped">
+                                        <table class="table table-user-information">
                                             <thead>                                                      
                                                 <tr>
                                                     <th>NickName:</th>
