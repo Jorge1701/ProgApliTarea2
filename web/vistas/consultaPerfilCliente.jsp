@@ -1,3 +1,4 @@
+<%@page import="Logica.DtListaDefecto"%>
 <%@page import="Logica.DtUsuario"%>
 <%@page import="Logica.DtLista"%>
 <%@page import="Logica.DtAlbum"%>
@@ -39,12 +40,10 @@
                         <li><a data-toggle="tab" href="#menu3" style="color: black">Album Favoritos</a></li>
                         <li><a data-toggle="tab" href="#menu4" style="color: black">Listas Favoritos</a></li>
                         <li><a data-toggle="tab" href="#menu5" style="color: black">Temas Favoritos</a></li>
-                            <%
-                                if (dtCli.getSuscripcion().getEstado().equals("Vigente")) {
-                            %>
+                            <%}%>
+                            <%if (dtCli.getSuscripcion() != null && dtCli.getSuscripcion().getEstado() != null && dtCli.getSuscripcion().getEstado().equals("Vigente")) { %>
                         <li><a data-toggle="tab" href="#menu6" style="color: black">Sigue</a></li>
-                            <%}
-                            }%>
+                            <%}%> 
                     </ul>
 
                     <div class="tab-content" style="color: white">
@@ -65,7 +64,8 @@
                                             <!-- /input-group -->
                                         </div>
                                         <div class="col-sm-6">
-                                            <% if (session.getAttribute("usuario") != null) {%>
+                                            <% if (session.getAttribute(
+                                                        "usuario") != null) {%>
                                             <h4 style="color:black;"><%= dtPCliente.getInfo().getNombre()%>  <%= dtPCliente.getInfo().getApellido()%> </h4></span>
                                             <span><p>Cliente</p></span>
                                             <%}%>
@@ -77,7 +77,8 @@
                                                     <td>NickName:</td>
                                                     <td><%= dtPCliente.getInfo().getNickname()%></td>
                                                 </tr>
-                                                <% if (session.getAttribute("usuario") != null) {%>
+                                                <% if (session.getAttribute(
+                                                            "usuario") != null) {%>
                                                 <tr>
                                                     <td>Nombre</td>
                                                     <td><%= dtPCliente.getInfo().getNombre()%>  <%= dtPCliente.getInfo().getApellido()%> </td>
@@ -109,19 +110,34 @@
                                             <thead>                                                      
                                                 <tr>
                                                     <th>Nombre:</th>
-                                                    <th>Cantidad Temas</th>                                                        
+                                                    <th>Cantidad de Temas</th> 
+                                                    <th>Pública</th>
                                                 </tr>
                                             </thead>
                                             <tbody>     
                                                 <% Collection<DtListaParticular> listasP = dtPCliente.getListasCreadas();
-                                                    for (DtListaParticular dtLP : listasP) {%>
-                                                <% if (!dtLP.isPrivada()) {%>
+                                                    for (DtListaParticular dtLP : listasP) {
+                                                        if (session.getAttribute("usuario") == null || !((DtUsuario) session.getAttribute("usuario")).getNickname().equals(dtPCliente.getInfo().getNickname())) {
+                                                            if (!dtLP.isPrivada()) {%>
                                                 <tr>                                                    
                                                     <td onclick="irListaParticular('<%= dtLP.getNombre().replace("'", "\\'")%>', '<%=dtLP.getNickDuenio().replace("'", "\\'")%>')"><a><%= dtLP.getNombre()%></a></td>
                                                     <td><span class="badge"> <%= dtLP.getTemas().size()%> </span></td>
+                                                    <td><div class="glyphicon glyphicon-ok-sign" style="color:green"></div></td>
                                                 </tr>
-                                                <%}%>
-                                                <% }%>  
+                                                <%}
+                                                } else {%>
+                                                <tr>                                                    
+                                                    <td onclick="irListaParticular('<%= dtLP.getNombre().replace("'", "\\'")%>', '<%=dtLP.getNickDuenio().replace("'", "\\'")%>')"><a><%= dtLP.getNombre()%></a></td>
+                                                    <td><span class="badge"> <%= dtLP.getTemas().size()%> </span></td>
+                                                    <% if (dtLP.isPrivada()) {%>
+                                                    <td id="privada"><div class="glyphicon glyphicon-remove-sign" style="color: red"></div><a href="/Tarea2/SContenido?accion=publicarLista&nomLista=<%= dtLP.getNombre()%>&nickCliente=<%= dtPCliente.getInfo().getNickname()%>" id="btnPublicar" class="btn btn-info" style="margin-left: 50px" >Publicar</a></td>
+                                                            <% } else {%>
+                                                    <td><div class="glyphicon glyphicon-ok-sign" style="color:green"></div></td>
+                                                        <%}%>
+                                                </tr>
+
+                                                <%}
+                                                    }%>  
                                             </tbody>
                                         </table>
 
@@ -130,7 +146,8 @@
                                 </div>
                             </div>
                         </div>
-                        <% if (session.getAttribute("usuario") != null) {%>                    
+                        <% if (session.getAttribute(
+                                    "usuario") != null) {%>                    
                         <div id="menu2" class="tab-pane fade">
                             <h3>Seguidores</h3>
                             <div class="panel-body">
@@ -200,17 +217,21 @@
                                             <thead>                                                      
                                                 <tr>
                                                     <th>Nombre:</th>
-                                                    <th>Camtidad de Temas</th>
+                                                    <th>Cantidad de Temas</th>
                                                 </tr>
                                             </thead>
                                             <tbody>     
                                                 <% Collection<DtLista> dtLF = dtPCliente.getListasFavoritas();
                                                     for (DtLista dtL : dtLF) {%>
                                                 <tr>
-                                                    <td><%= dtL.getNombre()%></td>
+                                                    <%if (dtL instanceof DtListaParticular) {%>
+                                                    <td onclick="irListaParticular('<%= dtL.getNombre().replace("'", "\\'")%>', '<%=((DtListaParticular) dtL).getNickDuenio().replace("'", "\\'")%>')"><a><%= dtL.getNombre()%></a></td>
+                                                    <% } else {%> 
+
+                                                    <td onclick="irListaDefecto('<%= dtL.getNombre().replace("'", "\\'")%>', '<%=((DtListaDefecto) dtL).getGenero().getNombre().replace("'", "\\'")%>')"><a><%= dtL.getNombre()%></a></td>
+                                                            <%}%>
                                                     <td><span class="badge"> <%= dtL.getTemas().size()%> </span></td>
                                                 </tr>
-
                                                 <% }%>  
                                             </tbody>
                                         </table>
@@ -250,7 +271,7 @@
                             </div>
                         </div>
                         <%
-                            if (dtCli.getSuscripcion().getEstado().equals("Vigente")) {
+                            if (dtCli.getSuscripcion() != null && dtCli.getSuscripcion().getEstado() != null && dtCli.getSuscripcion().getEstado().equals("Vigente")) {
                         %>                    
                         <div id="menu6" class="tab-pane fade">
                             <h3>Temas Favoritos</h3>
@@ -300,7 +321,7 @@
                 </div>
             </div>
 
-
         </div>
+
     </body>
 </html>

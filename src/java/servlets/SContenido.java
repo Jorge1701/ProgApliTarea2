@@ -114,11 +114,14 @@ public class SContenido extends HttpServlet {
                     request.setAttribute("Album", dtAlbum);
                     request.getRequestDispatcher("/vistas/consultaAlbum.jsp").forward(request, response);
                     break;
-                    
 
-                case "consultarLista":
-                    request.setAttribute("mensaje_error", "No esta implementado");
-                    request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                case "crearAlbum":
+                    String nombreAlbum = request.getParameter("nombreAlbum");
+                    int anio = Integer.parseInt(request.getParameter("anio"));
+                    String[] generos1 = request.getParameterValues("genero");
+                    String imagen = request.getParameter("imagen");
+                    iContenido.ingresarAlbum(nombreAlbum, anio, null, imagen, null);
+                    break;
                 case "consultarListaDefecto":
                     if (request.getParameter("nomGenero") == null || request.getParameter("nomLista") == null) {
                         request.setAttribute("mensaje_error", "Faltan parámetros");
@@ -149,12 +152,6 @@ public class SContenido extends HttpServlet {
                         }
                     }
                     break;
-                case "crearAlbum":
-                    String nombreAlbum = request.getParameter("nombreAlbum");
-                    int anio = Integer.parseInt(request.getParameter("anio"));
-                    String[] generos1 = request.getParameterValues("genero");
-                    String imagen = request.getParameter("imagen");
-                    iContenido.ingresarAlbum(nombreAlbum, anio, null, imagen, null);
                 case "consultarListaParticular":
                     if (request.getParameter("nickCliente") == null || request.getParameter("nomLista") == null) {
                         request.setAttribute("mensaje_error", "Faltan parámetros");
@@ -178,6 +175,25 @@ public class SContenido extends HttpServlet {
                                 request.setAttribute("lista", lEncontrada);
                                 request.getRequestDispatcher("vistas/consultar_lista.jsp").forward(request, response);
                             }
+
+                        } else {
+                            request.setAttribute("mensaje_error", "El cliente no existe");
+                            request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                        }
+                    }
+
+                    break;
+                case "publicarLista":
+                    if (request.getParameter("nickCliente") == null || request.getParameter("nomLista") == null) {
+                        request.setAttribute("mensaje_error", "Faltan parámetros");
+                        request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                    } else {
+                        String nickCliente = request.getParameter("nickCliente");
+                        if (iUsuario.getDataUsuario(nickCliente) != null) {
+                            String nomLista = request.getParameter("nomLista");
+                            iContenido.publicarLista(nickCliente, nomLista);
+                            request.setAttribute("nickUs", nickCliente);
+                            request.getRequestDispatcher("/SConsultarPerfil").forward(request, response);
 
                         } else {
                             request.setAttribute("mensaje_error", "El cliente no existe");

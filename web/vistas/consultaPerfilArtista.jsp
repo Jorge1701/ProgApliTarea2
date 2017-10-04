@@ -4,6 +4,7 @@
     Author     : Diego
 --%>
 
+<%@page import="Logica.DtUsuario"%>
 <%@page import="Logica.DtCliente"%>
 <%@page import="java.util.Collection"%>
 <%@page import="Logica.DtAlbum"%>
@@ -57,10 +58,15 @@
                                             <!-- /input-group -->
                                         </div>
                                         <div class="col-sm-6">
-                                            <h4 style="color:black"><%= dtPArtista.getInfo().getNombre()%>  <%= dtPArtista.getInfo().getApellido()%> </h4></span>
+                                            <h4 style="color:white"><%= dtPArtista.getInfo().getNombre()%>  <%= dtPArtista.getInfo().getApellido()%> </h4></span>
                                             <span><p>Artista</p></span>
-                                            <a href="/Tarea2/SContenido?accion=AltaAlbum" class="btn btn-default" id="btnCrearAlbum" style="margin-left: 70px; border-color: black">Crear Album</a>    
-
+                                            <% if (session.getAttribute("usuario") != null) {
+                                                   DtUsuario u = (DtUsuario) session.getAttribute("usuario");                                            
+                                                   if(dtPArtista.getInfo().getNickname().equals(u.getNickname())) {
+                                            %>
+                                            <h5><a href="/Tarea2/SContenido?accion=AltaAlbum" id="btnCrearAlbum">Crear Album</a> </h5>   
+                                            <%}
+                                             }%>
                                         </div>
                                         <div class="clearfix"></div>
                                           <table class="table table-user-information">
@@ -114,7 +120,8 @@
                                                 <% Collection<DtAlbum> lstA = dtPArtista.getAlbumes();
                                                     for (DtAlbum dtA : lstA) {%>
                                                 <tr>
-                                                    <td><%= dtA.getNombre()%></td>                                                    
+                                                    <td><a href="/Tarea2/SContenido?accion=consultarAlbum&nickArtista=<%= dtPArtista.getInfo().getNickname()%>&nomAlbum=<%= dtA.getNombre()%>"><%= dtA.getNombre()%></a></td>
+                                                    
                                                 </tr>
 
                                                 <% }%>  
