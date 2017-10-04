@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Diego
  */
 @WebServlet(name = "SConsultarPerfil", urlPatterns = {"/SConsultarPerfil"})
-public class SConsultarPerfil extends HttpServlet {
+public class SConsulta extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,26 +37,23 @@ public class SConsultarPerfil extends HttpServlet {
      */
     private IUsuario iUsuario;
 
-    public SConsultarPerfil() {
+    public SConsulta() {
         iUsuario = Fabrica.getIControladorUsuario();
     }
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-        String nickUs;
-
-        if (request.getParameter("nickUs") != null) {
-            nickUs = request.getParameter("nickUs");
-        } else {
-            nickUs = request.getAttribute("nickUs").toString();
-        }
-
+        String nickUs = request.getParameter("nickUs");
+        log(nickUs);
         DtUsuario DtUs = iUsuario.getDataUsuario(nickUs);
         if (DtUs != null) {
             log(DtUs.getNickname());
         } else {
-            log("Usuario es null");
+            log("es null");
         }
+
+        log("llega");
 
         if (DtUs instanceof DtCliente) {
 
@@ -66,6 +63,7 @@ public class SConsultarPerfil extends HttpServlet {
             request.getRequestDispatcher("/vistas/consultaPerfilCliente.jsp").
                     forward(request, response);
         } else if (DtUs instanceof DtArtista) {
+            log("obtengo el artisga");
             DtPerfilArtista dtPerfilArtista = (DtPerfilArtista) iUsuario.obtenerPerfilArtista(nickUs);
             request.setAttribute("dtPerfilArtista", dtPerfilArtista);
             request.getRequestDispatcher("/vistas/consultaPerfilArtista.jsp").
