@@ -1,8 +1,4 @@
-<%-- 
-    Document   : consultaAlbum.jsp
-    Created on : 02/10/2017, 03:21:48 AM
-    Author     : brian
---%>
+
 
 <%@page import="Logica.DtTemaRemoto"%>
 <%@page import="Logica.DtTemaLocal"%>
