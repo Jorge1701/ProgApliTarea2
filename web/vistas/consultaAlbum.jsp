@@ -70,7 +70,7 @@
                                 <table >
                                     <caption style="color:white"><center>Temas</center></caption>
                                     <tr class="w3-green">
-                                    <th><center>Nombre</center></th>
+                                        <th><center>Nombre</center></th>
                                     <th><center>Posicion</center></th>
                                     <th><center>Duracion</center></th>
                                     <th><center>Ubicacion</center></th>
@@ -96,18 +96,24 @@
                                                 DtSuscripcion suscripcion = (DtSuscripcion) ((DtCliente) dtu).getSuscripcion();
                                                 if (suscripcion != null) {
                                                     if (suscripcion.getEstado().equals("Vigente")) {
+                                                        if (temas.get(i) instanceof DtTemaLocal) {
                                         %>
                                     <td><center><input onclick="Descarga('<%=((DtTemaLocal) temas.get(i)).getDirectorio()%>')" class="button buttton1" id="btnDescargar" value="Descargar"></center></td>
-                                        <%} else { %>
+                                        <% } else {%>
+                                                <td><center><text>Tema Remoto</text></center></td> 
+                                                <%}
+                                            
+                                        } else { %>
                                     <td><center><text>Sin Suscripcion</text></center></td> 
                                         <% }
                                         %>
                                     </tr>
-                                    <%   } else { %>
+                                    <%   }
+                                        }else { %>
                                     <td><center><text>Debe Iniciar Sesion</text></center></td> 
                                         <% }
-                                                }
                                             }
+
                                         %>
                                 </table>
                             </div>
