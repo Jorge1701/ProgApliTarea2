@@ -47,6 +47,7 @@
                                         <th>Monto</th>
                                         <th>Fecha</th>
                                         <th>Fecha Vencimiento</th>
+                                        <th>Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -60,6 +61,7 @@
                                         <td><%= dts.getMonto()%></td>
                                         <td><%= dts.getFecha()%></td>
                                         <td><%= dts.getFechaVenc()%></td>
+                                        <td></td>
                                     </tr>
                                     <% }%>
                                     <tr class="active">
@@ -67,7 +69,8 @@
                                         <td><%= activa.getCuota()%></td>
                                         <td><%= activa.getMonto()%></td>
                                         <td><%= activa.getFecha()%></td>
-                                        <td><%= activa.getFechaVenc()%></td>  
+                                        <td><%= activa.getFechaVenc()%></td> 
+                                        <td></td>
                                     </tr>
                                 </tbody>
                             </table>
