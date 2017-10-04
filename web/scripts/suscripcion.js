@@ -38,4 +38,22 @@ $("#btnConfirmar").click(function () {
     });
 });
 
-//envio del formulario 
+//envio del formulario
+
+$("#btnCancelar").click(function () {
+
+    $.ajax({
+        type: "POST",
+        url: "/Tarea2/SSuscripcion",
+        data: {
+            "accion": "cancelar"},
+        success: function (data) {
+            alert("Su suscripción fue cancelada con éxito");
+            window.location = "/Tarea2/SInicio?accion=redir1";
+        },
+
+        error: function () {
+            alert("Ha ocurrido un error al procesar su solicitud");
+        }
+    });
+});

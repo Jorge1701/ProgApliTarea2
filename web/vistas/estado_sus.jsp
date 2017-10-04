@@ -33,52 +33,59 @@
 
                     <div class="col-lg-6 col-md-6 col-sm-8 col-xs-10" style="background-color: transparent">
 
-                        <% 
-                            DtSuscripcion activa = (DtSuscripcion) request.getAttribute("suscripcion");
-                        %>
-
-                        <div class="table-responsive">
-                            <h2>Suscripciones</h2>          
-                            <table class="table table-hover">
+                        <div class="table-responsive"> 
+                            <table class="table table-bordered">
                                 <thead>
-                                    <tr class="active">
+                                    <tr class="bg-primary">
                                         <th>Estado</th>
-                                        <th>Tipo de Cuota</th>
+                                        <th>Cuota</th>
                                         <th>Monto</th>
                                         <th>Fecha</th>
-                                        <th>Fecha Vencimiento</th>
-                                        <th>Acción</th>
+                                        <th>Vencimiento</th>
+                                        <th>Accion</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <% ArrayList<DtSuscripcion> sus = (ArrayList<DtSuscripcion>) request.getAttribute("suscripciones");
-                                       
-                                    for (DtSuscripcion dts : sus) {
-                                        %>
-                                    <tr class="active">
-                                        <td><%= dts.getEstado()%></td>
-                                        <td><%= dts.getCuota()%></td>
-                                        <td><%= dts.getMonto()%></td>
-                                        <td><%= dts.getFecha()%></td>
-                                        <td><%= dts.getFechaVenc()%></td>
-                                        <td></td>
+
+                                    <% ArrayList<DtSuscripcion> sus = (ArrayList<DtSuscripcion>) request.getAttribute("suscripciones"); %>
+                                    <%  for (DtSuscripcion dts : sus) {  %>
+
+
+                                    <tr>
+                                        <td class="bg-primary"><%= dts.getEstado()%></td>
+                                        <td class="bg-primary"><%= dts.getCuota()%></td>
+                                        <td class="bg-primary"><%= dts.getMonto()%></td>
+                                        <td class="bg-primary"><%= dts.getFecha()%></td>
+                                        <td class="bg-primary"><%= dts.getFechaVenc()%></td>
+                                        <td class="bg-primary"><input type="hidden" class="btn btn-primary btn-xs" id="btnOculto" value="Oculto"/></td>
                                     </tr>
+
                                     <% }%>
-                                    <tr class="active">
-                                      <td><%= activa.getEstado()%></td>
-                                        <td><%= activa.getCuota()%></td>
-                                        <td><%= activa.getMonto()%></td>
-                                        <td><%= activa.getFecha()%></td>
-                                        <td><%= activa.getFechaVenc()%></td> 
-                                        <td></td>
-                                    </tr>
+
+                                    <% DtSuscripcion activa = (DtSuscripcion) request.getAttribute("suscripcion");%>
+                                    <% if(activa != null) { %>
+                                    <tr class="bg-primary">
+                                        <td class="bg-primary"><%= activa.getEstado()%></td>
+                                        <td class="bg-primary"><%= activa.getCuota()%></td>
+                                        <td class="bg-primary"><%= activa.getMonto()%></td>
+                                        <td class="bg-primary"><%= activa.getFecha()%></td>
+                                        <td class="bg-primary"><%= activa.getFechaVenc()%></td> 
+                                        <td class="bg-primary">
+                                        <form id="formulario">    
+                                         <% if(activa.getEstado().equals("Pendiente")){ %>
+                                            <input type="button" class="btn btn-primary btn-xs" id="btnCancelar" value="Cancelar"/></td>
+                                        <% }else{ %>
+                                        <input type="hidden" class="btn btn-primary btn-xs" id="btnOculto" value="Oculto"/>
+                                        <% } %>
+                                        </form>
+                                         <% } %>
                                 </tbody>
                             </table>
                         </div>
 
                     </div>
                     <!-- Relleno a la derecha -->
-                    <div class="col-lg-3 col-md-3 col-sm-2 col-xs-1"></div>
+                    <!-- <div class="col-lg-3 col-md-3 col-sm-2 col-xs-1"></div> -->
 
                 </div>
 
