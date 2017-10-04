@@ -88,7 +88,7 @@
                 </div>
 
                 <!-- Lateral -->
-                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="background-color: black; border-style:solid; border-width: 1px; padding: 15px; border-color: lavender">
+                <div id="lateral" class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="background-color: black; border-style:solid; border-width: 1px; padding: 15px; border-color: lavender">
                     <jsp:include page = "lateral.jsp"/>
                 </div>
             </div>
