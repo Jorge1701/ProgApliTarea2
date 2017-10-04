@@ -29,7 +29,7 @@
         <%
             DtAlbumContenido albumes = (DtAlbumContenido) request.getAttribute("Album");
             DtAlbum inf = (DtAlbum) albumes.getInfo();
-            ArrayList<String> Generos = albumes.getGeneros();
+            String Generos = albumes.getGeneros2();
             ArrayList<DtTema> temas = albumes.getTemas();
             String nickArtista = inf.getNickArtista();
             String imagen = inf.getImagen();
@@ -74,7 +74,7 @@
                                 <table >
                                     <caption style="color:white"><center>Temas</center></caption>
                                     <tr class="w3-green">
-                                        <th><center>Nombre</center></th>
+                                    <th><center>Nombre</center></th>
                                     <th><center>Posicion</center></th>
                                     <th><center>Duracion</center></th>
                                     <th><center>Ubicacion</center></th>
