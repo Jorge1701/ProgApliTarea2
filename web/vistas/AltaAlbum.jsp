@@ -79,7 +79,7 @@
                             </div>                           
                         </form>
                         <br>            
-                        <form action="vistas/uploadfile.jsp" method="post" enctype="multipart/form-data">
+                        <form action="Uploadfile" method="post" enctype="multipart/form-data">
                             <table>
                                 <tr>
                                     <td>
