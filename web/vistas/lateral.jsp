@@ -4,9 +4,11 @@
     <head>
         <jsp:include page="include.html"/>
         <jsp:include page="../scripts/lateral.html"/>
+        
     </head>
-    <body> 
 
+    <body> 
+        
         <div class="row">
             <div class="text-center" style="margin-bottom: 15px">
                 <img id="imgAlbumTema" src="/Tarea2/SImagen?album=albumDefault.png" width="150" height="150">
@@ -41,5 +43,6 @@
                 <button id="btnDer" class="btn btn-default" type="submit" style="margin-left: 3px"> <span class="glyphicon glyphicon-forward"></span></button>         
             </div>
         </div>
+      
     </body>
 </html>

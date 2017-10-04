@@ -1,5 +1,6 @@
 package servlets;
 
+import com.sun.org.apache.xml.internal.serializer.OutputPropertyUtils;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -11,15 +12,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 @WebServlet(name = "SImagen", urlPatterns = {"/SImagen"})
 public class SImagen extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String ruta = getServletContext().getRealPath("/");
-        String[] parte = ruta.split("ProgApliTarea2");
-        String tarea1 = parte[0] + "ProgApliTarea1" + File.separator;
-
-        if (request.getParameter("usuario") != null) {
+        String[] parte = ruta.split("Tarea2");
+        String tarea1 = parte[0] + "Tarea1" + File.separator;
+  if (request.getParameter("usuario") != null) {
             BufferedImage bi = null;
             try {
                 bi = ImageIO.read(new File(tarea1 + "Recursos/Imagenes/Usuarios/" + request.getParameter("usuario")));
@@ -29,7 +30,8 @@ public class SImagen extends HttpServlet {
             OutputStream out = response.getOutputStream();
             ImageIO.write(bi, "png", out);
             out.close();
-        } else if (request.getParameter("album") != null) {
+        }
+  if (request.getParameter("album") != null){
             BufferedImage bi = null;
             try {
                 bi = ImageIO.read(new File(tarea1 + "Recursos/Imagenes/Albumes/" + request.getParameter("album")));
@@ -39,17 +41,7 @@ public class SImagen extends HttpServlet {
             OutputStream out = response.getOutputStream();
             ImageIO.write(bi, "png", out);
             out.close();
-        } else if (request.getParameter("lista") != null) {
-            BufferedImage bi = null;
-            try {
-                bi = ImageIO.read(new File(tarea1 + "Recursos/Imagenes/Listas/" + request.getParameter("lista")));
-            } catch (IOException e) {
-                bi = ImageIO.read(new File(tarea1 + "Recursos/Imagenes/Listas/listaDefault.png"));
-            }
-            OutputStream out = response.getOutputStream();
-            ImageIO.write(bi, "png", out);
-            out.close();
-        }
+  }
     }
 
     @Override

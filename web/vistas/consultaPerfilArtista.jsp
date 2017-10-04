@@ -33,7 +33,11 @@
                         <li class="active"><a data-toggle="tab" href="#home" style="color: black">Informacion Basica</a></li>
                         <li><a data-toggle="tab" href="#menu1" style="color: black">Albumes Publicados</a></li>
                         <li><a data-toggle="tab" href="#menu2" style="color: black">Seguidores</a></li>                       
+
+
                     </ul>
+
+
 
                     <div class="tab-content" style="color: white">
                         <div id="home" class="tab-pane fade in active">
@@ -54,7 +58,9 @@
                                         </div>
                                         <div class="col-sm-6">
                                             <h4 style="color:black"><%= dtPArtista.getInfo().getNombre()%>  <%= dtPArtista.getInfo().getApellido()%> </h4></span>
-                                            <span><p>Artista</p></span>            
+                                            <span><p>Artista</p></span>
+                                            <a href="/Tarea2/SContenido?accion=AltaAlbum" class="btn btn-default" id="btnCrearAlbum" style="margin-left: 70px; border-color: black">Crear Album</a>    
+
                                         </div>
                                         <div class="clearfix"></div>
                                           <table class="table table-user-information">
@@ -134,7 +140,7 @@
                                             </thead>
                                             <tbody> 
                                                 <% Collection<DtCliente> seguidores = dtPArtista.getSeguidores();
-                                                 for (DtCliente dtC : seguidores) {%>
+                                                    for (DtCliente dtC : seguidores) {%>
                                                 <tr>
                                                     <td><a href="/Tarea2/SConsultarPerfil?nickUs=<%= dtC.getNickname()%>"><%= dtC.getNickname()%></a></td>
                                                     <td><%= dtC.getNombre()%>  <%= dtC.getApellido()%> </td>
