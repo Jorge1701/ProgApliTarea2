@@ -127,6 +127,25 @@ public class SContenido extends HttpServlet {
                     }
 
                     break;
+                case "publicarLista":
+                    if (request.getParameter("nickCliente") == null || request.getParameter("nomLista") == null) {
+                        request.setAttribute("mensaje_error", "Faltan parámetros");
+                        request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                    } else {
+                        String nickCliente = request.getParameter("nickCliente");
+                        if (iUsuario.getDataUsuario(nickCliente) != null) {
+                            String nomLista = request.getParameter("nomLista");
+                            iContenido.publicarLista(nickCliente, nomLista);
+                            request.setAttribute("nickUs", nickCliente);
+                            request.getRequestDispatcher("/SConsultarPerfil").forward(request, response);
+
+                        } else {
+                            request.setAttribute("mensaje_error", "El cliente no existe");
+                            request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                        }
+                    }
+
+                    break;
 
                 default:
                     request.setAttribute("mensaje_error", "Accion desconocida");
