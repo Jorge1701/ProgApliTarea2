@@ -48,33 +48,32 @@ public class SContenido extends HttpServlet {
             String accion = request.getParameter("accion");
 
             switch (accion) {
-            case "subirImagen":
-            String archivourl = "C:\\Users\\brian\\Documents\\NetBeansProjects\\Tarea1\\Recursos\\Imagenes\\Albumes";
-            
-            DiskFileItemFactory factory = new DiskFileItemFactory();
-            
-            factory.setSizeThreshold(1024);
-            
-            factory.setRepository(new File(archivourl));
-            
-            ServletFileUpload upload = new ServletFileUpload(factory);
-            
-            
-            try{
-                
-                List<FileItem> partes = upload.parseRequest(request);
-                
-                for(FileItem items: partes){
-                    File file = new File(archivourl,items.getName());
-                    items.write(file);
-                }
-                
-                System.out.println("<h2>ARCHIVO CORRECTAMENTE SUBIDO.....</h2>"+"\n\n"+"<a href='index.jsp'>VOVLER AL MENU</a>");
-                
-            }catch(Exception e){
-                System.out.println("Exception: "+e.getMessage()+"");
-            } 
-                break;
+                case "subirImagen":
+                    String archivourl = "C:\\Users\\brian\\Documents\\NetBeansProjects\\Tarea1\\Recursos\\Imagenes\\Albumes";
+
+                    DiskFileItemFactory factory = new DiskFileItemFactory();
+
+                    factory.setSizeThreshold(1024);
+
+                    factory.setRepository(new File(archivourl));
+
+                    ServletFileUpload upload = new ServletFileUpload(factory);
+
+                    try {
+
+                        List<FileItem> partes = upload.parseRequest(request);
+
+                        for (FileItem items : partes) {
+                            File file = new File(archivourl, items.getName());
+                            items.write(file);
+                        }
+
+                        System.out.println("<h2>ARCHIVO CORRECTAMENTE SUBIDO.....</h2>" + "\n\n" + "<a href='index.jsp'>VOVLER AL MENU</a>");
+
+                    } catch (Exception e) {
+                        System.out.println("Exception: " + e.getMessage() + "");
+                    }
+                    break;
                 case "AltaAlbum":
                     ArrayList<DtGenero> generos = ((DtGenero) iContenido.listarGenero()).getSubGeneros();
                     request.setAttribute("Generos", generos);
@@ -114,11 +113,14 @@ public class SContenido extends HttpServlet {
                     request.setAttribute("Album", dtAlbum);
                     request.getRequestDispatcher("/vistas/consultaAlbum.jsp").forward(request, response);
                     break;
-                    
 
-                case "consultarLista":
-                    request.setAttribute("mensaje_error", "No esta implementado");
-                    request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                case "crearAlbum":
+                    String nombreAlbum = request.getParameter("nombreAlbum");
+                    int anio = Integer.parseInt(request.getParameter("anio"));
+                    String[] generos1 = request.getParameterValues("genero");
+                    String imagen = request.getParameter("imagen");
+                    iContenido.ingresarAlbum(nombreAlbum, anio, null, imagen, null);
+                    break;
                 case "consultarListaDefecto":
                     if (request.getParameter("nomGenero") == null || request.getParameter("nomLista") == null) {
                         request.setAttribute("mensaje_error", "Faltan parámetros");
@@ -149,12 +151,6 @@ public class SContenido extends HttpServlet {
                         }
                     }
                     break;
-                case "crearAlbum":
-                    String nombreAlbum = request.getParameter("nombreAlbum");
-                    int anio = Integer.parseInt(request.getParameter("anio"));
-                    String[] generos1 = request.getParameterValues("genero");
-                    String imagen = request.getParameter("imagen");
-                    iContenido.ingresarAlbum(nombreAlbum, anio, null, imagen, null);
                 case "consultarListaParticular":
                     if (request.getParameter("nickCliente") == null || request.getParameter("nomLista") == null) {
                         request.setAttribute("mensaje_error", "Faltan parámetros");

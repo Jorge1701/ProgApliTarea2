@@ -1,3 +1,4 @@
+<%@page import="Logica.DtListaDefecto"%>
 <%@page import="Logica.DtUsuario"%>
 <%@page import="Logica.DtLista"%>
 <%@page import="Logica.DtAlbum"%>
@@ -109,7 +110,7 @@
                                             <thead>                                                      
                                                 <tr>
                                                     <th>Nombre:</th>
-                                                    <th>Cantidad Temas</th> 
+                                                    <th>Cantidad de Temas</th> 
                                                     <th>Pública</th>
                                                 </tr>
                                             </thead>
@@ -130,8 +131,7 @@
                                                     <td><span class="badge"> <%= dtLP.getTemas().size()%> </span></td>
                                                     <% if (dtLP.isPrivada()) {%>
                                                     <td id="privada"><div class="glyphicon glyphicon-remove-sign" style="color: red"></div><a href="/Tarea2/SContenido?accion=publicarLista&nomLista=<%= dtLP.getNombre()%>&nickCliente=<%= dtPCliente.getInfo().getNickname()%>" id="btnPublicar" class="btn btn-info" style="margin-left: 50px" >Publicar</a></td>
-                                                    <td hidden id="publica"><div class="glyphicon glyphicon-ok-sign" style="color:green"></div></td>
-                                                        <% } else {%>
+                                                            <% } else {%>
                                                     <td><div class="glyphicon glyphicon-ok-sign" style="color:green"></div></td>
                                                         <%}%>
                                                 </tr>
@@ -217,17 +217,21 @@
                                             <thead>                                                      
                                                 <tr>
                                                     <th>Nombre:</th>
-                                                    <th>Camtidad de Temas</th>
+                                                    <th>Cantidad de Temas</th>
                                                 </tr>
                                             </thead>
                                             <tbody>     
                                                 <% Collection<DtLista> dtLF = dtPCliente.getListasFavoritas();
                                                     for (DtLista dtL : dtLF) {%>
                                                 <tr>
-                                                    <td><%= dtL.getNombre()%></td>
+                                                    <%if (dtL instanceof DtListaParticular) {%>
+                                                    <td onclick="irListaParticular('<%= dtL.getNombre().replace("'", "\\'")%>', '<%=((DtListaParticular) dtL).getNickDuenio().replace("'", "\\'")%>')"><a><%= dtL.getNombre()%></a></td>
+                                                    <% } else {%> 
+
+                                                    <td onclick="irListaDefecto('<%= dtL.getNombre().replace("'", "\\'")%>', '<%=((DtListaDefecto) dtL).getGenero().getNombre().replace("'", "\\'")%>')"><a><%= dtL.getNombre()%></a></td>
+                                                            <%}%>
                                                     <td><span class="badge"> <%= dtL.getTemas().size()%> </span></td>
                                                 </tr>
-
                                                 <% }%>  
                                             </tbody>
                                         </table>
