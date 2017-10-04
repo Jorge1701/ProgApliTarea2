@@ -49,7 +49,7 @@ $("#btnCancelar").click(function () {
             "accion": "cancelar"},
         success: function (data) {
             alert("Su suscripción fue cancelada con éxito");
-            window.location = "/Tarea2/SInicio?accion=redir1";
+            window.location = "/Tarea2/SSuscripcion?accion=redir1";
         },
 
         error: function () {
