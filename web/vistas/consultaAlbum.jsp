@@ -23,6 +23,7 @@
 <html>
     <head>
         <jsp:include page="include.html"/>
+        <jsp:include page="../scripts/Descargar.html"/>
         <style>
             .centrar
             {
@@ -88,7 +89,7 @@
         <%
             DtAlbumContenido albumes = (DtAlbumContenido) request.getAttribute("Album");
             DtAlbum inf = (DtAlbum) albumes.getInfo();
-            ArrayList<String> generos = albumes.getGeneros();
+            String Generos = albumes.getGeneros2();
             ArrayList<DtTema> temas = albumes.getTemas();
             String nickArtista = inf.getNickArtista();
             String imagen = inf.getImagen();
@@ -106,8 +107,6 @@
                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12"></div>
                 <!-- Contenido -->
                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-
-
                     <ul class="nav nav-tabs">
                         <li class="active"><a data-toggle="tab" href="#home" style="color: black">Informacion Basica</a></li>
                         <li><a data-toggle="tab" href="#menu1" style="color: black">Temas</a></li>
@@ -121,23 +120,19 @@
                                             <div   align="center"> <img alt="Album Pic" src="/Tarea2/SImagen?album=<%= imagen%>" id="album-imagen" class="img-circle img-responsive"> 
                                                 <input id="profile-image-upload" class="hidden" type="file">
                                             </div>
-
                                         </div>
                                     </div>          
                                 </div> 
-                                <div class="centrar">
+                              
+                                
                                     <tr>
                                         <td><h4 style="color:white">Nombre Album : <%= nombreAlbum%></h4></td>
                                         <td><h4 style="color:white">Año De Creacion : <%= anioCreacion%> </h4></td>
 
-                                        <%
-                                            for (int i = 0; i < generos.size(); i++) {
-                                        %>
-                                        <td><h4 style="color:white">Generos: <%= generos.get(i)%> </h4></td>
-                                        <% }%>
-                                    </tr>
-                                </div>         
 
+                                        <td><h4 style="color:white">Generos: <%=Generos %></h4></td>
+                                        
+                                    </tr>
                             </div>
                         </div>
                         <div id="menu1" class="tab-pane fade">     
@@ -168,14 +163,17 @@
                                             if (request.getSession().getAttribute("usuario") != null) {
                                                 DtUsuario dtu = (DtUsuario) request.getSession().getAttribute("usuario");
                                                 DtSuscripcion suscripcion = (DtSuscripcion) ((DtCliente) dtu).getSuscripcion();
+                                                if (suscripcion.getEstado().equals("Vigente")) {
                                         %>
-                                    <td><center><input type="submit" class="button buttton1" id="btnDescargar" value="Descargar"></center>></td> 
-                                        <%} else {%>
-                                    <td><center><input type="submit" class="button button1" id="btnSuscribirse" value="Debe Suscribirse"></center></td>        
-                                        <%}%>
+                                    <td><center><input onclick="Descarga('<%=((DtTemaLocal) temas.get(i)).getDirectorio()%>')" class="button buttton1" id="btnDescargar" value="Descargar"></center></td>
+                                        <%} else { %>
+                                    <td><center><text>Sin Suscripcion</text></center></td> 
+                                        <% }  %>
                                     </tr>
-
-                                    <% }%>
+                                    <% } else { %>
+                                    <td><center><text>Debe Iniciar Sesion</text></center></td> 
+                                        <% }
+                                            }%>
                                 </table>
                             </div>
                         </div>

@@ -48,32 +48,33 @@ public class SContenido extends HttpServlet {
             String accion = request.getParameter("accion");
 
             switch (accion) {
-                case "subirImagen":
-                    String archivourl = "C:\\Users\\brian\\Documents\\NetBeansProjects\\Tarea1\\Recursos\\Imagenes\\Albumes";
-
-                    DiskFileItemFactory factory = new DiskFileItemFactory();
-
-                    factory.setSizeThreshold(1024);
-
-                    factory.setRepository(new File(archivourl));
-
-                    ServletFileUpload upload = new ServletFileUpload(factory);
-
-                    try {
-
-                        List<FileItem> partes = upload.parseRequest(request);
-
-                        for (FileItem items : partes) {
-                            File file = new File(archivourl, items.getName());
-                            items.write(file);
-                        }
-
-                        System.out.println("<h2>ARCHIVO CORRECTAMENTE SUBIDO.....</h2>" + "\n\n" + "<a href='index.jsp'>VOVLER AL MENU</a>");
-
-                    } catch (Exception e) {
-                        System.out.println("Exception: " + e.getMessage() + "");
-                    }
-                    break;
+            case "subirImagen":
+            String archivourl = "C:\\Users\\luis\\Documents\\NetBeansProjects\\ProgApliTarea1\\Recursos\\Imagenes\\Albumes";
+            
+            DiskFileItemFactory factory = new DiskFileItemFactory();
+            
+            factory.setSizeThreshold(1024);
+            
+            factory.setRepository(new File(archivourl));
+            
+            ServletFileUpload upload = new ServletFileUpload(factory);
+            
+            
+            try{
+                
+                List<FileItem> partes = upload.parseRequest(request);
+                
+                for(FileItem items: partes){
+                    File file = new File(archivourl,items.getName());
+                    items.write(file);
+                }
+                
+                System.out.println("<h2>ARCHIVO CORRECTAMENTE SUBIDO.....</h2>"+"\n\n"+"<a href='index.jsp'>VOVLER AL MENU</a>");
+                
+            }catch(Exception e){
+                System.out.println("Exception: "+e.getMessage()+"");
+            } 
+                break;
                 case "AltaAlbum":
                     ArrayList<DtGenero> generos = ((DtGenero) iContenido.listarGenero()).getSubGeneros();
                     request.setAttribute("Generos", generos);

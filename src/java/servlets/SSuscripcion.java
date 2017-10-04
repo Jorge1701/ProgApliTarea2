@@ -8,12 +8,15 @@ package servlets;
 import Logica.DtArtista;
 import Logica.DtUsuario;
 import Logica.DtCliente;
+import Logica.DtFecha;
 import Logica.DtSuscripcion;
 import Logica.Fabrica;
 import Logica.IUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -56,7 +59,7 @@ public class SSuscripcion extends HttpServlet {
                     request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
                 } else {
                     request.setAttribute("suscripcion", ((DtCliente) usr).getSuscripcion());
-                    request.setAttribute("suscripciones",(ArrayList<DtSuscripcion>) ((DtCliente) usr).getSuscripciones());
+                    request.setAttribute("suscripciones", (ArrayList<DtSuscripcion>) ((DtCliente) usr).getSuscripciones());
                     request.getRequestDispatcher("vistas/estado_sus.jsp").forward(request, response);
                     //this.getServletContext().getRequestDispatcher("/vistas/estado_sus.jsp").forward(request, response);
                 }
@@ -79,7 +82,7 @@ public class SSuscripcion extends HttpServlet {
             }
             DtUsuario usuario = (DtUsuario) request.getSession().getAttribute("usuario");
             if (((DtCliente) usuario).getSuscripcion() != null) {
-               request.setAttribute("mensaje_error", "Ya posee una suscripción");
+                request.setAttribute("mensaje_error", "Ya posee una suscripción");
                 request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
             }
             String nickname = usuario.getNickname();
@@ -91,6 +94,17 @@ public class SSuscripcion extends HttpServlet {
                 getServletContext().getRequestDispatcher("/SInicio").forward(request, response);
             }
 
+        } else if (request.getParameter("accion").equals("cancelar")) {
+
+           DtUsuario usuario = (DtUsuario) request.getSession().getAttribute("usuario");
+            
+            Calendar hoy = new GregorianCalendar();
+
+            if (iUsuario.actualizarSuscripcion(usuario.getNickname(), "Cancelada", new DtFecha(hoy.get(Calendar.DATE), (hoy.get(Calendar.MONTH) + 1), hoy.get(Calendar.YEAR)))) {
+                DtUsuario usr = iUsuario.getDataUsuario(usuario.getNickname());
+                request.getSession().setAttribute("usuario", usr);
+               getServletContext().getRequestDispatcher("/SSuscripcion").forward(request, response);
+            }
         }
 
     }
