@@ -103,7 +103,7 @@ public class SSuscripcion extends HttpServlet {
             if (iUsuario.actualizarSuscripcion(usuario.getNickname(), "Cancelada", new DtFecha(hoy.get(Calendar.DATE), (hoy.get(Calendar.MONTH) + 1), hoy.get(Calendar.YEAR)))) {
                 DtUsuario usr = iUsuario.getDataUsuario(usuario.getNickname());
                 request.getSession().setAttribute("usuario", usr);
-               //getServletContext().getRequestDispatcher("/SSuscripcion").forward(request, response);
+               getServletContext().getRequestDispatcher("/SSuscripcion?accion=redir1").forward(request, response);
             }
         }
 

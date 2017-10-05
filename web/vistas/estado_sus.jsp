@@ -7,6 +7,7 @@
 <html>
     <head>
         <jsp:include page="include.html"/>
+        <link rel="stylesheet" type="text/css" href="estilos/busqueda.css">
         <% //DtUsuario usr = (DtUsuario) request.getSession().getAttribute("usuario");%>
         <% //if (!((DtCliente) usr).getTipo().equals("Cliente")) {
             //request.setAttribute("mensaje_error", "Esta página está reservada para nuestros clientes");
@@ -27,65 +28,59 @@
                 <!-- Contenido -->
                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
 
-                    <!-- Relleno a la izquiera -->
-                    <!-- <div class="col-lg-3 col-md-3 col-sm-2 col-xs-1"></div> -->
+                    <div class="panel panel-default">
+
+                        <table class="table-hover">
+
+                            <tr>
+                                <th>Estado</th>
+                                <th>Cuota</th>
+                                <th>Monto</th>
+                                <th>Fecha</th>
+                                <th>Vencimiento</th>
+                                <th>Accion</th>
+                            </tr>
 
 
-                    <div class="col-lg-6 col-md-6 col-sm-8 col-xs-10" style="background-color: transparent">
 
-                        <div class="table-responsive"> 
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr class="bg-primary">
-                                        <th>Estado</th>
-                                        <th>Cuota</th>
-                                        <th>Monto</th>
-                                        <th>Fecha</th>
-                                        <th>Vencimiento</th>
-                                        <th>Accion</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    <% ArrayList<DtSuscripcion> sus = (ArrayList<DtSuscripcion>) request.getAttribute("suscripciones"); %>
-                                    <%  for (DtSuscripcion dts : sus) {  %>
+                            <% ArrayList<DtSuscripcion> sus = (ArrayList<DtSuscripcion>) request.getAttribute("suscripciones"); %>
+                            <%  for (DtSuscripcion dts : sus) {  %>
 
 
-                                    <tr>
-                                        <td class="bg-primary"><%= dts.getEstado()%></td>
-                                        <td class="bg-primary"><%= dts.getCuota()%></td>
-                                        <td class="bg-primary"><%= dts.getMonto()%></td>
-                                        <td class="bg-primary"><%= dts.getFecha()%></td>
-                                        <td class="bg-primary"><%= dts.getFechaVenc()%></td>
-                                        <td class="bg-primary"><input type="hidden" class="btn btn-primary btn-xs" id="btnOculto" value="Oculto"/></td>
-                                    </tr>
+                            <tr>
+                                <td><%= dts.getEstado()%></td>
+                                <td><%= dts.getCuota()%></td>
+                                <td><%= dts.getMonto()%></td>
+                                <td><%= dts.getFecha()%></td>
+                                <td><%= dts.getFechaVenc()%></td>
+                                <td><input type="hidden" class="btn btn-primary btn-xs" id="btnOculto" value="Oculto"/></td>
+                            </tr>
 
-                                    <% }%>
+                            <% }%>
 
-                                    <% DtSuscripcion activa = (DtSuscripcion) request.getAttribute("suscripcion");%>
-                                    <% if(activa != null) { %>
-                                    <tr class="bg-primary">
-                                        <td class="bg-primary"><%= activa.getEstado()%></td>
-                                        <td class="bg-primary"><%= activa.getCuota()%></td>
-                                        <td class="bg-primary"><%= activa.getMonto()%></td>
-                                        <td class="bg-primary"><%= activa.getFecha()%></td>
-                                        <td class="bg-primary"><%= activa.getFechaVenc()%></td> 
-                                        <td class="bg-primary">
-                                        <form id="formulario">    
-                                         <% if(activa.getEstado().equals("Pendiente")){ %>
-                                            <input type="button" class="btn btn-primary btn-xs" id="btnCancelar" value="Cancelar"/></td>
-                                        <% }else{ %>
-                                        <input type="hidden" class="btn btn-primary btn-xs" id="btnOculto" value="Oculto"/>
-                                        <% } %>
-                                        </form>
-                                         <% } %>
-                                </tbody>
-                            </table>
-                        </div>
+                            <% DtSuscripcion activa = (DtSuscripcion) request.getAttribute("suscripcion");%>
+                            <% if(activa
 
+                                    
+                                        != null) { %>
+                            <tr>
+                                <td><%= activa.getEstado()%></td>
+                                <td><%= activa.getCuota()%></td>
+                                <td><%= activa.getMonto()%></td>
+                                <td><%= activa.getFecha()%></td>
+                                <td><%= activa.getFechaVenc()%></td> 
+                                <td>
+                                    <form id="formulario">    
+                                        <% if (activa.getEstado().equals("Pendiente")) { %>
+                                    <input type="button" class="btn btn-primary btn-xs" id="btnCancelar" value="Cancelar"/></td>
+                                    <% } else { %>
+                            <input type="hidden" class="btn btn-primary btn-xs" id="btnOculto" value="Oculto"/>
+                            <% } %>
+                            </form>
+                            <% }%>
+
+                        </table>
                     </div>
-                    <!-- Relleno a la derecha -->
-                    <!-- <div class="col-lg-3 col-md-3 col-sm-2 col-xs-1"></div> -->
 
                 </div>
 
@@ -95,11 +90,12 @@
                 </div>
             </div>
 
+
             <!-- Footer -->
             <jsp:include page = "footer.jsp"/>
         </div>
-    </div>
-    <script src="scripts/suscripcion.js" type="text/javascript"></script>
-</body>
+
+        <script src="scripts/suscripcion.js" type="text/javascript"></script>
+    </body>
 </html>
 

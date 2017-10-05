@@ -1,6 +1,7 @@
 package servlets;
 
 import Logica.DtCliente;
+import Logica.DtSuscripcion;
 import Logica.DtUsuario;
 import Logica.Fabrica;
 import Logica.IContenido;
@@ -47,8 +48,26 @@ public class SInicio extends HttpServlet {
         request.setAttribute("artistas", iUsuario.listarArtistas());
         request.setAttribute("clientes", iUsuario.listarClientes());
         if (request.getSession().getAttribute("usuario") != null) {
+           
             DtUsuario u = (DtUsuario) request.getSession().getAttribute("usuario");
             
+            /*esto agregue */
+            
+            DtSuscripcion s = ((DtCliente)u).getSuscripcion();
+            
+            if(s != null){
+            
+                if(s.getEstado().equals("Vigente")){
+                    
+                   iUsuario.chequearSuscripcion(u.getNickname());
+                   DtUsuario usr = iUsuario.getDataUsuario(u.getNickname());
+                   request.setAttribute("usuario", usr);
+                   request.setAttribute("suscripcion", ((DtCliente) usr).getSuscripcion());
+                
+                }
+                
+            }
+            // hasta aca
             if (u instanceof DtCliente) {
                 request.setAttribute("seguidos", iUsuario.listarSeguidosDe(u.getNickname()));
             }
