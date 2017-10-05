@@ -50,12 +50,8 @@
                             %>
                             <li <%= (pestania.equals("Generos") ? " class=\"active\"" : "")%>><a data-toggle="tab" href="#generos"><h3 class="pestania">Generos</h3></a></li>
                             <li <%= (pestania.equals("Artistas") ? " class=\"active\"" : "")%>><a data-toggle="tab" href="#artistas"><h3 class="pestania">Artistas</h3></a></li>
-                                <%
-                                    // Solo si hay un usario logueado se muestra la pestania clientes
-                                    if (request.getSession().getAttribute("usuario") != null) {
-                                %>
-                            <li <%= (pestania.equals("Clientes") && request.getSession().getAttribute("usuario") != null ? " class=\"active\"" : "")%>><a data-toggle="tab" href="#clientes"><h3 class="pestania">Clientes</h3></a></li>
-                                <%}%>
+                            <li <%= (pestania.equals("Clientes") ? " class=\"active\"" : "")%>><a data-toggle="tab" href="#clientes"><h3 class="pestania">Clientes</h3></a></li>
+
                         </ul>
 
                         <div class="tab-content">
@@ -95,6 +91,30 @@
 
                             <!-- Artistas -->
                             <div id="artistas" class ="tab-pane fade <%= (pestania.equals("Artistas") ? " in active" : "")%>">
+                                <!-- Buscador -->
+                                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12" style="padding-top: 23px"></div>
+
+                                <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12" style="padding-top: 23px">
+                                    <form action="/Tarea2/SInicio" method="GET">
+                                        <div class="input-group input-group-lg">
+                                            <input type="text" style="border-color: black" name="busqueda" class="form-control" placeholder="Buscar"
+
+                                                   <%
+                                                       if (request.getAttribute("busquedaArtista") != null) {
+                                                           out.print("value=\"" + request.getAttribute("busquedaArtista") + "\"");
+                                                       }
+                                                   %>
+                                                   >
+                                            <input hidden type="text" name="pestania" value="Artistas">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-default" type="submit" style="border-color: black"><span class="glyphicon glyphicon-search"></span></button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-top: 23px"></div>
+
                                 <%
                                     // Se obtienen los artistas
                                     ArrayList<DtUsuario> artistas = (ArrayList<DtUsuario>) request.getAttribute("artistas");
@@ -113,8 +133,15 @@
                                     }
 
                                     if (artistas.size() == 0) {
-                                        // Si no hay artistas se muestra un mensaje
-                                        out.print("<div class=\"panel panel-default\"><h1>No hay artistas</h1></div>");
+                                        //Si no hay resultados en la busqueda se muestra un mensaje
+                                        if (request.getAttribute("busquedaArtista") != null) {
+                                            out.print("<div class=\"row\"><div style=\"margin-top: 20px\"></div></div>");
+                                            out.print("<div class=\"panel panel-default\"><h1>No hay resultados para \"" + request.getAttribute("busquedaArtista").toString() + "\" </h1></div>");
+                                        } else {
+                                            // Pero si no hay artistas se muestra otro mensaje
+                                            out.print("<div class=\"row\"><div style=\"margin-top: 20px\"></div></div>");
+                                            out.print("<div class=\"panel panel-default\"><h1>No hay artistas</h1></div>");
+                                        }
                                     } else {
                                         // Separador al comienzo para dejar un margen
                                         out.print("<div class=\"row\"><div style=\"margin-top: 20px\"></div></div>");
@@ -188,7 +215,31 @@
                             </div>
 
                             <!-- Cientes -->
-                            <div id="clientes" class ="tab-pane fade <%= (pestania.equals("Clientes") && request.getSession().getAttribute("usuario") != null ? " in active" : "")%>">
+                            <div id="clientes" class ="tab-pane fade <%= (pestania.equals("Clientes") ? " in active" : "")%>">
+
+                                <!-- Buscador -->
+                                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12" style="padding-top: 23px"></div>
+
+                                <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12" style="padding-top: 23px">
+                                    <form action="/Tarea2/SInicio" method="GET">
+                                        <div class="input-group input-group-lg">
+                                            <input type="text" style="border-color: black" name="busqueda" class="form-control" placeholder="Buscar"
+
+                                                   <%
+                                                       if (request.getAttribute("busquedaCliente") != null) {
+                                                           out.print("value=\"" + request.getAttribute("busquedaCliente") + "\"");
+                                                       }
+                                                   %>
+                                                   >
+                                            <input hidden type="text" name="pestania" value="Clientes">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-default" type="submit" style="border-color: black"><span class="glyphicon glyphicon-search"></span></button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-top: 23px"></div>
 
                                 <%
                                     // Se obtienen los clientes
@@ -208,8 +259,15 @@
                                     }
 
                                     if (clientes.size() == 0) {
-                                        // Si no hay clientes se muestra un mensaje
-                                        out.print("<div class=\"panel panel-default\"><h1>No hay clientes</h1></div>");
+                                        //Si no hay resultados en la busqueda se muestra un mensaje
+                                        if (request.getAttribute("busquedaCliente") != null) {
+                                            out.print("<div class=\"row\"><div style=\"margin-top: 20px\"></div></div>");
+                                            out.print("<div class=\"panel panel-default\"><h1>No hay resultados para \"" + request.getAttribute("busquedaCliente").toString() + "\" </h1></div>");
+                                        } else {
+                                            // Pero si no hay clientes se muestra otro mensaje
+                                            out.print("<div class=\"row\"><div style=\"margin-top: 20px\"></div></div>");
+                                            out.print("<div class=\"panel panel-default\"><h1>No hay clientes</h1></div>");
+                                        }
                                     } else {
                                         // Separador al comienzo para dejar un margen
                                         out.print("<div class=\"row\"><div style=\"margin-top: 20px\"></div></div>");
