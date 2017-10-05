@@ -40,20 +40,20 @@
                     %>
 
                     <ul class="nav nav-tabs" >
-                        <li <%= (pestania.equals("") ? " class=\"active\"" : "")%>><a data-toggle="tab" href="#home" style="color: black">Informacion Basica</a></li>
-                        <li <%= (pestania.equals("Listas") ? " class=\"active\"" : "")%>><a data-toggle="tab" href="#menu1" style="color: black">Listas</a></li>
+                        <li <%= (pestania.equals("") ? " class=\"active\"" : "")%>><a data-toggle="tab" href="#home" style="color: black"><h5 class="pestania">Informacion Basica</h5></a></li>
+                        <li <%= (pestania.equals("Listas") ? " class=\"active\"" : "")%>><a data-toggle="tab" href="#menu1" style="color: black"><h5 class="pestania">Listas</h5></a></li>
                             <% if (session.getAttribute("usuario") != null) {%>
-                        <li><a data-toggle="tab" href="#menu2" style="color: black">Seguidores</a></li>
-                        <li><a data-toggle="tab" href="#menu3" style="color: black">Album Favoritos</a></li>
-                        <li><a data-toggle="tab" href="#menu4" style="color: black">Listas Favoritos</a></li>
-                        <li><a data-toggle="tab" href="#menu5" style="color: black">Temas Favoritos</a></li>
+                        <li><a data-toggle="tab" href="#menu2" style="color: black"><h5 class="pestania">Seguidores</h5></a></li>
+                        <li><a data-toggle="tab" href="#menu3" style="color: black"><h5 class="pestania">Album Favoritos</h5></a></li>
+                        <li><a data-toggle="tab" href="#menu4" style="color: black"><h5 class="pestania">Listas Favoritos</h5></a></li>
+                        <li><a data-toggle="tab" href="#menu5" style="color: black"><h5 class="pestania">Temas Favoritos</h5></a></li>
                             <%}%>
                             <%if (dtCli.getSuscripcion() != null && dtCli.getSuscripcion().getEstado() != null && dtCli.getSuscripcion().getEstado().equals("Vigente")) { %>
                         <li><a data-toggle="tab" href="#menu6" style="color: black">Sigue</a></li>
                             <%}%> 
                     </ul>
 
-                    <div class="tab-content" style="color: white">
+                    <div class="tab-content panel panel-default">
                         <div id="home" class="tab-pane fade <%= (pestania.equals("") ? " in active" : "")%>">
                             <div class="panel-body">
                                 <div class="row">
@@ -70,7 +70,7 @@
 
                                             <!-- /input-group -->
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6" >
                                             <% if (session.getAttribute(
                                                         "usuario") != null) {%>
                                             <h4 style="color:black;"><%= dtPCliente.getInfo().getNombre()%>  <%= dtPCliente.getInfo().getApellido()%> </h4></span>
@@ -282,7 +282,7 @@
                             if (dtCli.getSuscripcion() != null && dtCli.getSuscripcion().getEstado() != null && dtCli.getSuscripcion().getEstado().equals("Vigente")) {
                         %>                    
                         <div id="menu6" class="tab-pane fade">
-                            <h3>Temas Favoritos</h3>
+                            <h3>Sigue</h3>
                             <div class="panel-body">
                                 <div class="row">
                                     <div class=" col-md-9 col-lg-9 "> 
