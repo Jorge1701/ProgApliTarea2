@@ -2,16 +2,15 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <jsp:include page="include.html"/>
+       
         <jsp:include page="../scripts/lateral.html"/>
         
     </head>
 
     <body> 
-        
         <div class="row">
             <div class="text-center" style="margin-bottom: 15px">
-                <img id="imgAlbumTema" src="/Tarea2/SImagen?album=albumDefault.png" width="150" height="150">
+                <div   align="center">    <img id="imgAlbumTema" src="/Tarea2/SImagen?album=albumDefault.png" width="150" height="150" class="img-circle img-responsive"></div>
             </div>
         </div>
 
