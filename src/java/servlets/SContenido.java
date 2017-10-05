@@ -4,6 +4,7 @@ import Logica.DtAlbumContenido;
 import Logica.DtGenero;
 import Logica.DtCliente;
 import Logica.DtLista;
+import Logica.DtListaParticular;
 import Logica.DtUsuario;
 import Logica.Fabrica;
 import Logica.IContenido;
@@ -41,6 +42,10 @@ public class SContenido extends HttpServlet {
     
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String ruta = getServletContext().getRealPath("/");
+        String[] parte = ruta.split("Tarea2");
+        String tarea1 = parte[0] + "Tarea1" + File.separator;
+
         if (request.getParameter("accion") == null) {
             request.setAttribute("mensaje_error", "Falta una accion");
             request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
@@ -49,7 +54,7 @@ public class SContenido extends HttpServlet {
 
             switch (accion) {
                 case "subirImagen":
-                    String archivourl = "C:\\Users\\luis\\Documents\\NetBeansProjects\\ProgApliTarea1\\Recursos\\Imagenes\\Albumes";
+                    String archivourl = tarea1 + "Recursos\\Imagenes\\Albumes";
 
                     DiskFileItemFactory factory = new DiskFileItemFactory();
 
@@ -170,6 +175,20 @@ public class SContenido extends HttpServlet {
                             if (lEncontrada == null) {
                                 request.setAttribute("mensaje_error", "La lista no existe");
                                 request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                            } else if (lEncontrada instanceof DtListaParticular && ((DtListaParticular) lEncontrada).isPrivada()) {
+                                if (request.getSession().getAttribute("usuario") == null) {
+                                    request.setAttribute("mensaje_error", "La lista es privada");
+                                    request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                                }
+                                DtUsuario usuario = (DtUsuario) request.getSession().getAttribute("usuario");
+                                if (!((DtListaParticular) lEncontrada).getNickDuenio().equals(usuario.getNickname())) {
+                                    request.setAttribute("mensaje_error", "La lista es privada");
+                                    request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                                } else {
+                                    request.setAttribute("lista", lEncontrada);
+                                    request.getRequestDispatcher("vistas/consultar_lista.jsp").forward(request, response);
+                                }
+
                             } else {
                                 request.setAttribute("lista", lEncontrada);
                                 request.getRequestDispatcher("vistas/consultar_lista.jsp").forward(request, response);
@@ -182,6 +201,7 @@ public class SContenido extends HttpServlet {
                     }
 
                     break;
+
                 case "publicarLista":
                     DtUsuario usuario = (DtUsuario) request.getSession().getAttribute("usuario");
                     if (usuario != null) {
@@ -197,7 +217,7 @@ public class SContenido extends HttpServlet {
                                     request.setAttribute("nickUs", usuario.getNickname());
                                     request.getRequestDispatcher("/SConsultarPerfil").forward(request, response);
                                 } catch (UnsupportedOperationException e) {
-                                    request.setAttribute("mensaje_error", e.getMessage());
+                                    request.setAttribute("mensaje_error", "No existe la lista '" + nomLista + "' en el sistema");
                                     request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
                                 }
 
