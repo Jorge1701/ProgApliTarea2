@@ -31,9 +31,9 @@
                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
 
                     <ul class="nav nav-tabs">
-                        <li class="active"><a data-toggle="tab" href="#home" style="color: black"><h5 class="pestania">Informacion Basica</h5></a></li>
-                        <li><a data-toggle="tab" href="#menu1" style="color: black"><h5 class="pestania">Albumes Publicados</h5></a></li>
-                        <li><a data-toggle="tab" href="#menu2" style="color: black"><h5 class="pestania" >Seguidores</h5></a></li>                       
+                        <li class="active"><a data-toggle="tab" href="#home" style="color: black"><h5 class="pestaniaP">Informacion Basica</h5></a></li>
+                        <li><a data-toggle="tab" href="#menu1" style="color: black"><h5 class="pestaniaP">Albumes Publicados</h5></a></li>
+                        <li><a data-toggle="tab" href="#menu2" style="color: black"><h5 class="pestaniaP" >Seguidores</h5></a></li>                       
 
 
                     </ul>
