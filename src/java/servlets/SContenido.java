@@ -48,33 +48,32 @@ public class SContenido extends HttpServlet {
             String accion = request.getParameter("accion");
 
             switch (accion) {
-            case "subirImagen":
-            String archivourl = "C:\\Users\\luis\\Documents\\NetBeansProjects\\ProgApliTarea1\\Recursos\\Imagenes\\Albumes";
-            
-            DiskFileItemFactory factory = new DiskFileItemFactory();
-            
-            factory.setSizeThreshold(1024);
-            
-            factory.setRepository(new File(archivourl));
-            
-            ServletFileUpload upload = new ServletFileUpload(factory);
-            
-            
-            try{
-                
-                List<FileItem> partes = upload.parseRequest(request);
-                
-                for(FileItem items: partes){
-                    File file = new File(archivourl,items.getName());
-                    items.write(file);
-                }
-                
-                System.out.println("<h2>ARCHIVO CORRECTAMENTE SUBIDO.....</h2>"+"\n\n"+"<a href='index.jsp'>VOVLER AL MENU</a>");
-                
-            }catch(Exception e){
-                System.out.println("Exception: "+e.getMessage()+"");
-            } 
-                break;
+                case "subirImagen":
+                    String archivourl = "C:\\Users\\luis\\Documents\\NetBeansProjects\\ProgApliTarea1\\Recursos\\Imagenes\\Albumes";
+
+                    DiskFileItemFactory factory = new DiskFileItemFactory();
+
+                    factory.setSizeThreshold(1024);
+
+                    factory.setRepository(new File(archivourl));
+
+                    ServletFileUpload upload = new ServletFileUpload(factory);
+
+                    try {
+
+                        List<FileItem> partes = upload.parseRequest(request);
+
+                        for (FileItem items : partes) {
+                            File file = new File(archivourl, items.getName());
+                            items.write(file);
+                        }
+
+                        System.out.println("<h2>ARCHIVO CORRECTAMENTE SUBIDO.....</h2>" + "\n\n" + "<a href='index.jsp'>VOVLER AL MENU</a>");
+
+                    } catch (Exception e) {
+                        System.out.println("Exception: " + e.getMessage() + "");
+                    }
+                    break;
                 case "AltaAlbum":
                     ArrayList<DtGenero> generos = ((DtGenero) iContenido.listarGenero()).getSubGeneros();
                     request.setAttribute("Generos", generos);
@@ -184,25 +183,36 @@ public class SContenido extends HttpServlet {
 
                     break;
                 case "publicarLista":
-                    if (request.getParameter("nickCliente") == null || request.getParameter("nomLista") == null) {
-                        request.setAttribute("mensaje_error", "Faltan parámetros");
-                        request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
-                    } else {
-                        String nickCliente = request.getParameter("nickCliente");
-                        if (iUsuario.getDataUsuario(nickCliente) != null) {
+                    DtUsuario usuario = (DtUsuario) request.getSession().getAttribute("usuario");
+                    if (usuario != null) {
+                        if (iUsuario.getDataUsuario(usuario.getNickname()) != null) {
                             String nomLista = request.getParameter("nomLista");
-                            iContenido.publicarLista(nickCliente, nomLista);
-                            request.setAttribute("nickUs", nickCliente);
-                            request.getRequestDispatcher("/SConsultarPerfil").forward(request, response);
+                            if (nomLista == null) {
+                                request.setAttribute("mensaje_error", "Faltan parámetros");
+                                request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                            } else {
+                                try {
+                                    iContenido.publicarLista(usuario.getNickname(), nomLista);
+                                    request.setAttribute("pestania", "Listas");
+                                    request.setAttribute("nickUs", usuario.getNickname());
+                                    request.getRequestDispatcher("/SConsultarPerfil").forward(request, response);
+                                } catch (UnsupportedOperationException e) {
+                                    request.setAttribute("mensaje_error", e.getMessage());
+                                    request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                                }
 
+                            }
                         } else {
                             request.setAttribute("mensaje_error", "El cliente no existe");
                             request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
                         }
+
+                    } else {
+                        request.setAttribute("mensaje_error", "Debe de iniciar sesion para utilizar esta opcion");
+                        request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
                     }
 
                     break;
-
                 default:
                     request.setAttribute("mensaje_error", "Accion desconocida");
                     request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
