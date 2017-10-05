@@ -100,16 +100,14 @@
                                         %>
                                     <td><center><input onclick="Descarga('<%=((DtTemaLocal) temas.get(i)).getDirectorio()%>')" class="button buttton1" id="btnDescargar" value="Descargar"></center></td>
                                         <% } else {%>
-                                                <td><center><text>Tema Remoto</text></center></td> 
-                                                <%}
-                                            
+                                    <td><center><text>Tema Remoto</text></center></td> 
+                                        <%}
                                         } else { %>
-                                    <td><center><text>Sin Suscripcion</text></center></td> 
-                                        <% }
-                                        %>
+                                    <td><center>Sin Suscripcion</center></td> 
+                                        <% } %>
                                     </tr>
                                     <%   }
-                                        }else { %>
+                                    } else { %>
                                     <td><center><text>Debe Iniciar Sesion</text></center></td> 
                                         <% }
                                             }
