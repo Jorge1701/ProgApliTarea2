@@ -57,3 +57,26 @@ $("#btnCancelar").click(function () {
         }
     });
 });
+
+//renovar
+
+$("#btnRenovar").click(function () {
+
+    $.ajax({
+        type: "POST",
+        url: "/Tarea2/SSuscripcion",
+        data: {
+            "Estado": $("#Estado").val().toString(),
+            "Cuota": $("#Cuota").val().toString(),
+            "Fecha": $("#Fecha").val().toString(),
+           "accion": "renovar"},
+        success: function (data) {
+            alert("Su suscripción fue renovada con éxito");
+            window.location = "/Tarea2/SSuscripcion?accion=redir1";
+        },
+
+        error: function () {
+            alert("Ha ocurrido un error al procesar su solicitud");
+        }
+    });
+});
