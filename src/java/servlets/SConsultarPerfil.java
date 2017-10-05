@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlets;
 
 import Logica.DtArtista;
@@ -43,7 +38,13 @@ public class SConsultarPerfil extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String nickUs = request.getParameter("nickUs");
+        String nickUs;
+        if(request.getParameter("nickUs") != null){
+            nickUs = request.getParameter("nickUs");
+        }else{
+            nickUs = request.getAttribute("nickUs").toString();
+        }
+        
         DtUsuario DtUs = iUsuario.getDataUsuario(nickUs);
         if (DtUs != null) {
             log(DtUs.getNickname());

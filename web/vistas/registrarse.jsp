@@ -58,6 +58,13 @@
                             </row>
 
                             <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
+                                <div  id="formatoIncorrecto" hidden>
+                                    <span class="glyphicon glyphicon-alert" style="color: red"></span>
+                                    <span style="color: red; padding-left: 5px">El formato ingresado es incorrecto.</span>
+                                </div>
+                            </row>
+
+                            <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
                                 <div  id="emailAlerta" hidden>
                                     <span class="glyphicon glyphicon-alert" style="color: red"></span>
                                     <span style="color: red; padding-left: 5px" >Email ya en uso.</span>
