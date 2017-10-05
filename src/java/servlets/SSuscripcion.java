@@ -96,17 +96,35 @@ public class SSuscripcion extends HttpServlet {
 
         } else if (request.getParameter("accion").equals("cancelar")) {
 
-           DtUsuario usuario = (DtUsuario) request.getSession().getAttribute("usuario");
-            
+            DtUsuario usuario = (DtUsuario) request.getSession().getAttribute("usuario");
+
             Calendar hoy = new GregorianCalendar();
 
             if (iUsuario.actualizarSuscripcion(usuario.getNickname(), "Cancelada", new DtFecha(hoy.get(Calendar.DATE), (hoy.get(Calendar.MONTH) + 1), hoy.get(Calendar.YEAR)))) {
                 DtUsuario usr = iUsuario.getDataUsuario(usuario.getNickname());
                 request.getSession().setAttribute("usuario", usr);
-               getServletContext().getRequestDispatcher("/SSuscripcion?accion=redir1").forward(request, response);
+                getServletContext().getRequestDispatcher("/SSuscripcion?accion=redir1").forward(request, response);
             }
-        }
 
+        } else if (request.getParameter("accion").equals("renovar")) {
+
+            DtUsuario usuario = (DtUsuario) request.getSession().getAttribute("usuario");
+
+            String estado = request.getParameter("Estado");
+            String cuota = request.getParameter("Cuota");
+            String fecha = request.getParameter("Fecha");
+
+            Calendar dia = new GregorianCalendar();
+            DtFecha hoy = new DtFecha(dia.get(Calendar.DATE), (dia.get(Calendar.MONTH) + 1), dia.get(Calendar.YEAR));
+            if (iUsuario.renovarSuscripcion(usuario.getNickname(), estado, cuota, fecha, hoy)) {
+                DtUsuario usr = iUsuario.getDataUsuario(usuario.getNickname());
+                DtSuscripcion s = ((DtCliente)usr).getSuscripcion();
+                request.getSession().setAttribute("usuario", usr);
+                request.getSession().setAttribute("suscripcion", s);
+                getServletContext().getRequestDispatcher("/SSuscripcion?accion=redir1").forward(request, response);
+            }
+
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
