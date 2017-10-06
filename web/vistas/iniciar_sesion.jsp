@@ -48,7 +48,7 @@
                                 <% }%>
 
                                 <br>
-                                <input class="btn btn-default" id="btnIniciarSesion" value="Iniciar Sesion"/>
+                                <input type="button" class="btn btn-default" id="btnIniciarSesion" value="Iniciar Sesion"/>
                             </form>
                         </div>
                     </div>

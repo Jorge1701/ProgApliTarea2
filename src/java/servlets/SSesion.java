@@ -36,8 +36,31 @@ public class SSesion extends HttpServlet {
         String accion = request.getParameter("accion");
 
         switch (accion) {
+            case "cerrarSesion":
+                if (request.getSession().getAttribute("usuario") == null) {
+                    request.setAttribute("mensaje_error", "Debe haber un usuario logueado");
+                    request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                    return;
+                }
+
+                request.getSession().removeAttribute("usuario");
+                request.getSession().removeAttribute("suscripcion");
+                request.getSession().removeAttribute("suscripciones");
+                request.getRequestDispatcher("SInicio").forward(request, response);
+
+                break;
             case "redirigir":
                 request.getRequestDispatcher("vistas/iniciar_sesion.jsp").forward(request, response);
+
+                break;
+            case "error":
+                if (request.getParameter("mensaje") == null) {
+                    request.setAttribute("error", "Error desconocido");
+                    request.getRequestDispatcher("vistas/iniciar_sesion.jsp").forward(request, response);
+                } else {
+                    request.setAttribute("error", request.getParameter("mensaje"));
+                    request.getRequestDispatcher("vistas/iniciar_sesion.jsp").forward(request, response);
+                }
 
                 break;
             default:
