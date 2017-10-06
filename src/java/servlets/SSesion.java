@@ -107,12 +107,10 @@ public class SSesion extends HttpServlet {
                     response.setContentType("text/plain");
                     response.setCharacterEncoding("UTF-8");
                     response.getWriter().write("correcto");
-                    request.getRequestDispatcher("/SInicio").forward(request, response);
                 } else {
                     response.setContentType("text/plain");
                     response.setCharacterEncoding("UTF-8");
                     response.getWriter().write(nickname);
-                    request.getRequestDispatcher("vistas/iniciar_sesion.jsp").forward(request, response);
                 }
 
                 break;

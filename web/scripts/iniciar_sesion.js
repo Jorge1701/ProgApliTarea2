@@ -17,8 +17,8 @@ $("#btnIniciarSesion").click(function () {
         success: function (data) {
             if (data.toString() === "correcto") {
                 window.location = "/Tarea2/SInicio";
-            }else{
-                window.location = "/Tarea2/SSesion?accion=error&mensaje="+data.toString();
+            } else {
+                window.location = "/Tarea2/SSesion?accion=error&mensaje=" + data.toString();
             }
         }
 
