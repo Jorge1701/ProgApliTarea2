@@ -15,7 +15,11 @@ $("#btnIniciarSesion").click(function () {
             "contrasenia": md5($("#txtPass").val().toString())
         },
         success: function (data) {
-            window.location = "/Tarea2/SInicio";
+            if (data.toString() === "correcto") {
+                window.location = "/Tarea2/SInicio";
+            }else{
+                window.location = "/Tarea2/SSesion?accion=error&mensaje="+data.toString();
+            }
         }
 
     });

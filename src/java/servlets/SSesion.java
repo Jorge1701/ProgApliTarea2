@@ -81,9 +81,14 @@ public class SSesion extends HttpServlet {
                         request.getSession().setAttribute("suscripcion", ((DtCliente) dtu).getSuscripcion());
                         request.getSession().setAttribute("suscripciones", ((DtCliente) dtu).getSuscripciones());
                     }
-                    request.getRequestDispatcher("SInicio").forward(request, response);
+                    response.setContentType("text/plain");
+                    response.setCharacterEncoding("UTF-8");
+                    response.getWriter().write("correcto");
+                    request.getRequestDispatcher("/SInicio").forward(request, response);
                 } else {
-                    request.setAttribute("error", nickname);
+                    response.setContentType("text/plain");
+                    response.setCharacterEncoding("UTF-8");
+                    response.getWriter().write(nickname);
                     request.getRequestDispatcher("vistas/iniciar_sesion.jsp").forward(request, response);
                 }
 

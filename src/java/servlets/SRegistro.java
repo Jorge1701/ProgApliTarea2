@@ -91,31 +91,47 @@ public class SRegistro extends HttpServlet {
             String link = request.getParameter("link");
             String artista = request.getParameter("artista");
 
-            int nMes = 0;
-            if ("enero".equals(mes)) {
-                nMes = 1;
-            } else if ("febrero".equals(mes)) {
-                nMes = 2;
-            } else if ("marzo".equals(mes)) {
-                nMes = 3;
-            } else if ("abril".equals(mes)) {
-                nMes = 4;
-            } else if ("mayo".equals(mes)) {
-                nMes = 5;
-            } else if ("junio".equals(mes)) {
-                nMes = 6;
-            } else if ("julio".equals(mes)) {
-                nMes = 7;
-            } else if ("agosto".equals(mes)) {
-                nMes = 8;
-            } else if ("setiembre".equals(mes)) {
-                nMes = 9;
-            } else if ("octubre".equals(mes)) {
-                nMes = 10;
-            } else if ("noviembre".equals(mes)) {
-                nMes = 11;
-            } else if ("diciembre".equals(mes)) {
-                nMes = 12;
+            int nMes;
+            switch (mes) {
+                case "enero":
+                    nMes = 1;
+                    break;
+                case "febrero":
+                    nMes = 2;
+                    break;
+                case "marzo":
+                    nMes = 3;
+                    break;
+                case "abril":
+                    nMes = 4;
+                    break;
+                case "mayo":
+                    nMes = 5;
+                    break;
+                case "junio":
+                    nMes = 6;
+                    break;
+                case "julio":
+                    nMes = 7;
+                    break;
+                case "agosto":
+                    nMes = 8;
+                    break;
+                case "setiembre":
+                    nMes = 9;
+                    break;
+                case "octubre":
+                    nMes = 10;
+                    break;
+                case "noviembre":
+                    nMes = 11;
+                    break;
+                case "diciembre":
+                    nMes = 12;
+                    break;
+                default:
+                    nMes = 0;
+                    break;
             }
 
             DtFecha fechaNac = new DtFecha(Integer.valueOf(dia), nMes, Integer.valueOf(anio));
