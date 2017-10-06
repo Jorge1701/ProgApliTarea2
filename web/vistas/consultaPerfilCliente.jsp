@@ -13,6 +13,7 @@
     <head>
         <jsp:include page="include.html"/> 
         <jsp:include page="../scripts/busqueda.html"/>
+        <link rel="stylesheet" type="text/css" href="estilos/inicio.css">
         <title>Consulta perfil Cliente</title>
     </head>
     <body style="background-image: url('media/wallpaper2.jpg')">

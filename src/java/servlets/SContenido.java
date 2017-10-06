@@ -11,6 +11,7 @@ import Logica.IContenido;
 import Logica.IUsuario;
 import java.io.File;
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -33,14 +34,6 @@ public class SContenido extends HttpServlet {
         iContenido = Fabrica.getIControladorContenido();
     }
 
-    /*
-    Como utilizar:
-        Reemplazar los X con los valores reales
-    
-    Consultar Genero:
-        /Tarea2/SContenido?accion=consultarGenero&genero=X
-    
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String ruta = getServletContext().getRealPath("/");
         String[] parte = ruta.split("Tarea2");
@@ -113,7 +106,7 @@ public class SContenido extends HttpServlet {
 
                 case "consultarAlbum":
                     String nickArtista = request.getParameter("nickArtista");
-                    String nomAlbum = request.getParameter("nomAlbum");
+                    String nomAlbum = URLDecoder.decode(request.getParameter("nombreAlbum"), "UTF-8");
                     DtAlbumContenido dtAlbum = iUsuario.obtenerAlbumContenido(nickArtista, nomAlbum);
                     request.setAttribute("Album", dtAlbum);
                     request.getRequestDispatcher("/vistas/consultaAlbum.jsp").forward(request, response);
