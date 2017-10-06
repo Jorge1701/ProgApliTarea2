@@ -11,7 +11,7 @@ $("#btnRegistro").click(function () {
             data: {
                 "nickname": $("#txtNickname").val().toString(),
                 "email": $("#txtEmail").val().toString(),
-                "contrasenia": $("#txtContrasenia").val().toString(),
+                "contrasenia": md5($("#txtContrasenia").val().toString()),
                 "nombre": $("#txtNombre").val().toString(),
                 "apellido": $("#txtApellido").val().toString(),
                 "dia": $("#txtDia").val().toString(),
@@ -46,6 +46,7 @@ $("#txtNickname").keyup(function () {
         $("#formatoErroneo").hide();
         return correctoNickname = false;
     }
+     
     if($("#txtNickname").val().toString().indexOf("@") !== -1){
         $("#nicknameAlerta").hide();
         $("#nicknameSuccess").hide();

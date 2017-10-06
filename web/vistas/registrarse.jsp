@@ -191,6 +191,7 @@
 
         </div>
     </div>
+    <script src="scripts/md5.min.js" type="text/javascript"></script>
     <script src="scripts/altaPerfil.js" type="text/javascript"></script>
 </body>
 </html>
