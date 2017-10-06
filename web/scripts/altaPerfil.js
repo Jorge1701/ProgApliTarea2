@@ -43,6 +43,14 @@ $("#txtNickname").keyup(function () {
         $("#nicknameAlerta").hide();
         $("#nicknameSuccess").hide();
         $("#faltaNickname").show();
+        $("#formatoErroneo").hide();
+        return correctoNickname = false;
+    }
+    if($("#txtNickname").val().toString().indexOf("@") !== -1){
+        $("#nicknameAlerta").hide();
+        $("#nicknameSuccess").hide();
+        $("#faltaNickname").hide();
+        $("#formatoErroneo").show();
         return correctoNickname = false;
     }
 
@@ -57,11 +65,13 @@ $("#txtNickname").keyup(function () {
                 $("#nicknameAlerta").show();
                 $("#nicknameSuccess").hide();
                 $("#faltaNickname").hide();
+                $("#formatoErroneo").hide();
                 return correctoNickname = false;
             } else {
                 $("#nicknameAlerta").hide();
                 $("#nicknameSuccess").show();
                 $("#faltaNickname").hide();
+                $("#formatoErroneo").hide();
                 return correctoNickname = true;
             }
         },

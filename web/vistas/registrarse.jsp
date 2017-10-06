@@ -35,6 +35,13 @@
                                     <span style="color: red; padding-left: 5px">Debes de ingresar un nickname.</span>
                                 </div>
                             </row>
+                            
+                             <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
+                                <div  id="formatoErroneo" hidden>
+                                    <span class="glyphicon glyphicon-alert" style="color: red"></span>
+                                    <span style="color: red; padding-left: 5px">El nickname no puede contener "@".</span>
+                                </div>
+                            </row>
 
                             <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
                                 <div  id="nicknameAlerta" hidden>
