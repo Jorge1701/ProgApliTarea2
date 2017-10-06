@@ -1,3 +1,4 @@
+<%@page import="Logica.DtSuscripcion"%>
 <%@page import="Logica.DtCliente"%>
 <%@page import="Logica.DtArtista"%>
 <%@page import="Logica.DtUsuario"%>
@@ -177,31 +178,43 @@
                                         <%
                                             // Si hay un usuario logueado
                                             if (request.getSession().getAttribute("usuario") != null) {
-                                                DtUsuario dtu = (DtUsuario) request.getSession().getAttribute("usuario");
-                                                // Si el usuario logueado es un cliente
-                                                if (dtu instanceof DtCliente) {
-                                                    boolean siguiendo = false;
-                                                    // Si hay una lista de seguidos
-                                                    if (seguidos != null) {
-                                                        // Recorremos para ver si el usuario logueado sigue o no al usuario que estamos mostrando
-                                                        for (int j = 0; j < seguidos.size(); j++) {
-                                                            if (seguidos.get(j).getNickname().equals(a.getNickname())) {
-                                                                siguiendo = true;
-                                                                break;
+                                                if (request.getSession().getAttribute("suscripcion") != null && ((DtSuscripcion) request.getSession().getAttribute("suscripcion")).getEstado().equals("Vigente")) {
+                                                    DtUsuario dtu = (DtUsuario) request.getSession().getAttribute("usuario");
+                                                    // Si el usuario logueado es un cliente
+                                                    if (dtu instanceof DtCliente) {
+                                                        boolean siguiendo = false;
+                                                        // Si hay una lista de seguidos
+                                                        if (seguidos != null) {
+                                                            // Recorremos para ver si el usuario logueado sigue o no al usuario que estamos mostrando
+                                                            for (int j = 0; j < seguidos.size(); j++) {
+                                                                if (seguidos.get(j).getNickname().equals(a.getNickname())) {
+                                                                    siguiendo = true;
+                                                                    break;
+                                                                }
                                                             }
                                                         }
-                                                    }
 
-                                                    out.print("<br>");
+                                                        out.print("<br>");
 
-                                                    // Si no lo sigue
-                                                    if (!siguiendo) {
-                                                        out.print("<a href=\"/Tarea2/SSeguir?accion=seguir&seguidor=" + dtu.getNickname() + "&seguido=" + a.getNickname() + "\" class=\"btn btn-success btnSeguimiento\">Seguir este artista</a>");
-                                                    } else { // Si si lo sigue
-                                                        out.print("<a href=\"/Tarea2/SSeguir?accion=dejarSeguir&seguidor=" + dtu.getNickname() + "&seguido=" + a.getNickname() + "\" class=\"btn btn-danger btnSeguimiento\">Dejar de seguir</a>");
+                                                        // Si no lo sigue
+                                                        if (!siguiendo) {%>
+                                        <form action="/Tarea2/SSeguir" method="POST">
+                                            <input type="text" class="hidden" name="accion" value="seguir">
+                                            <input type="text" class="hidden" name="seguido" value="<%=a.getNickname()%>">
+                                            <input type="submit" class="btn btn-success btnSeguimiento" value="Seguir este artista">
+                                        </form>
+                                        <%} else {%>
+                                        <form action="/Tarea2/SSeguir" method="POST">
+                                            <input type="text" class="hidden" name="accion" value="dejarSeguir">
+                                            <input type="text" class="hidden" name="seguido" value="<%=a.getNickname()%>">
+                                            <input type="submit" class="btn btn-danger btnSeguimiento" value="Dejar de seguir">
+                                        </form>
+                                        <%
+                                                        }
                                                     }
                                                 }
-                                            }%>
+                                            }
+                                        %>
                                     </div>
                                 </div>
 
@@ -299,28 +312,40 @@
                                         <%
                                             // Misma logica que en artistas
                                             if (request.getSession().getAttribute("usuario") != null) {
-                                                DtUsuario dtu = (DtUsuario) request.getSession().getAttribute("usuario");
-                                                if (dtu instanceof DtCliente) {
-                                                    boolean siguiendo = false;
-                                                    if (seguidos != null) {
-                                                        for (int j = 0; j < seguidos.size(); j++) {
-                                                            if (seguidos.get(j).getNickname().equals(c.getNickname())) {
-                                                                siguiendo = true;
-                                                                break;
+                                                if (request.getSession().getAttribute("suscripcion") != null && ((DtSuscripcion) request.getSession().getAttribute("suscripcion")).getEstado().equals("Vigente")) {
+                                                    DtUsuario dtu = (DtUsuario) request.getSession().getAttribute("usuario");
+                                                    if (dtu instanceof DtCliente) {
+                                                        boolean siguiendo = false;
+                                                        if (seguidos != null) {
+                                                            for (int j = 0; j < seguidos.size(); j++) {
+                                                                if (seguidos.get(j).getNickname().equals(c.getNickname())) {
+                                                                    siguiendo = true;
+                                                                    break;
+                                                                }
                                                             }
                                                         }
-                                                    }
 
-                                                    out.print("<br>");
+                                                        out.print("<br>");
 
-                                                    // Si no lo sigue
-                                                    if (!siguiendo) {
-                                                        out.print("<a href=\"/Tarea2/SSeguir?accion=seguir&seguidor=" + dtu.getNickname() + "&seguido=" + c.getNickname() + "\" class=\"btn btn-success btnSeguimiento\">Seguir este cliente</a>");
-                                                    } else { // Si si lo sigue
-                                                        out.print("<a href=\"/Tarea2/SSeguir?accion=dejarSeguir&seguidor=" + dtu.getNickname() + "&seguido=" + c.getNickname() + "\" class=\"btn btn-danger btnSeguimiento\">Dejar de seguir</a>");
+                                                        // Si no lo sigue
+                                                        if (!siguiendo) {%>
+                                        <form action="/Tarea2/SSeguir" method="POST">
+                                            <input type="text" class="hidden" name="accion" value="seguir">
+                                            <input type="text" class="hidden" name="seguido" value="<%=c.getNickname()%>">
+                                            <input type="submit" class="btn btn-success btnSeguimiento" value="Seguir este cliente">
+                                        </form>
+                                        <%} else {%>
+                                        <form action="/Tarea2/SSeguir" method="POST">
+                                            <input type="text" class="hidden" name="accion" value="dejarSeguir">
+                                            <input type="text" class="hidden" name="seguido" value="<%=c.getNickname()%>">
+                                            <input type="submit" class="btn btn-danger btnSeguimiento" value="Dejar de seguir">
+                                        </form>
+                                        <%
+                                                        }
                                                     }
                                                 }
-                                            }%>
+                                            }
+                                        %>
 
                                     </div>
                                 </div>

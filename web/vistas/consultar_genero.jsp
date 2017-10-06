@@ -1,3 +1,4 @@
+<%@page import="Logica.DtSuscripcion"%>
 <%@page import="Logica.DtCliente"%>
 <%@page import="Logica.DtUsuario"%>
 <%@page import="Logica.DtAlbum"%>
@@ -19,7 +20,7 @@
     </head>
     <body style="background-image: url('media/wallpaper2.jpg')">
         <%
-            String url = URLEncoder.encode("/SContenido?" + request.getQueryString(), "UTF-8");
+            String url = "/SContenido?" + request.getQueryString();
         %>
 
         <div class="container-fluid">
@@ -73,26 +74,44 @@
 
                             <%
                                 if (request.getSession().getAttribute("usuario") != null) {
-                                    DtUsuario dtu = (DtUsuario) request.getSession().getAttribute("usuario");
-                                    if (dtu instanceof DtCliente) {
-                                        out.print("<br>");
+                                    if (request.getSession().getAttribute("suscripcion") != null && ((DtSuscripcion) request.getSession().getAttribute("suscripcion")).getEstado().equals("Vigente")) {
 
-                                        boolean enFavorito = false;
-                                        if (listasFav != null) {
-                                            for (int j = 0; j < listasFav.size(); j++) {
-                                                DtLista listaFav = (DtLista) listasFav.get(j);
-                                                if (listaFav instanceof DtListaDefecto) {
-                                                    if (listaFav.getNombre().equals(lista.getNombre())) {
-                                                        enFavorito = true;
+                                        DtUsuario dtu = (DtUsuario) request.getSession().getAttribute("usuario");
+                                        if (dtu instanceof DtCliente) {
+                                            out.print("<br>");
+
+                                            boolean enFavorito = false;
+                                            if (listasFav != null) {
+                                                for (int j = 0; j < listasFav.size(); j++) {
+                                                    DtLista listaFav = (DtLista) listasFav.get(j);
+                                                    if (listaFav instanceof DtListaDefecto) {
+                                                        if (listaFav.getNombre().equals(lista.getNombre())) {
+                                                            enFavorito = true;
+                                                        }
                                                     }
                                                 }
                                             }
-                                        }
 
-                                        if (!enFavorito) {
-                                            out.print("<a href=\"/Tarea2/SFavorito?objeto=listaDefecto&accion=agregar&nomGenero=" + request.getAttribute("genero") + "&nomLista=" + lista.getNombre() + "&redirigir=" + url + "\" class=\"btn btn-success btnFav\">Agregar a favoritos</a>");
-                                        } else {
-                                            out.print("<a href=\"/Tarea2/SFavorito?objeto=listaDefecto&accion=quitar&nomGenero=" + request.getAttribute("genero") + "&nomLista=" + lista.getNombre() + "&redirigir=" + url + "\" class=\"btn btn-danger btnFav\">Quitar de favoritos</a>");
+                                            if (!enFavorito) {%>
+                            <form action="/Tarea2/SFavorito" method="POST">
+                                <input type="text" class="hidden" name="objeto" value="listaDefecto">
+                                <input type="text" class="hidden" name="accion" value="agregar">
+                                <input type="text" class="hidden" name="nomGenero" value="<%=request.getAttribute("genero")%>">
+                                <input type="text" class="hidden" name="nomLista" value="<%=URLEncoder.encode(lista.getNombre(), "UTF-8")%>">
+                                <input type="text" class="hidden" name="redirigir" value="<%=url%>">
+                                <input type="submit" class="btn btn-success btnFav" value="Agregar a favoritos">
+                            </form>
+                            <%} else {%>
+                            <form action="/Tarea2/SFavorito" method="POST">
+                                <input type="text" class="hidden" name="objeto" value="listaDefecto">
+                                <input type="text" class="hidden" name="accion" value="quitar">
+                                <input type="text" class="hidden" name="nomGenero" value="<%=request.getAttribute("genero")%>">
+                                <input type="text" class="hidden" name="nomLista" value="<%=URLEncoder.encode(lista.getNombre(), "UTF-8")%>">
+                                <input type="text" class="hidden" name="redirigir" value="<%=url%>">
+                                <input type="submit" class="btn btn-danger btnFav" value="Quitar de favoritos">
+                            </form>
+                            <%
+                                            }
                                         }
                                     }
                                 }
@@ -147,24 +166,42 @@
 
                             <%
                                 if (request.getSession().getAttribute("usuario") != null) {
-                                    DtUsuario dtu = (DtUsuario) request.getSession().getAttribute("usuario");
-                                    if (dtu instanceof DtCliente) {
-                                        out.print("<br>");
+                                    if (request.getSession().getAttribute("suscripcion") != null && ((DtSuscripcion) request.getSession().getAttribute("suscripcion")).getEstado().equals("Vigente")) {
 
-                                        boolean enFavorito = false;
-                                        if (albumesFav != null) {
-                                            for (int j = 0; j < albumesFav.size(); j++) {
-                                                DtAlbum albumFav = (DtAlbum) albumesFav.get(j);
-                                                if (albumFav.getNombre().equals(album.getNombre())) {
-                                                    enFavorito = true;
+                                        DtUsuario dtu = (DtUsuario) request.getSession().getAttribute("usuario");
+                                        if (dtu instanceof DtCliente) {
+                                            out.print("<br>");
+
+                                            boolean enFavorito = false;
+                                            if (albumesFav != null) {
+                                                for (int j = 0; j < albumesFav.size(); j++) {
+                                                    DtAlbum albumFav = (DtAlbum) albumesFav.get(j);
+                                                    if (albumFav.getNombre().equals(album.getNombre())) {
+                                                        enFavorito = true;
+                                                    }
                                                 }
                                             }
-                                        }
 
-                                        if (!enFavorito) {
-                                            out.print("<a href=\"/Tarea2/SFavorito?objeto=album&accion=agregar&nickArtista=" + album.getNickArtista() + "&nomAlbum=" + album.getNombre() + "&redirigir=" + url + "\" class=\"btn btn-success btnFav\">Agregar a favoritos</a>");
-                                        } else {
-                                            out.print("<a href=\"/Tarea2/SFavorito?objeto=album&accion=quitar&nickArtista=" + album.getNickArtista() + "&nomAlbum=" + album.getNombre() + "&redirigir=" + url + "\" class=\"btn btn-danger btnFav\">Quitar de favoritos</a>");
+                                            if (!enFavorito) {%>
+                            <form action="/Tarea2/SFavorito" method="POST">
+                                <input type="text" class="hidden" name="objeto" value="album">
+                                <input type="text" class="hidden" name="accion" value="agregar">
+                                <input type="text" class="hidden" name="nickArtista" value="<%=album.getNickArtista()%>">
+                                <input type="text" class="hidden" name="nomAlbum" value="<%=URLEncoder.encode(album.getNombre(), "UTF-8")%>">
+                                <input type="text" class="hidden" name="redirigir" value="<%=url%>">
+                                <input type="submit" class="btn btn-success btnFav" value="Agregar a favoritos">
+                            </form>
+                            <%} else {%>
+                            <form action="/Tarea2/SFavorito" method="POST">
+                                <input type="text" class="hidden" name="objeto" value="album">
+                                <input type="text" class="hidden" name="accion" value="quitar">
+                                <input type="text" class="hidden" name="nickArtista" value="<%=album.getNickArtista()%>">
+                                <input type="text" class="hidden" name="nomAlbum" value="<%=URLEncoder.encode(album.getNombre(), "UTF-8")%>">
+                                <input type="text" class="hidden" name="redirigir" value="<%=url%>">
+                                <input type="submit" class="btn btn-danger btnFav" value="Quitar de favoritos">
+                            </form>
+                            <%
+                                            }
                                         }
                                     }
                                 }

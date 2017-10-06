@@ -18,8 +18,36 @@ public class SRegistro extends HttpServlet {
 
     IUsuario iUsuario;
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("mensaje_error", "Ups, usted no deberia estar aqui :s");
+        request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (request.getParameter("accion") == null) {
+            request.setAttribute("mensaje_error", "No hay una accion");
+            request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+            return;
+        }
+
+        String accion = request.getParameter("accion");
+
+        switch (accion) {
+            case "redirigir":
+                request.getRequestDispatcher("vistas/registrarse.jsp").forward(request, response);
+
+                break;
+            default:
+                request.setAttribute("mensaje_error", "El resto de acciones van por POST");
+                request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+
+                break;
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         iUsuario = Fabrica.getIControladorUsuario();
 
         String existe;
@@ -96,53 +124,17 @@ public class SRegistro extends HttpServlet {
             if ("si".equals(artista)) {
                 dtu = new DtArtista(nickname, nombre, apellido, email, fechaNac, "", biografia, link, contrasenia);
             } else {
-                dtu = new DtCliente(nickname, nombre, apellido, email, fechaNac, "", contrasenia,null);
+                dtu = new DtCliente(nickname, nombre, apellido, email, fechaNac, "", contrasenia, null);
             }
             iUsuario.ingresarUsuario(dtu);
 
-            getServletContext().getRequestDispatcher("/SSesion").forward(request, response); 
+            getServletContext().getRequestDispatcher("/SSesion").forward(request, response);
             //request.getRequestDispatcher("SInicio").forward(request, response);      //Redirigir utilizando el nombre del servlet
         }
-
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
-
+    }
 }
