@@ -83,24 +83,29 @@ public class SInicio extends HttpServlet {
         }
 
         if (request.getSession().getAttribute("usuario") != null) {
-           
+
             DtUsuario u = (DtUsuario) request.getSession().getAttribute("usuario");
-            
+
             /*esto agregue */
-            
-            DtSuscripcion s = ((DtCliente)u).getSuscripcion();
-            
-            if(s != null){
-            
-                if(s.getEstado().equals("Vigente")){
-                    
-                   iUsuario.chequearSuscripcion(u.getNickname());
-                   DtUsuario usr = iUsuario.getDataUsuario(u.getNickname());
-                   request.setAttribute("usuario", usr);
-                   request.setAttribute("suscripcion", ((DtCliente) usr).getSuscripcion());
-                
+            DtSuscripcion s = ((DtCliente) u).getSuscripcion();
+
+            ArrayList<DtSuscripcion> dts = ((DtCliente) u).getSuscripciones();
+
+            if (s != null) {
+
+                if (s.getEstado().equals("Vigente")) {
+
+                    iUsuario.chequearSuscripcion(u.getNickname());
+                    DtUsuario usr = iUsuario.getDataUsuario(u.getNickname());
+                    request.getSession().setAttribute("usuario", usr);
+                    request.getSession().setAttribute("suscripcion", ((DtCliente) usr).getSuscripcion());
                 }
-                
+
+            }
+
+            if (dts != null) {
+                DtUsuario usr = iUsuario.getDataUsuario(u.getNickname());
+                request.getSession().setAttribute("suscripciones", ((DtCliente) usr).getSuscripciones());
             }
             // hasta aca
             if (u instanceof DtCliente) {

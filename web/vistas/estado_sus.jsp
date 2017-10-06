@@ -66,7 +66,9 @@
                                         <td><%= dts.getCuota()%></td>
                                         <td><%= dts.getMonto()%></td>
                                         <td><%= dts.getFecha()%></td>
-                                        <td><%= dts.getFechaVenc()%></td>
+                                        <td><% if(dts.getFechaVenc() != null){ %>
+                                            <%= dts.getFechaVenc()%>
+                                        <% }else{ %>No Corresponde</td><% } %> 
                                
                                     <td> <form id="formulario2">
                                         <% if (dts.getEstado().equals("Vencida")) { %>
@@ -74,11 +76,12 @@
                                         <input type="hidden" id="Estado" value="<%= dts.getEstado()%>">
                                         <input type="hidden" id="Cuota" value="<%=dts.getCuota()%>">
                                         <input type="hidden" id="Fecha" value="<%=dts.getFecha()%>">
+                                        <input type="hidden" id="FechaVenc" value="<%=dts.getFechaVenc()%>">
                                       <!-- fin pruebas -->
                                         <button type="button" class="btn btn-default btn-xs" id="btnRenovar" value=""/>
                                         <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                         </button>
-                                        <button type="button" class="btn btn-default btn-xs" id="btnCancelar" value=""/>
+                                        <button type="button" class="btn btn-default btn-xs" id="btnCancelar2" value=""/>
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                         </button>
                                         </form>
@@ -98,16 +101,16 @@
                                         <%= activa.getFechaVenc()%> <% } else { %>
                                         No Corresponde <% } %>
                                     <td>
-                                        <form id="formulario">    
-                                            <% if (activa.getEstado().equals("Pendiente")) { %>
+                                        <form id="formulario">  
+                                        <% if (activa.getEstado().equals("Pendiente")) { %>
                                             <button type="button" class="btn btn-default btn-xs" id="btnCancelar" value=""/>
                                             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                        </button></td>
+                                        </button></td></form>
 
                                     <% } else { %>
                                 <input type="hidden" class="btn btn-primary btn-xs" id="btnOculto" value="Oculto"/>
                                 <% } %>
-                                </form>
+                                
                                 <% }%>
                             </table>
                         </div>

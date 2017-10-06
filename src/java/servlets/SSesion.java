@@ -1,5 +1,7 @@
 package servlets;
 
+import Logica.DtCliente;
+import Logica.DtUsuario;
 import Logica.Fabrica;
 import Logica.IUsuario;
 import java.io.IOException;
@@ -27,7 +29,12 @@ public class SSesion extends HttpServlet {
         } else if (request.getParameter("nickname") != null && request.getParameter("contrasenia") != null) {
             String chequeo = iUsuario.chequearLogin(request.getParameter("nickname"), request.getParameter("contrasenia"));
             if (chequeo.equals("")) {
-                request.getSession().setAttribute("usuario", iUsuario.getDataUsuario(request.getParameter("nickname")));
+                DtUsuario u = iUsuario.getDataUsuario(request.getParameter("nickname"));
+                request.getSession().setAttribute("usuario", u);
+                if(u instanceof DtCliente){
+                request.getSession().setAttribute("suscripcion", ((DtCliente)u).getSuscripcion());
+                request.getSession().setAttribute("suscripciones", ((DtCliente)u).getSuscripciones());
+                }
                 request.getRequestDispatcher("SInicio").forward(request, response);
             } else {
                 request.setAttribute("error", chequeo);
