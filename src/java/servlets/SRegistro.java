@@ -143,8 +143,8 @@ public class SRegistro extends HttpServlet {
                 dtu = new DtCliente(nickname, nombre, apellido, email, fechaNac, "", contrasenia, null);
             }
             iUsuario.ingresarUsuario(dtu);
+            request.getSession().setAttribute("usuario", dtu);
 
-            getServletContext().getRequestDispatcher("/SSesion").forward(request, response);
             //request.getRequestDispatcher("SInicio").forward(request, response);      //Redirigir utilizando el nombre del servlet
         }
     }
