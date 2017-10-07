@@ -46,13 +46,14 @@
                             <% if (session.getAttribute("usuario") != null) {%>
                         <li><a data-toggle="tab" href="#menu2" style="color: black"><h5 class="pestaniaP">Seguidores</h5></a></li>
 
-                        <%}%>
+                       
                         <%if (dtCli.getSuscripcion() != null && dtCli.getSuscripcion().getEstado() != null && dtCli.getSuscripcion().getEstado().equals("Vigente")) { %>
                         <li><a data-toggle="tab" href="#menu6" style="color: black"><h5 class="pestaniaP">Sigue</h5></a></li>
                             <%}%> 
                         <li><a data-toggle="tab" href="#menu3" style="color: black"><h5 class="pestaniaP">Album Favoritos</h5></a></li>
                         <li><a data-toggle="tab" href="#menu4" style="color: black"><h5 class="pestaniaP">Listas Favoritos</h5></a></li>
                         <li><a data-toggle="tab" href="#menu5" style="color: black"><h5 class="pestaniaP">Temas Favoritos</h5></a></li>
+                         <%}%>
                     </ul>
 
                     <div class="tab-content panel panel-default">
