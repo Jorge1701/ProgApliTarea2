@@ -9,11 +9,7 @@
         <jsp:include page="include.html"/>
         <jsp:include page="../scripts/busqueda.html"/>
 
-        <% //DtUsuario usr = (DtUsuario) request.getSession().getAttribute("usuario");%>
-        <% //if (!((DtCliente) usr).getTipo().equals("Cliente")) {
-            //request.setAttribute("mensaje_error", "Esta página está reservada para nuestros clientes");
-            //request.getRequestDispatcher("pagina_error.jsp").forward(request, response);
-            //}%>
+
 
         <title>Administrar Suscripciones</title>
     </head>
@@ -34,9 +30,9 @@
                         <div class="container" id="info">
 
                             <div id="leyenda">
-                                <text>Leyenda:</text>
-                                <text><span class="glyphicon glyphicon-ok"></span>Renovar</text>
-                                <text><span class="glyphicon glyphicon-remove"></span>Cancelar</text>
+                                Leyenda:
+                                <span style="margin-left: 5px; margin-right: 1px" class="glyphicon glyphicon-ok"></span>Renovar
+                                <span style="margin-left: 5px; margin-right: 1px " class="glyphicon glyphicon-remove"></span>Cancelar
                             </div>
                         </div>
 
@@ -58,8 +54,7 @@
 
 
                                     <% ArrayList<DtSuscripcion> sus = (ArrayList<DtSuscripcion>) request.getAttribute("suscripciones"); %>
-                                    <%  for (DtSuscripcion dts : sus) {  %>
-
+                                    <%  for (DtSuscripcion dts : sus) {%>
 
                                     <tr>
                                         <td><%= dts.getEstado()%></td>
@@ -67,48 +62,38 @@
                                         <td><%= dts.getMonto()%></td>
                                         <td><%= dts.getFecha()%></td>
                                         <td><%= dts.getFechaVenc()%></td>
-                               
-                                    <td> <form id="formulario2">
-                                        <% if (dts.getEstado().equals("Vencida")) { %>
-                                        <!-- pruebas -->
-                                        <input type="hidden" id="Estado" value="<%= dts.getEstado()%>">
-                                        <input type="hidden" id="Cuota" value="<%=dts.getCuota()%>">
-                                        <input type="hidden" id="Fecha" value="<%=dts.getFecha()%>">
-                                      <!-- fin pruebas -->
-                                        <button type="button" class="btn btn-default btn-xs" id="btnRenovar" value=""/>
-                                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                                        </button>
-                                        <button type="button" class="btn btn-default btn-xs" id="btnCancelar" value=""/>
-                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                        </button>
-                                        </form>
-                                        
-                                        <% } else { %>
-                                        <input type="hidden" class="btn btn-primary btn-xs" id="btnOculto" value="Oculto"/><% } %></td><% }%>
-                                    </tr>
-                                
-                                <% DtSuscripcion activa = (DtSuscripcion) request.getAttribute("suscripcion");%>
-                                <% if(activa!= null) { %>
-                                <tr>
-                                    <td><%= activa.getEstado()%></td>
-                                    <td><%= activa.getCuota()%></td>
-                                    <td><%= activa.getMonto()%></td>
-                                    <td><%= activa.getFecha()%></td>
-                                    <td><% if (activa.getFechaVenc() != null) {%>
-                                        <%= activa.getFechaVenc()%> <% } else { %>
-                                        No Corresponde <% } %>
-                                    <td>
-                                        <form id="formulario">    
-                                            <% if (activa.getEstado().equals("Pendiente")) { %>
-                                            <button type="button" class="btn btn-default btn-xs" id="btnCancelar" value=""/>
-                                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                        </button></td>
 
-                                    <% } else { %>
-                                <input type="hidden" class="btn btn-primary btn-xs" id="btnOculto" value="Oculto"/>
-                                <% } %>
-                                </form>
-                                <% }%>
+                                        <td>
+                                            <% if (dts.getEstado().equals("Vencida")) {%>
+
+                                            <button onclick="renovarSuscripcion('<%= dts.getEstado()%>', '<%=dts.getCuota()%>', '<%=dts.getFecha()%>', '<%=dts.getFechaVenc()%>')" class="btn btn-default btn-xs">
+                                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                            </button>
+                                            <button onclick="cancelarSuscripcion('<%= dts.getEstado()%>', '<%=dts.getCuota()%>', '<%=dts.getFecha()%>', '<%=dts.getFechaVenc()%>')" class="btn btn-default btn-xs">
+                                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                            </button>
+                                        </td><%}
+                                            }%>
+                                    </tr>
+
+                                    <% DtSuscripcion activa = (DtSuscripcion) request.getAttribute("suscripcion");%>
+                                    <% if (activa != null) {%>
+                                    <tr>
+                                        <td><%= activa.getEstado()%></td>
+                                        <td><%= activa.getCuota()%></td>
+                                        <td><%= activa.getMonto()%></td>
+                                        <td><%= activa.getFecha()%></td>
+                                        <td><% if (activa.getFechaVenc() != null) {%>
+                                            <%= activa.getFechaVenc()%> <% } else { %>
+                                            No Corresponde <% } %>
+                                        <td>
+                                            <% if (activa.getEstado().equals("Pendiente")) { %>
+                                            <button onclick="cancelarSuscripcion('Pendiente', '', '', '')" class="btn btn-default btn-xs">
+                                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                            </button>
+                                            <%}%>
+                                        </td>    
+                                        <%}%>
                             </table>
                         </div>
                     </div>

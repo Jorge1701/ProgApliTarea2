@@ -1,3 +1,46 @@
+function cancelarSuscripcion(estado, cuota, fecha, fechaVenc) {
+    $.ajax({
+        type: "POST",
+        url: "/Tarea2/SSuscripcion",
+        data: {
+            "Estado": estado,
+            "Cuota": cuota,
+            "Fecha": fecha,
+            "FechaVenc": fechaVenc,
+            "accion": "cancelar"},
+        success: function (data) {
+            alert("Su suscripción fue cancelada con éxito");
+            window.location = "/Tarea2/SSuscripcion?accion=redir1";
+        },
+
+        error: function () {
+            alert("Ha ocurrido un error al procesar su solicitud");
+        }
+    });
+}
+
+function renovarSuscripcion(estado, cuota, fecha, fechaVenc) {
+    $.ajax({
+        type: "POST",
+        url: "/Tarea2/SSuscripcion",
+        data: {
+            "Estado": estado,
+            "Cuota": cuota,
+            "Fecha": fecha,
+            "FechaVenc" : fechaVenc,
+            "accion": "renovar"},
+        success: function (data) {
+            alert("Su suscripción fue renovada con éxito");
+            window.location = "/Tarea2/SSuscripcion?accion=redir1";
+        },
+
+        error: function () {
+            alert("Ha ocurrido un error al procesar su solicitud");
+        }
+    });
+}
+
+
 $("#Cuota").change(function () {
 
     $.ajax({
@@ -40,43 +83,43 @@ $("#btnConfirmar").click(function () {
 
 //envio del formulario
 
-$("#btnCancelar").click(function () {
-
-    $.ajax({
-        type: "POST",
-        url: "/Tarea2/SSuscripcion",
-        data: {
-            "accion": "cancelar"},
-        success: function (data) {
-            alert("Su suscripción fue cancelada con éxito");
-            window.location = "/Tarea2/SSuscripcion?accion=redir1";
-        },
-
-        error: function () {
-            alert("Ha ocurrido un error al procesar su solicitud");
-        }
-    });
-});
+/*$("#btnCancelar").click(function () {
+ 
+ $.ajax({
+ type: "POST",
+ url: "/Tarea2/SSuscripcion",
+ data: {
+ "accion": "cancelar"},
+ success: function (data) {
+ alert("Su suscripción fue cancelada con éxito");
+ window.location = "/Tarea2/SSuscripcion?accion=redir1";
+ },
+ 
+ error: function () {
+ alert("Ha ocurrido un error al procesar su solicitud");
+ }
+ });
+ });*/
 
 //renovar
 
-$("#btnRenovar").click(function () {
-
-    $.ajax({
-        type: "POST",
-        url: "/Tarea2/SSuscripcion",
-        data: {
-            "Estado": $("#Estado").val().toString(),
-            "Cuota": $("#Cuota").val().toString(),
-            "Fecha": $("#Fecha").val().toString(),
-           "accion": "renovar"},
-        success: function (data) {
-            alert("Su suscripción fue renovada con éxito");
-            window.location = "/Tarea2/SSuscripcion?accion=redir1";
-        },
-
-        error: function () {
-            alert("Ha ocurrido un error al procesar su solicitud");
-        }
-    });
-});
+/*$("#btnRenovar").click(function () {
+ 
+ $.ajax({
+ type: "POST",
+ url: "/Tarea2/SSuscripcion",
+ data: {
+ "Estado": $("#Estado").val().toString(),
+ "Cuota": $("#Cuota").val().toString(),
+ "Fecha": $("#Fecha").val().toString(),
+ "accion": "renovar"},
+ success: function (data) {
+ alert("Su suscripción fue renovada con éxito");
+ window.location = "/Tarea2/SSuscripcion?accion=redir1";
+ },
+ 
+ error: function () {
+ alert("Ha ocurrido un error al procesar su solicitud");
+ }
+ });
+ });*/

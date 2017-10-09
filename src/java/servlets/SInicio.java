@@ -90,6 +90,8 @@ public class SInicio extends HttpServlet {
                 /*esto agregue */
                 DtSuscripcion s = ((DtCliente) u).getSuscripcion();
 
+                ArrayList<DtSuscripcion> dts = ((DtCliente) u).getSuscripciones();
+
                 if (s != null) {
 
                     if (s.getEstado().equals("Vigente")) {
@@ -98,9 +100,15 @@ public class SInicio extends HttpServlet {
                         DtUsuario usr = iUsuario.getDataUsuario(u.getNickname());
                         request.setAttribute("usuario", usr);
                         request.setAttribute("suscripcion", ((DtCliente) usr).getSuscripcion());
+                        
 
                     }
 
+                }
+
+                if (dts != null) {
+                    DtUsuario usr = iUsuario.getDataUsuario(u.getNickname());
+                    request.getSession().setAttribute("suscripciones", ((DtCliente) usr).getSuscripciones());
                 }
                 // hasta aca
                 request.setAttribute("seguidos", iUsuario.listarSeguidosDe(u.getNickname()));
