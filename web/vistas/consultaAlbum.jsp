@@ -24,20 +24,14 @@
     </head>
     <body>
         <%
+            if (request.getSession().getAttribute("usuario") != null) {
+                DtUsuario Artista = (DtUsuario) request.getSession().getAttribute("usuario");
+                if (Artista instanceof DtArtista) {
+                    request.setAttribute("mensaje_error", "Esta página está reservada para Cliente o Visitantes");
+                    request.getRequestDispatcher("pagina_error.jsp").forward(request, response);
+                }
+            }
 
-            if(  (DtUsuario) request.getSession().getAttribute("usuario") instanceof DtArtista){
-                            request.setAttribute("mensaje_error", "Esta página está reservada para nuestr ");
-                request.getRequestDispatcher("pagina_error.jsp").forward(request, response);
-            }else{
-                
-       
-            DtUsuario user = (DtUsuario) request.getSession().getAttribute("usuario");
-            
-            if (user instanceof DtCliente) {
-                request.setAttribute("mensaje_error", "Esta página está reservada para nuestros Artistas ");
-                request.getRequestDispatcher("pagina_error.jsp").forward(request, response);
-
-	
             DtAlbumContenido albumes = (DtAlbumContenido) request.getAttribute("Album");
             DtAlbum inf = (DtAlbum) albumes.getInfo();
             String Generos = albumes.getGeneros2();
@@ -46,10 +40,9 @@
             String imagen = inf.getImagen();
             String nombreAlbum = inf.getNombre();
             int anioCreacion = inf.getAnio();
-            DtUsuario usuario = (DtUsuario) request.getSession().getAttribute("usuario");
-            
-            %>
-        
+
+        %>
+
 
         <div class="container-fluid">
             <jsp:include page="header.jsp"/>
@@ -60,10 +53,10 @@
                 <!-- Contenido -->
                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                     <ul class="nav nav-tabs ">
-                        <li class="active"><a data-toggle="tab" href="#home" style="color: black">Informacion Basica</a></li>
-                        <li><a data-toggle="tab" href="#menu1" style="color: black">Temas</a></li>
+                        <li class="active"><a data-toggle="tab" href="#home" style="color: black"><h5 class="pestaniaP">Informacion Basica</h5></a></li>
+                        <li><a data-toggle="tab" href="#menu1" style="color: black"><h5 class="pestaniaP">Temas</h5></a></li>
                     </ul>
-                    <div class="tab-content" style="color: white">
+                    <div class="tab-content panel panel-default" style="color: white">
                         <div id="home" class="tab-pane fade in active">                
                             <div class="panel-body ">
                                 <div class="row "  >
@@ -72,64 +65,69 @@
                                             <div   align="center"> <img height="250" width="250" alt="Album Pic" src="/Tarea2/SImagen?album=<%= imagen%>" id="album-imagen" class="img-circle img-responsive"> 
                                                 <input id="profile-image-upload" class="hidden" type="file">
                                             </div>
-                                            <td ><h4 style="color:white ">Nombre Album : <%= nombreAlbum%></h4></td>
-                                            <td> <h4 style="color:white">Año De Creacion : <%= anioCreacion%> </h4></td>
-                                            <td><h4 style="color:white">Generos: <%=Generos%></h4></td>
+                                            <td ><h4>Nombre Album : <%= nombreAlbum%></h4></td>
+                                            <td> <h4>Año De Creacion : <%= anioCreacion%> </h4></td>
+                                            <td><h4>Generos: <%=Generos%></h4></td>
                                         </div>
                                     </div>          
                                 </div> 
                             </div>
                         </div>
                         <%-- Temas --%>
-                        <div id="menu1" class="tab-pane fade">     
+
+                        <div id="menu1" class="table-responsive">     
                             <div>
-                                <table >
-                                    <caption style="color:white"><center>Temas</center></caption>
-                                    <tr class="w3-green">
-                                    <th><center>Nombre</center></th>
-                                    <th><center>Posicion</center></th>
-                                    <th><center>Duracion</center></th>
-                                    <th><center>Ubicacion</center></th>
-                                    <th><center>Descargar</center></th>
+                                <table class="table table-condensed" >
+                                    <caption ><center><text style="color:black ">Temas</text></center></caption>
+                                    <tr>
+                                        <th><center><text style="color:black ">Nombre</text></center></th>
+                                    <th><center><text style="color:black ">Posicion</text></center></th>
+                                    <th><center><text style="color:black ">Duracion</text></center></th>
+                                    <th><center><text style="color:black ">Ubicacion</text></center></th>
+                                    <th><center><text style="color:black ">Descargar</text></center></th>
                                         <%
                                             for (int i = 0; i < temas.size(); i++) {
                                                 if (temas.get(i) instanceof DtTemaLocal) {
                                                     DtTemaLocal local = (DtTemaLocal) temas.get(i);
                                         %> 
-                                    <tr style=" background-color: white" onclick="reproducirLocal('<%= local.getDirectorio().replace("'", "\\'")%>', '<%= local.getNombre().replace("'", "\\'")%>', '<%= local.getArtista().replace("'", "\\'")%>', '<%= local.getImagenAlbum().replace("'", "\\'")%>')">
+                                    <tr onclick="reproducirLocal('<%= local.getDirectorio().replace("'", "\\'")%>', '<%= local.getNombre().replace("'", "\\'")%>', '<%= local.getArtista().replace("'", "\\'")%>', '<%= local.getImagenAlbum().replace("'", "\\'")%>')">
                                         <%} else {
                                         %>
-                                    <tr style=" background-color: white" onclick="reproducirRemoto('<%= ((DtTemaRemoto) temas.get(i)).getUrl()%>')">
+                                    <tr  onclick="reproducirRemoto('<%= ((DtTemaRemoto) temas.get(i)).getUrl()%>')">
                                         <% }%>
-                                        <td><text style="color:black"><center>  <%= temas.get(i).getNombre()%></center> </text></td>
+                                        <td><text style="color:black"><center><%= temas.get(i).getNombre()%></center> </text></td>
                                     <td><text style="color:black "><center> <%= temas.get(i).getUbicacion()%></center> </text></td>
                                     <td><text style="color:black  ; background-color: white"><center> <%= temas.get(i).getDuracion().getHoras()%>:<%= temas.get(i).getDuracion().getMinutos()%>:<%= temas.get(i).getDuracion().getSegundos()%></center></text></td>
-                                    <td><text style="color:black ; background-color: white"><center>  <%= temas.get(i) instanceof DtTemaLocal ? ((DtTemaLocal) temas.get(i)).getDirectorio() : ((DtTemaRemoto) temas.get(i)).getUrl()%></center>  </text></td>
+                                    <td><text style="color:black ; background-color: white"><center> <%= temas.get(i) instanceof DtTemaLocal ? ((DtTemaLocal) temas.get(i)).getDirectorio() : ((DtTemaRemoto) temas.get(i)).getUrl()%></center> </text></td>
                                         <%
-                                            if (request.getSession().getAttribute("usuario") != null) {
-
-                                                DtUsuario dtu = (DtUsuario) request.getSession().getAttribute("usuario");
-                                                
-                                                DtSuscripcion suscripcion = (DtSuscripcion) ((DtCliente) dtu).getSuscripcion();
-                                                if (suscripcion != null) {
-                                                    if (suscripcion.getEstado().equals("Vigente")) {
-                                                        if (temas.get(i) instanceof DtTemaLocal) {
+                                            if ( request.getSession().getAttribute("usuario") != null) {
+                                                DtUsuario user = (DtUsuario) request.getSession().getAttribute("usuario");
+                                                if (user instanceof DtCliente) {
+                                                    DtSuscripcion suscripcion = (DtSuscripcion) ((DtCliente) user).getSuscripcion();
+                                                    if (suscripcion != null) {
+                                                        if (suscripcion.getEstado().equals("Vigente")) {
+                                                            if (temas.get(i) instanceof DtTemaLocal) {
                                         %>
                                     <td><center><input onclick="Descarga('<%=((DtTemaLocal) temas.get(i)).getDirectorio()%>')" class="button buttton1" id="btnDescargar" value="Descargar"></center></td>
                                         <% } else {%>
-                                    <td><center><text>Tema Remoto</text></center></td> 
-                                        <%}
-                                        } else { %>
-                                    <td><center>Sin Suscripcion</center></td> 
-                                        <% } %>
-                                    </tr>
-                                    <%   }
-                                    } else { %>
-                                    <td><center><text>Debe Iniciar Sesion</text></center></td> 
+                                <td><center><input onclick="reproducirRemoto('<%= ((DtTemaRemoto) temas.get(i)).getUrl()%>')" class="button buttton1" id="btnOnlie" value="On-Line" ></center></td> 
+                                    <!-- Poner Lin para Que Vaya A Esuchar Online -->
+                                    <%}%>
+                                    <%} else { %>
+                                    <td><center><text style="color:black ">Su Suscripcion No Esta Vigente</text></center></td> 
+
+
+                                    <%}%>
+                                    <%} else { %>
+                                    <td><center><text style="color:black ">Sin Suscripcion</text></center></td>                                   
                                         <% }
                                             }
+                                        } else {%> 
+                                    <td><center><text style="color:black ">Debe Iniciar Sesion</text></center></td>     
+                                        <%}%>
+                                    </tr>
+                                    <%     }%>
 
-                                        %>
                                 </table>
                             </div>
                         </div>
