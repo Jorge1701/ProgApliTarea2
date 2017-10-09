@@ -31,16 +31,16 @@
                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
 
                     <ul class="nav nav-tabs">
-                        <li class="active"><a data-toggle="tab" href="#home" style="color: black">Informacion Basica</a></li>
-                        <li><a data-toggle="tab" href="#menu1" style="color: black">Albumes Publicados</a></li>
-                        <li><a data-toggle="tab" href="#menu2" style="color: black">Seguidores</a></li>                       
+                        <li class="active"><a data-toggle="tab" href="#home" style="color: black"><h5 class="pestaniaP">Informacion Basica</h5></a></li>
+                        <li><a data-toggle="tab" href="#menu1" style="color: black"><h5 class="pestaniaP">Albumes Publicados</h5></a></li>
+                        <li><a data-toggle="tab" href="#menu2" style="color: black"><h5 class="pestaniaP" >Seguidores</h5></a></li>                       
 
 
                     </ul>
 
 
 
-                    <div class="tab-content" style="color: white">
+                    <div class="tab-content panel panel-default">
                         <div id="home" class="tab-pane fade in active">
                             <div class="panel-body">
                                 <div class="row">
@@ -58,18 +58,18 @@
                                             <!-- /input-group -->
                                         </div>
                                         <div class="col-sm-6">
-                                            <h4 style="color:white"><%= dtPArtista.getInfo().getNombre()%>  <%= dtPArtista.getInfo().getApellido()%> </h4></span>
+                                            <h4><%= dtPArtista.getInfo().getNombre()%>  <%= dtPArtista.getInfo().getApellido()%> </h4></span>
                                             <span><p>Artista</p></span>
                                             <% if (session.getAttribute("usuario") != null) {
-                                                   DtUsuario u = (DtUsuario) session.getAttribute("usuario");                                            
-                                                   if(dtPArtista.getInfo().getNickname().equals(u.getNickname())) {
+                                                    DtUsuario u = (DtUsuario) session.getAttribute("usuario");
+                                                    if (dtPArtista.getInfo().getNickname().equals(u.getNickname())) {
                                             %>
                                             <h5><a href="/Tarea2/SContenido?accion=AltaAlbum" id="btnCrearAlbum">Crear Album</a></h5>   
                                             <%}
-                                             }%>
+                                                }%>
                                         </div>
                                         <div class="clearfix"></div>
-                                          <table class="table table-user-information">
+                                        <table class="table table-user-information">
                                             <tbody>
                                                 <tr>
                                                     <td>NickName:</td>
@@ -106,7 +106,7 @@
 
                         </div>    
                         <div id="menu1" class="tab-pane fade">
-                            <h3>Albunes Publicados</h3>                         
+                            <h3>Albumes Publicados</h3>                         
                             <div class="panel-body">
                                 <div class="row">
                                     <div class=" col-md-9 col-lg-9 "> 
@@ -121,7 +121,7 @@
                                                     for (DtAlbum dtA : lstA) {%>
                                                 <tr>
                                                     <td><a href="/Tarea2/SContenido?accion=consultarAlbum&nickArtista=<%= dtPArtista.getInfo().getNickname()%>&nomAlbum=<%= dtA.getNombre()%>"><%= dtA.getNombre()%></a></td>
-                                                    
+
                                                 </tr>
 
                                                 <% }%>  

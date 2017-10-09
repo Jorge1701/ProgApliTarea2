@@ -1,8 +1,4 @@
-<%-- 
-    Document   : consultaAlbum.jsp
-    Created on : 02/10/2017, 03:21:48 AM
-    Author     : brian
---%>
+
 
 <%@page import="Logica.DtArtista"%>
 <%@page import="Logica.DtTemaRemoto"%>
@@ -121,16 +117,14 @@
                                         %>
                                     <td><center><input onclick="Descarga('<%=((DtTemaLocal) temas.get(i)).getDirectorio()%>')" class="button buttton1" id="btnDescargar" value="Descargar"></center></td>
                                         <% } else {%>
-                                                <td><center><text>Tema Remoto</text></center></td> 
-                                                <%}
-                                            
+                                    <td><center><text>Tema Remoto</text></center></td> 
+                                        <%}
                                         } else { %>
-                                    <td><center><text>Sin Suscripcion</text></center></td> 
-                                        <% }
-                                        %>
+                                    <td><center>Sin Suscripcion</center></td> 
+                                        <% } %>
                                     </tr>
                                     <%   }
-                                        }else { %>
+                                    } else { %>
                                     <td><center><text>Debe Iniciar Sesion</text></center></td> 
                                         <% }
                                             }

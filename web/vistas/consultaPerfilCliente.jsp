@@ -13,6 +13,7 @@
     <head>
         <jsp:include page="include.html"/> 
         <jsp:include page="../scripts/busqueda.html"/>
+        <link rel="stylesheet" type="text/css" href="estilos/inicio.css">
         <title>Consulta perfil Cliente</title>
     </head>
     <body style="background-image: url('media/wallpaper2.jpg')">
@@ -32,22 +33,31 @@
                 <!-- Contenido -->
                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
 
+                    <%
+                        String pestania = "";
+                        if (request.getAttribute("pestania") != null) {
+                            pestania = request.getAttribute("pestania").toString();
+                        }
+                    %>
+
                     <ul class="nav nav-tabs" >
-                        <li class="active"><a data-toggle="tab" href="#home" style="color: black">Informacion Basica</a></li>
-                        <li><a data-toggle="tab" href="#menu1" style="color: black">Listas</a></li>
+                        <li <%= (pestania.equals("") ? " class=\"active\"" : "")%>><a data-toggle="tab" href="#home" style="color: black"><h5 class="pestaniaP">Informacion Basica</h5></a></li>
+                        <li <%= (pestania.equals("Listas") ? " class=\"active\"" : "")%>><a data-toggle="tab" href="#menu1" style="color: black"><h5 class="pestaniaP">Listas</h5></a></li>
                             <% if (session.getAttribute("usuario") != null) {%>
-                        <li><a data-toggle="tab" href="#menu2" style="color: black">Seguidores</a></li>
-                        <li><a data-toggle="tab" href="#menu3" style="color: black">Album Favoritos</a></li>
-                        <li><a data-toggle="tab" href="#menu4" style="color: black">Listas Favoritos</a></li>
-                        <li><a data-toggle="tab" href="#menu5" style="color: black">Temas Favoritos</a></li>
-                            <%}%>
-                            <%if (dtCli.getSuscripcion() != null && dtCli.getSuscripcion().getEstado() != null && dtCli.getSuscripcion().getEstado().equals("Vigente")) { %>
-                        <li><a data-toggle="tab" href="#menu6" style="color: black">Sigue</a></li>
+                        <li><a data-toggle="tab" href="#menu2" style="color: black"><h5 class="pestaniaP">Seguidores</h5></a></li>
+
+                       
+                        <%if (dtCli.getSuscripcion() != null && dtCli.getSuscripcion().getEstado() != null && dtCli.getSuscripcion().getEstado().equals("Vigente")) { %>
+                        <li><a data-toggle="tab" href="#menu6" style="color: black"><h5 class="pestaniaP">Sigue</h5></a></li>
                             <%}%> 
+                        <li><a data-toggle="tab" href="#menu3" style="color: black"><h5 class="pestaniaP">Album Favoritos</h5></a></li>
+                        <li><a data-toggle="tab" href="#menu4" style="color: black"><h5 class="pestaniaP">Listas Favoritos</h5></a></li>
+                        <li><a data-toggle="tab" href="#menu5" style="color: black"><h5 class="pestaniaP">Temas Favoritos</h5></a></li>
+                         <%}%>
                     </ul>
 
-                    <div class="tab-content" style="color: white">
-                        <div id="home" class="tab-pane fade in active">
+                    <div class="tab-content panel panel-default">
+                        <div id="home" class="tab-pane fade <%= (pestania.equals("") ? " in active" : "")%>">
                             <div class="panel-body">
                                 <div class="row">
                                     <div class=" col-md-9 col-lg-9 "> 
@@ -63,12 +73,15 @@
 
                                             <!-- /input-group -->
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6" >
                                             <% if (session.getAttribute(
                                                         "usuario") != null) {%>
                                             <h4 style="color:black;"><%= dtPCliente.getInfo().getNombre()%>  <%= dtPCliente.getInfo().getApellido()%> </h4></span>
                                             <span><p>Cliente</p></span>
-                                            <%}%>
+                                            <% if (dtCli.getSuscripcion() != null && dtCli.getSuscripcion().getEstado() != null && dtCli.getSuscripcion().getEstado().equals("Vigente")) {%>
+                                                <h5><a href="/Tarea2/SLista" id="btnCrearLista">Crear Lista Reproduccion</a> </h5> 
+                                            <%}                                                
+                                            }%>
                                         </div>
                                         <div class="clearfix"></div>
                                         <table class="table table-user-information">
@@ -101,7 +114,8 @@
                             </div>                           
 
                         </div>    
-                        <div id="menu1" class="tab-pane fade">
+                        <div id="menu1" class="tab-pane fade <%= (pestania.equals("Listas") ? " in active" : "")%>">
+                            <% pestania = ""; %>
                             <h3>Listas Creadas</h3>                         
                             <div class="panel-body">
                                 <div class="row">
@@ -130,7 +144,7 @@
                                                     <td onclick="irListaParticular('<%= dtLP.getNombre().replace("'", "\\'")%>', '<%=dtLP.getNickDuenio().replace("'", "\\'")%>')"><a><%= dtLP.getNombre()%></a></td>
                                                     <td><span class="badge"> <%= dtLP.getTemas().size()%> </span></td>
                                                     <% if (dtLP.isPrivada()) {%>
-                                                    <td id="privada"><div class="glyphicon glyphicon-remove-sign" style="color: red"></div><a href="/Tarea2/SContenido?accion=publicarLista&nomLista=<%= dtLP.getNombre()%>&nickCliente=<%= dtPCliente.getInfo().getNickname()%>" id="btnPublicar" class="btn btn-info" style="margin-left: 50px" >Publicar</a></td>
+                                                    <td id="privada"><form method="POST" action="/Tarea2/SContenido?accion=publicarLista"><div class="glyphicon glyphicon-remove-sign" style="color: red"></div><input name="nomLista" hidden value="<%= dtLP.getNombre()%>"><button type="submit" id="btnPublicar" class="btn btn-info" style="margin-left: 50px" >Publicar</button></form></td>
                                                             <% } else {%>
                                                     <td><div class="glyphicon glyphicon-ok-sign" style="color:green"></div></td>
                                                         <%}%>
@@ -226,7 +240,7 @@
                                                 <tr>
                                                     <%if (dtL instanceof DtListaParticular) {%>
                                                     <td onclick="irListaParticular('<%= dtL.getNombre().replace("'", "\\'")%>', '<%=((DtListaParticular) dtL).getNickDuenio().replace("'", "\\'")%>')"><a><%= dtL.getNombre()%></a></td>
-                                                    <% } else {%> 
+                                                            <% } else {%> 
 
                                                     <td onclick="irListaDefecto('<%= dtL.getNombre().replace("'", "\\'")%>', '<%=((DtListaDefecto) dtL).getGenero().getNombre().replace("'", "\\'")%>')"><a><%= dtL.getNombre()%></a></td>
                                                             <%}%>
@@ -274,7 +288,7 @@
                             if (dtCli.getSuscripcion() != null && dtCli.getSuscripcion().getEstado() != null && dtCli.getSuscripcion().getEstado().equals("Vigente")) {
                         %>                    
                         <div id="menu6" class="tab-pane fade">
-                            <h3>Temas Favoritos</h3>
+                            <h3>Sigue</h3>
                             <div class="panel-body">
                                 <div class="row">
                                     <div class=" col-md-9 col-lg-9 "> 

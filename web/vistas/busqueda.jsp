@@ -1,3 +1,4 @@
+<%@page import="java.net.URLEncoder"%>
 <%@page import="Logica.DtTemaLocal"%>
 <%@page import="Logica.DtTemaRemoto"%>
 <%@page import="Logica.DtListaDefecto"%>
@@ -69,7 +70,7 @@
                                 if (o instanceof DtAlbum) {
                                     DtAlbum album = (DtAlbum) o;
                             %>
-                            <tr onclick="irAlbum('<%= album.getNickArtista()%>', '<%= album.getNombre()%>')">
+                            <tr onclick="irAlbum('<%= album.getNickArtista()%>', '<%= URLEncoder.encode(album.getNombre(), "UTF-8")%>')">
                                 <td>
                                     <span class="glyphicon glyphicon-book"></span>
                                 </td>
@@ -106,7 +107,7 @@
                                     if (o instanceof DtListaParticular) {
                                         DtListaParticular listaParticular = (DtListaParticular) o;
                                 %>
-                            <tr onclick="irListaParticular('<%= listaParticular.getNombre().replace("'", "\\'")%>', '<%=listaParticular.getNickDuenio().replace("'", "\\'")%>')">
+                            <tr onclick="irListaParticular('<%= URLEncoder.encode(listaParticular.getNombre(), "UTF-8")%>', '<%=listaParticular.getNickDuenio().replace("'", "\\'")%>')">
                                 <td>
                                     <span class="glyphicon glyphicon-list"></span>
                                 </td>
@@ -117,7 +118,7 @@
                                 <%} else if (o instanceof DtListaDefecto) {
                                     DtListaDefecto listaDefecto = (DtListaDefecto) o;
                                 %>
-                            <tr onclick="irListaDefecto('<%= listaDefecto.getNombre().replace("'", "\\'")%>', '<%=listaDefecto.getGenero().getNombre().replace("'", "\\'")%>')">
+                            <tr onclick="irListaDefecto('<%= URLEncoder.encode(listaDefecto.getNombre(), "UTF-8")%>', '<%= URLEncoder.encode(listaDefecto.getGenero().getNombre(), "UTF-8")%>')">
                                 <td>
                                     <span class="glyphicon glyphicon-list"></span>
                                 </td>

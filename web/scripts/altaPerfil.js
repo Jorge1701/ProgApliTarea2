@@ -11,7 +11,7 @@ $("#btnRegistro").click(function () {
             data: {
                 "nickname": $("#txtNickname").val().toString(),
                 "email": $("#txtEmail").val().toString(),
-                "contrasenia": $("#txtContrasenia").val().toString(),
+                "contrasenia": md5($("#txtContrasenia").val().toString()),
                 "nombre": $("#txtNombre").val().toString(),
                 "apellido": $("#txtApellido").val().toString(),
                 "dia": $("#txtDia").val().toString(),
@@ -31,7 +31,7 @@ $("#btnRegistro").click(function () {
         });
 
     } else {
-        window.alert("Hay algun campo erroneo o falta completar, verifique");
+        alert("Campo(s) erroneo(s) o incompleto(s)");
     }
 });
 
@@ -43,6 +43,15 @@ $("#txtNickname").keyup(function () {
         $("#nicknameAlerta").hide();
         $("#nicknameSuccess").hide();
         $("#faltaNickname").show();
+        $("#formatoErroneo").hide();
+        return correctoNickname = false;
+    }
+     
+    if($("#txtNickname").val().toString().indexOf("@") !== -1){
+        $("#nicknameAlerta").hide();
+        $("#nicknameSuccess").hide();
+        $("#faltaNickname").hide();
+        $("#formatoErroneo").show();
         return correctoNickname = false;
     }
 
@@ -58,11 +67,13 @@ $("#txtNickname").keyup(function () {
                 $("#nicknameAlerta").show();
                 $("#nicknameSuccess").hide();
                 $("#faltaNickname").hide();
+                $("#formatoErroneo").hide();
                 return correctoNickname = false;
             } else {
                 $("#nicknameAlerta").hide();
                 $("#nicknameSuccess").show();
                 $("#faltaNickname").hide();
+                $("#formatoErroneo").hide();
                 return correctoNickname = true;
             }
         },
@@ -76,10 +87,21 @@ $("#txtNickname").keyup(function () {
 //Verificar que no exista el Email
 var correctoEmail = false;
 $("#txtEmail").keyup(function () {
-    if ($("#txtEmail").val().toString() === "") {
+    var email = $("#txtEmail").val().toString();
+    var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+    if (email === "") {
         $("#emailAlerta").hide();
         $("#emailSuccess").hide();
         $("#faltaEmail").show();
+        $("#formatoIncorrecto").hide();
+        return correctoEmail = false;
+    } else if (!filter.test(email)) {
+        $("#emailAlerta").hide();
+        $("#emailSuccess").hide();
+        $("#faltaEmail").hide();
+        $("#formatoIncorrecto").show();
+        email.focus;
         return correctoEmail = false;
     }
 
@@ -94,17 +116,19 @@ $("#txtEmail").keyup(function () {
                 $("#emailAlerta").show();
                 $("#emailSuccess").hide();
                 $("#faltaEmail").hide();
+                $("#formatoIncorrecto").hide();
                 return correctoEmail = false;
             } else {
                 $("#emailAlerta").hide();
                 $("#emailSuccess").show();
                 $("#faltaEmail").hide();
+                $("#formatoIncorrecto").hide();
                 return correctoEmail = true;
             }
         },
         error: function () {
             alert("Error en el servlet, al momento de chequear el Email");
-        },
+        }
     });
 
 });
@@ -187,19 +211,9 @@ $("#txtApellido").focusout(function () {
 
 var correctoDia = false;
 $("#txtDia").focusout(function () {
-    var d = $("#txtDia").val().toString();
-    if (d === "") {
-        $("#alertaFecha").show();
-        return correctoDia = false;
-    }
-
-    var dia = parseInt(d);
-    //Comprobar que no sean letras
-    if (dia.toString() === "NaN") {
-        $("#alertaFecha").show();
-        return correctoDia = false;
-    } else {
-
+    var dia = $("#txtDia").val();
+    if (!isNaN(dia) && dia !== "") {
+        dia = parseInt(dia);
         if (dia <= 0 || dia >= 32) {
             $("#alertaFecha").show();
             return correctoDia = false;
@@ -207,23 +221,17 @@ $("#txtDia").focusout(function () {
             $("#alertaFecha").hide();
             return correctoDia = true;
         }
+    } else {
+        $("#alertaFecha").show();
+        return correctoDia = false;
     }
 });
 
 var correctoAnio = false;
 $("#txtAnio").focusout(function () {
-    var a = $("#txtAnio").val().toString();
-    if (a === "") {
-        $("#alertaFecha").show();
-        return correctoAnio = false;
-    }
-
-    var anio = parseInt(a);
-    if (anio.toString() === "NaN") {
-        $("#alertaFecha").show();
-        return correctoAnio = false;
-    } else {
-
+    var anio = $("#txtAnio").val();
+    if (!isNaN(anio) && anio !== "") {
+        anio = parseInt(anio);
         if (anio <= 1900 || anio >= 2018) {
             $("#alertaFecha").show();
             return correctoAnio = false;
@@ -231,6 +239,9 @@ $("#txtAnio").focusout(function () {
             $("#alertaFecha").hide();
             return correctoAnio = true;
         }
+    } else {
+        $("#alertaFecha").show();
+        return correctoAnio = false;
     }
 });
 var correctoMes = false;

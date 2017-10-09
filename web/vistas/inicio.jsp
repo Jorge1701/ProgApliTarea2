@@ -1,3 +1,4 @@
+<%@page import="Logica.DtSuscripcion"%>
 <%@page import="Logica.DtCliente"%>
 <%@page import="Logica.DtArtista"%>
 <%@page import="Logica.DtUsuario"%>
@@ -50,12 +51,8 @@
                             %>
                             <li <%= (pestania.equals("Generos") ? " class=\"active\"" : "")%>><a data-toggle="tab" href="#generos"><h3 class="pestania">Generos</h3></a></li>
                             <li <%= (pestania.equals("Artistas") ? " class=\"active\"" : "")%>><a data-toggle="tab" href="#artistas"><h3 class="pestania">Artistas</h3></a></li>
-                                <%
-                                    // Solo si hay un usario logueado se muestra la pestania clientes
-                                    if (request.getSession().getAttribute("usuario") != null) {
-                                %>
-                            <li <%= (pestania.equals("Clientes") && request.getSession().getAttribute("usuario") != null ? " class=\"active\"" : "")%>><a data-toggle="tab" href="#clientes"><h3 class="pestania">Clientes</h3></a></li>
-                                <%}%>
+                            <li <%= (pestania.equals("Clientes") ? " class=\"active\"" : "")%>><a data-toggle="tab" href="#clientes"><h3 class="pestania">Clientes</h3></a></li>
+
                         </ul>
 
                         <div class="tab-content">
@@ -95,6 +92,30 @@
 
                             <!-- Artistas -->
                             <div id="artistas" class ="tab-pane fade <%= (pestania.equals("Artistas") ? " in active" : "")%>">
+                                <!-- Buscador -->
+                                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12" style="padding-top: 23px"></div>
+
+                                <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12" style="padding-top: 23px">
+                                    <form action="/Tarea2/SInicio" method="GET">
+                                        <div class="input-group input-group-lg">
+                                            <input type="text" style="border-color: black" name="busqueda" class="form-control" placeholder="Buscar"
+
+                                                   <%
+                                                       if (request.getAttribute("busquedaArtista") != null) {
+                                                           out.print("value=\"" + request.getAttribute("busquedaArtista") + "\"");
+                                                       }
+                                                   %>
+                                                   >
+                                            <input hidden type="text" name="pestania" value="Artistas">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-default" type="submit" style="border-color: black"><span class="glyphicon glyphicon-search"></span></button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-top: 23px"></div>
+
                                 <%
                                     // Se obtienen los artistas
                                     ArrayList<DtUsuario> artistas = (ArrayList<DtUsuario>) request.getAttribute("artistas");
@@ -113,8 +134,15 @@
                                     }
 
                                     if (artistas.size() == 0) {
-                                        // Si no hay artistas se muestra un mensaje
-                                        out.print("<div class=\"panel panel-default\"><h1>No hay artistas</h1></div>");
+                                        //Si no hay resultados en la busqueda se muestra un mensaje
+                                        if (request.getAttribute("busquedaArtista") != null) {
+                                            out.print("<div class=\"row\"><div style=\"margin-top: 20px\"></div></div>");
+                                            out.print("<div class=\"panel panel-default\"><h1>No hay resultados para \"" + request.getAttribute("busquedaArtista").toString() + "\" </h1></div>");
+                                        } else {
+                                            // Pero si no hay artistas se muestra otro mensaje
+                                            out.print("<div class=\"row\"><div style=\"margin-top: 20px\"></div></div>");
+                                            out.print("<div class=\"panel panel-default\"><h1>No hay artistas</h1></div>");
+                                        }
                                     } else {
                                         // Separador al comienzo para dejar un margen
                                         out.print("<div class=\"row\"><div style=\"margin-top: 20px\"></div></div>");
@@ -150,31 +178,43 @@
                                         <%
                                             // Si hay un usuario logueado
                                             if (request.getSession().getAttribute("usuario") != null) {
-                                                DtUsuario dtu = (DtUsuario) request.getSession().getAttribute("usuario");
-                                                // Si el usuario logueado es un cliente
-                                                if (dtu instanceof DtCliente) {
-                                                    boolean siguiendo = false;
-                                                    // Si hay una lista de seguidos
-                                                    if (seguidos != null) {
-                                                        // Recorremos para ver si el usuario logueado sigue o no al usuario que estamos mostrando
-                                                        for (int j = 0; j < seguidos.size(); j++) {
-                                                            if (seguidos.get(j).getNickname().equals(a.getNickname())) {
-                                                                siguiendo = true;
-                                                                break;
+                                                if (request.getSession().getAttribute("suscripcion") != null && ((DtSuscripcion) request.getSession().getAttribute("suscripcion")).getEstado().equals("Vigente")) {
+                                                    DtUsuario dtu = (DtUsuario) request.getSession().getAttribute("usuario");
+                                                    // Si el usuario logueado es un cliente
+                                                    if (dtu instanceof DtCliente) {
+                                                        boolean siguiendo = false;
+                                                        // Si hay una lista de seguidos
+                                                        if (seguidos != null) {
+                                                            // Recorremos para ver si el usuario logueado sigue o no al usuario que estamos mostrando
+                                                            for (int j = 0; j < seguidos.size(); j++) {
+                                                                if (seguidos.get(j).getNickname().equals(a.getNickname())) {
+                                                                    siguiendo = true;
+                                                                    break;
+                                                                }
                                                             }
                                                         }
-                                                    }
 
-                                                    out.print("<br>");
+                                                        out.print("<br>");
 
-                                                    // Si no lo sigue
-                                                    if (!siguiendo) {
-                                                        out.print("<a href=\"/Tarea2/SSeguir?accion=seguir&seguidor=" + dtu.getNickname() + "&seguido=" + a.getNickname() + "\" class=\"btn btn-success btnSeguimiento\">Seguir este artista</a>");
-                                                    } else { // Si si lo sigue
-                                                        out.print("<a href=\"/Tarea2/SSeguir?accion=dejarSeguir&seguidor=" + dtu.getNickname() + "&seguido=" + a.getNickname() + "\" class=\"btn btn-danger btnSeguimiento\">Dejar de seguir</a>");
+                                                        // Si no lo sigue
+                                                        if (!siguiendo) {%>
+                                        <form action="/Tarea2/SSeguir" method="POST">
+                                            <input type="text" class="hidden" name="accion" value="seguir">
+                                            <input type="text" class="hidden" name="seguido" value="<%=a.getNickname()%>">
+                                            <input type="submit" class="btn btn-success btnSeguimiento" value="Seguir este artista">
+                                        </form>
+                                        <%} else {%>
+                                        <form action="/Tarea2/SSeguir" method="POST">
+                                            <input type="text" class="hidden" name="accion" value="dejarSeguir">
+                                            <input type="text" class="hidden" name="seguido" value="<%=a.getNickname()%>">
+                                            <input type="submit" class="btn btn-danger btnSeguimiento" value="Dejar de seguir">
+                                        </form>
+                                        <%
+                                                        }
                                                     }
                                                 }
-                                            }%>
+                                            }
+                                        %>
                                     </div>
                                 </div>
 
@@ -188,7 +228,31 @@
                             </div>
 
                             <!-- Cientes -->
-                            <div id="clientes" class ="tab-pane fade <%= (pestania.equals("Clientes") && request.getSession().getAttribute("usuario") != null ? " in active" : "")%>">
+                            <div id="clientes" class ="tab-pane fade <%= (pestania.equals("Clientes") ? " in active" : "")%>">
+
+                                <!-- Buscador -->
+                                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12" style="padding-top: 23px"></div>
+
+                                <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12" style="padding-top: 23px">
+                                    <form action="/Tarea2/SInicio" method="GET">
+                                        <div class="input-group input-group-lg">
+                                            <input type="text" style="border-color: black" name="busqueda" class="form-control" placeholder="Buscar"
+
+                                                   <%
+                                                       if (request.getAttribute("busquedaCliente") != null) {
+                                                           out.print("value=\"" + request.getAttribute("busquedaCliente") + "\"");
+                                                       }
+                                                   %>
+                                                   >
+                                            <input hidden type="text" name="pestania" value="Clientes">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-default" type="submit" style="border-color: black"><span class="glyphicon glyphicon-search"></span></button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-top: 23px"></div>
 
                                 <%
                                     // Se obtienen los clientes
@@ -208,8 +272,15 @@
                                     }
 
                                     if (clientes.size() == 0) {
-                                        // Si no hay clientes se muestra un mensaje
-                                        out.print("<div class=\"panel panel-default\"><h1>No hay clientes</h1></div>");
+                                        //Si no hay resultados en la busqueda se muestra un mensaje
+                                        if (request.getAttribute("busquedaCliente") != null) {
+                                            out.print("<div class=\"row\"><div style=\"margin-top: 20px\"></div></div>");
+                                            out.print("<div class=\"panel panel-default\"><h1>No hay resultados para \"" + request.getAttribute("busquedaCliente").toString() + "\" </h1></div>");
+                                        } else {
+                                            // Pero si no hay clientes se muestra otro mensaje
+                                            out.print("<div class=\"row\"><div style=\"margin-top: 20px\"></div></div>");
+                                            out.print("<div class=\"panel panel-default\"><h1>No hay clientes</h1></div>");
+                                        }
                                     } else {
                                         // Separador al comienzo para dejar un margen
                                         out.print("<div class=\"row\"><div style=\"margin-top: 20px\"></div></div>");
@@ -241,28 +312,40 @@
                                         <%
                                             // Misma logica que en artistas
                                             if (request.getSession().getAttribute("usuario") != null) {
-                                                DtUsuario dtu = (DtUsuario) request.getSession().getAttribute("usuario");
-                                                if (dtu instanceof DtCliente) {
-                                                    boolean siguiendo = false;
-                                                    if (seguidos != null) {
-                                                        for (int j = 0; j < seguidos.size(); j++) {
-                                                            if (seguidos.get(j).getNickname().equals(c.getNickname())) {
-                                                                siguiendo = true;
-                                                                break;
+                                                if (request.getSession().getAttribute("suscripcion") != null && ((DtSuscripcion) request.getSession().getAttribute("suscripcion")).getEstado().equals("Vigente")) {
+                                                    DtUsuario dtu = (DtUsuario) request.getSession().getAttribute("usuario");
+                                                    if (dtu instanceof DtCliente) {
+                                                        boolean siguiendo = false;
+                                                        if (seguidos != null) {
+                                                            for (int j = 0; j < seguidos.size(); j++) {
+                                                                if (seguidos.get(j).getNickname().equals(c.getNickname())) {
+                                                                    siguiendo = true;
+                                                                    break;
+                                                                }
                                                             }
                                                         }
-                                                    }
 
-                                                    out.print("<br>");
+                                                        out.print("<br>");
 
-                                                    // Si no lo sigue
-                                                    if (!siguiendo) {
-                                                        out.print("<a href=\"/Tarea2/SSeguir?accion=seguir&seguidor=" + dtu.getNickname() + "&seguido=" + c.getNickname() + "\" class=\"btn btn-success btnSeguimiento\">Seguir este cliente</a>");
-                                                    } else { // Si si lo sigue
-                                                        out.print("<a href=\"/Tarea2/SSeguir?accion=dejarSeguir&seguidor=" + dtu.getNickname() + "&seguido=" + c.getNickname() + "\" class=\"btn btn-danger btnSeguimiento\">Dejar de seguir</a>");
+                                                        // Si no lo sigue
+                                                        if (!siguiendo) {%>
+                                        <form action="/Tarea2/SSeguir" method="POST">
+                                            <input type="text" class="hidden" name="accion" value="seguir">
+                                            <input type="text" class="hidden" name="seguido" value="<%=c.getNickname()%>">
+                                            <input type="submit" class="btn btn-success btnSeguimiento" value="Seguir este cliente">
+                                        </form>
+                                        <%} else {%>
+                                        <form action="/Tarea2/SSeguir" method="POST">
+                                            <input type="text" class="hidden" name="accion" value="dejarSeguir">
+                                            <input type="text" class="hidden" name="seguido" value="<%=c.getNickname()%>">
+                                            <input type="submit" class="btn btn-danger btnSeguimiento" value="Dejar de seguir">
+                                        </form>
+                                        <%
+                                                        }
                                                     }
                                                 }
-                                            }%>
+                                            }
+                                        %>
 
                                     </div>
                                 </div>

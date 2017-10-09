@@ -6,6 +6,7 @@ import Logica.DtArtista;
 import Logica.DtGenero;
 import Logica.DtCliente;
 import Logica.DtLista;
+import Logica.DtListaParticular;
 import Logica.DtTema;
 import Logica.DtTemaLocal;
 import Logica.DtTemaRemoto;
@@ -17,6 +18,7 @@ import Logica.IUsuario;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -39,15 +41,11 @@ public class SContenido extends HttpServlet {
         iContenido = Fabrica.getIControladorContenido();
     }
 
-    /*
-    Como utilizar:
-        Reemplazar los X con los valores reales
-    
-    Consultar Genero:
-        /Tarea2/SContenido?accion=consultarGenero&genero=X
-    
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String ruta = getServletContext().getRealPath("/");
+        String[] parte = ruta.split("Tarea2");
+        String tarea1 = parte[0] + "Tarea1" + File.separator;
+
         if (request.getParameter("accion") == null) {
             request.setAttribute("mensaje_error", "Falta una accion");
             request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
@@ -106,7 +104,7 @@ public class SContenido extends HttpServlet {
 
                 case "consultarAlbum":
                     String nickArtista = request.getParameter("nickArtista");
-                    String nomAlbum = request.getParameter("nomAlbum");
+                    String nomAlbum = URLDecoder.decode(request.getParameter("nombreAlbum"), "UTF-8");
                     DtAlbumContenido dtAlbum = iUsuario.obtenerAlbumContenido(nickArtista, nomAlbum);
                     request.setAttribute("Album", dtAlbum);
                     request.getRequestDispatcher("/vistas/consultaAlbum.jsp").forward(request, response);
@@ -201,6 +199,20 @@ public class SContenido extends HttpServlet {
                             if (lEncontrada == null) {
                                 request.setAttribute("mensaje_error", "La lista no existe");
                                 request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                            } else if (lEncontrada instanceof DtListaParticular && ((DtListaParticular) lEncontrada).isPrivada()) {
+                                if (request.getSession().getAttribute("usuario") == null) {
+                                    request.setAttribute("mensaje_error", "La lista es privada");
+                                    request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                                }
+                                DtUsuario usuario = (DtUsuario) request.getSession().getAttribute("usuario");
+                                if (!((DtListaParticular) lEncontrada).getNickDuenio().equals(usuario.getNickname())) {
+                                    request.setAttribute("mensaje_error", "La lista es privada");
+                                    request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                                } else {
+                                    request.setAttribute("lista", lEncontrada);
+                                    request.getRequestDispatcher("vistas/consultar_lista.jsp").forward(request, response);
+                                }
+
                             } else {
                                 request.setAttribute("lista", lEncontrada);
                                 request.getRequestDispatcher("vistas/consultar_lista.jsp").forward(request, response);
@@ -213,26 +225,38 @@ public class SContenido extends HttpServlet {
                     }
 
                     break;
-                case "publicarLista":
-                    if (request.getParameter("nickCliente") == null || request.getParameter("nomLista") == null) {
-                        request.setAttribute("mensaje_error", "Faltan parámetros");
-                        request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
-                    } else {
-                        String nickCliente = request.getParameter("nickCliente");
-                        if (iUsuario.getDataUsuario(nickCliente) != null) {
-                            String nomLista = request.getParameter("nomLista");
-                            iContenido.publicarLista(nickCliente, nomLista);
-                            request.setAttribute("nickUs", nickCliente);
-                            request.getRequestDispatcher("/SConsultarPerfil").forward(request, response);
 
+                case "publicarLista":
+                    DtUsuario usuario = (DtUsuario) request.getSession().getAttribute("usuario");
+                    if (usuario != null) {
+                        if (iUsuario.getDataUsuario(usuario.getNickname()) != null) {
+                            String nomLista = request.getParameter("nomLista");
+                            if (nomLista == null) {
+                                request.setAttribute("mensaje_error", "Faltan parámetros");
+                                request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                            } else {
+                                try {
+                                    iContenido.publicarLista(usuario.getNickname(), nomLista);
+                                    request.setAttribute("pestania", "Listas");
+                                    request.setAttribute("nickUs", usuario.getNickname());
+                                    request.getRequestDispatcher("/SConsultarPerfil").forward(request, response);
+                                } catch (UnsupportedOperationException e) {
+                                    request.setAttribute("mensaje_error", "No existe la lista '" + nomLista + "' en el sistema");
+                                    request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                                }
+
+                            }
                         } else {
                             request.setAttribute("mensaje_error", "El cliente no existe");
                             request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
                         }
+
+                    } else {
+                        request.setAttribute("mensaje_error", "Debe de iniciar sesion para utilizar esta opcion");
+                        request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
                     }
 
                     break;
-
                 default:
                     request.setAttribute("mensaje_error", "Accion desconocida");
                     request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
