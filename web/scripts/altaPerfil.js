@@ -58,7 +58,8 @@ $("#txtNickname").keyup(function () {
     $.ajax({
         type: "POST",
         url: "/Tarea2/SRegistro",
-        data: {"nickname": $("#txtNickname").val().toString(),
+        data: {
+            "nickname": $("#txtNickname").val().toString(),
             "accion": "nickname"},
 
         success: function (data) {

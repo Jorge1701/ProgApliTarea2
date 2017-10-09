@@ -43,7 +43,8 @@
                     <ul class="nav nav-tabs" >
                         <li <%= (pestania.equals("") ? " class=\"active\"" : "")%>><a data-toggle="tab" href="#home" style="color: black"><h5 class="pestaniaP">Informacion Basica</h5></a></li>
                         <li <%= (pestania.equals("Listas") ? " class=\"active\"" : "")%>><a data-toggle="tab" href="#menu1" style="color: black"><h5 class="pestaniaP">Listas</h5></a></li>
-                            <% if (session.getAttribute("usuario") != null) {%>
+                            <% if (session.getAttribute("usuario") != null) {    
+   %>
                         <li><a data-toggle="tab" href="#menu2" style="color: black"><h5 class="pestaniaP">Seguidores</h5></a></li>
 
                        
@@ -75,10 +76,15 @@
                                         </div>
                                         <div class="col-sm-6" >
                                             <% if (session.getAttribute(
-                                                        "usuario") != null) {%>
+                                                        "usuario") != null) {
+                                                DtUsuario usSesion = (DtUsuario) session.getAttribute("usuario");
+                                            %>
                                             <h4 style="color:black;"><%= dtPCliente.getInfo().getNombre()%>  <%= dtPCliente.getInfo().getApellido()%> </h4></span>
                                             <span><p>Cliente</p></span>
-                                            <%}%>
+                                            <% if (usSesion.getNickname().equals(dtCli.getNickname()) && dtCli.getSuscripcion() != null && dtCli.getSuscripcion().getEstado() != null && dtCli.getSuscripcion().getEstado().equals("Vigente")) {%>
+                                                <h5><a href="/Tarea2/SLista" id="btnCrearLista">Crear Lista Reproduccion</a> </h5> 
+                                            <%}                                                
+                                            }%>
                                         </div>
                                         <div class="clearfix"></div>
                                         <table class="table table-user-information">

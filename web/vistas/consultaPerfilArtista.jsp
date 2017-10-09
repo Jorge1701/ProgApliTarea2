@@ -64,7 +64,7 @@
                                                     DtUsuario u = (DtUsuario) session.getAttribute("usuario");
                                                     if (dtPArtista.getInfo().getNickname().equals(u.getNickname())) {
                                             %>
-                                            <h5><a href="/Tarea2/SContenido?accion=AltaAlbum" id="btnCrearAlbum">Crear Album</a> </h5>   
+                                            <h5><a href="/Tarea2/SContenido?accion=AltaAlbum" id="btnCrearAlbum">Crear Album</a></h5>   
                                             <%}
                                                 }%>
                                         </div>

@@ -1,16 +1,23 @@
 package servlets;
 
+import Logica.Album;
 import Logica.DtAlbumContenido;
+import Logica.DtArtista;
 import Logica.DtGenero;
 import Logica.DtCliente;
 import Logica.DtLista;
 import Logica.DtListaParticular;
+import Logica.DtTema;
+import Logica.DtTemaLocal;
+import Logica.DtTemaRemoto;
+import Logica.DtTime;
 import Logica.DtUsuario;
 import Logica.Fabrica;
 import Logica.IContenido;
 import Logica.IUsuario;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,38 +51,29 @@ public class SContenido extends HttpServlet {
             request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
         } else {
             String accion = request.getParameter("accion");
+            String nickname = request.getParameter("nickArtista");
+            String nombreAlbum = request.getParameter("nombreAlbum");
 
             switch (accion) {
-                case "subirImagen":
-                    String archivourl = tarea1 + "Recursos\\Imagenes\\Albumes";
 
-                    DiskFileItemFactory factory = new DiskFileItemFactory();
-
-                    factory.setSizeThreshold(1024);
-
-                    factory.setRepository(new File(archivourl));
-
-                    ServletFileUpload upload = new ServletFileUpload(factory);
-
-                    try {
-
-                        List<FileItem> partes = upload.parseRequest(request);
-
-                        for (FileItem items : partes) {
-                            File file = new File(archivourl, items.getName());
-                            items.write(file);
-                        }
-
-                        System.out.println("<h2>ARCHIVO CORRECTAMENTE SUBIDO.....</h2>" + "\n\n" + "<a href='index.jsp'>VOVLER AL MENU</a>");
-
-                    } catch (Exception e) {
-                        System.out.println("Exception: " + e.getMessage() + "");
-                    }
-                    break;
                 case "AltaAlbum":
                     ArrayList<DtGenero> generos = ((DtGenero) iContenido.listarGenero()).getSubGeneros();
                     request.setAttribute("Generos", generos);
                     request.getRequestDispatcher("/vistas/AltaAlbum.jsp").forward(request, response);
+                    break;
+
+                case "nombreAlbum":
+
+                    String existe = "";
+
+                    if (iContenido.ExisteAlbum(nickname, nombreAlbum) == true) {
+                        existe = "si";
+                    } else {
+                        existe = "no";
+                    }
+                    response.setContentType("text/plain");
+                    response.setCharacterEncoding("UTF-8");
+                    response.getWriter().write(existe);
                     break;
 
                 case "consultarGenero":
@@ -113,11 +111,44 @@ public class SContenido extends HttpServlet {
                     break;
 
                 case "crearAlbum":
-                    String nombreAlbum = request.getParameter("nombreAlbum");
+
+                    String nombreA = request.getParameter("nombreAlbum");
+                    String nickArt = request.getParameter("nickArtista");
+                    String temas = request.getParameter("temas");
+                    String gen = request.getParameter("generos");
                     int anio = Integer.parseInt(request.getParameter("anio"));
-                    String[] generos1 = request.getParameterValues("genero");
-                    String imagen = request.getParameter("imagen");
-                    iContenido.ingresarAlbum(nombreAlbum, anio, null, imagen, null);
+                    log("Anio "+anio);
+                    log("nombreAlbum"+nombreA);
+                    log("temas "+temas);
+                    
+                    DtTema dtTema;
+                    ArrayList<DtTema> ArrayDeTemas = new ArrayList();
+                    ArrayList<String> ArrayDeGeneros = new ArrayList();
+                    String[] objGeneros = gen.split("&");
+                    int i;
+                    for (i = 0; i < objGeneros.length; i++) {
+                        log("Generos"+objGeneros[i]);
+                        ArrayDeGeneros.add(objGeneros[i]);
+                    }
+                    String[] todoTemas = temas.split("@");
+                    for (i = 0; i < todoTemas.length; i++) {
+                        log("Tema 1 :"+todoTemas[i] );                        
+                        String[] data = todoTemas[i].split("~");
+                        log("url: "+data[0]+" nombre: "+data[1]+" posicion: "+data[2]+" duracion"+data[3]);
+                        String[] duracion = data[3].split(":");
+
+                        DtTime time = new DtTime(Integer.parseInt(duracion[0]), Integer.parseInt(duracion[1]), Integer.parseInt(duracion[2]));
+                        if (data[0].contains("mp3") == true) {
+                            dtTema = new DtTemaLocal(data[0], data[1], time, Integer.parseInt(data[2]));
+                        } else {
+                            dtTema = new DtTemaRemoto(data[0], data[1], time, Integer.parseInt(data[2]));
+                        }
+                        ArrayDeTemas.add(dtTema);
+                    }
+                    //Album(String nickArtista, String nombre, int anio, String imagen, HashMap<String, Tema> temas, ArrayList<Genero> generos)
+                    iContenido.selectArtista(nickArt);
+                    iContenido.ingresarAlbum(nombreA, anio, ArrayDeGeneros, "", ArrayDeTemas);
+
                     break;
                 case "consultarListaDefecto":
                     if (request.getParameter("nomGenero") == null || request.getParameter("nomLista") == null) {
