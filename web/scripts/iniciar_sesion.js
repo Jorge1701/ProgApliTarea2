@@ -10,7 +10,8 @@ $("#btnIniciarSesion").click(function () {
     $.ajax({
         type: "POST",
         url: "/Tarea2/SSesion",
-        data: {"accion": "iniciarSesion",
+        data: {
+            "accion": "iniciarSesion",
             "nickname": $("#txtNickname").val().toString(),
             "contrasenia": md5($("#txtPass").val().toString())
         },

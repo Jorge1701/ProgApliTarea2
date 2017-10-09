@@ -104,7 +104,8 @@ public class SContenido extends HttpServlet {
 
                 case "consultarAlbum":
                     String nickArtista = request.getParameter("nickArtista");
-                    String nomAlbum = URLDecoder.decode(request.getParameter("nombreAlbum"), "UTF-8");
+                    String nomAlbum = URLDecoder.decode(request.getParameter("nomAlbum"), "UTF-8");
+                    //controlar null
                     DtAlbumContenido dtAlbum = iUsuario.obtenerAlbumContenido(nickArtista, nomAlbum);
                     request.setAttribute("Album", dtAlbum);
                     request.getRequestDispatcher("/vistas/consultaAlbum.jsp").forward(request, response);
