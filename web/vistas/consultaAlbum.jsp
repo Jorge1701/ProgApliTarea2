@@ -4,6 +4,7 @@
     Author     : brian
 --%>
 
+<%@page import="Logica.DtArtista"%>
 <%@page import="Logica.DtTemaRemoto"%>
 <%@page import="Logica.DtTemaLocal"%>
 <%@page import="Logica.DtSuscripcion"%>
@@ -27,6 +28,20 @@
     </head>
     <body>
         <%
+
+            if(  (DtUsuario) request.getSession().getAttribute("usuario") instanceof DtArtista){
+                            request.setAttribute("mensaje_error", "Esta página está reservada para nuestr ");
+                request.getRequestDispatcher("pagina_error.jsp").forward(request, response);
+            }else{
+                
+       
+            DtUsuario user = (DtUsuario) request.getSession().getAttribute("usuario");
+            
+            if (user instanceof DtCliente) {
+                request.setAttribute("mensaje_error", "Esta página está reservada para nuestros Artistas ");
+                request.getRequestDispatcher("pagina_error.jsp").forward(request, response);
+
+	
             DtAlbumContenido albumes = (DtAlbumContenido) request.getAttribute("Album");
             DtAlbum inf = (DtAlbum) albumes.getInfo();
             String Generos = albumes.getGeneros2();
@@ -36,8 +51,9 @@
             String nombreAlbum = inf.getNombre();
             int anioCreacion = inf.getAnio();
             DtUsuario usuario = (DtUsuario) request.getSession().getAttribute("usuario");
-
-        %>
+            
+            %>
+        
 
         <div class="container-fluid">
             <jsp:include page="header.jsp"/>
@@ -60,7 +76,7 @@
                                             <div   align="center"> <img height="250" width="250" alt="Album Pic" src="/Tarea2/SImagen?album=<%= imagen%>" id="album-imagen" class="img-circle img-responsive"> 
                                                 <input id="profile-image-upload" class="hidden" type="file">
                                             </div>
-                                            <td ><h4 style="color:white">Nombre Album : <%= nombreAlbum%></h4></td>
+                                            <td ><h4 style="color:white ">Nombre Album : <%= nombreAlbum%></h4></td>
                                             <td> <h4 style="color:white">Año De Creacion : <%= anioCreacion%> </h4></td>
                                             <td><h4 style="color:white">Generos: <%=Generos%></h4></td>
                                         </div>
@@ -74,7 +90,7 @@
                                 <table >
                                     <caption style="color:white"><center>Temas</center></caption>
                                     <tr class="w3-green">
-                                        <th><center>Nombre</center></th>
+                                    <th><center>Nombre</center></th>
                                     <th><center>Posicion</center></th>
                                     <th><center>Duracion</center></th>
                                     <th><center>Ubicacion</center></th>
@@ -84,19 +100,20 @@
                                                 if (temas.get(i) instanceof DtTemaLocal) {
                                                     DtTemaLocal local = (DtTemaLocal) temas.get(i);
                                         %> 
-                                    <tr onclick="reproducirLocal('<%= local.getDirectorio().replace("'", "\\'")%>', '<%= local.getNombre().replace("'", "\\'")%>', '<%= local.getArtista().replace("'", "\\'")%>', '<%= local.getImagenAlbum().replace("'", "\\'")%>')">
+                                    <tr style=" background-color: white" onclick="reproducirLocal('<%= local.getDirectorio().replace("'", "\\'")%>', '<%= local.getNombre().replace("'", "\\'")%>', '<%= local.getArtista().replace("'", "\\'")%>', '<%= local.getImagenAlbum().replace("'", "\\'")%>')">
                                         <%} else {
                                         %>
-                                    <tr onclick="reproducirRemoto('<%= ((DtTemaRemoto) temas.get(i)).getUrl()%>')">
+                                    <tr style=" background-color: white" onclick="reproducirRemoto('<%= ((DtTemaRemoto) temas.get(i)).getUrl()%>')">
                                         <% }%>
-                                        <td><text style="color:white"><center>  <%= temas.get(i).getNombre()%></center> </text></td>
-                                    <td><text style="color:white "><center> <%= temas.get(i).getUbicacion()%></center> </text></td>
-                                    <td><text style="color:white"><center> <%= temas.get(i).getDuracion().getHoras()%>:<%= temas.get(i).getDuracion().getMinutos()%>:<%= temas.get(i).getDuracion().getSegundos()%></center></text></td>
-                                    <td><text style="color:white"><center>  <%= temas.get(i) instanceof DtTemaLocal ? ((DtTemaLocal) temas.get(i)).getDirectorio() : ((DtTemaRemoto) temas.get(i)).getUrl()%></center>  </text></td>
+                                        <td><text style="color:black"><center>  <%= temas.get(i).getNombre()%></center> </text></td>
+                                    <td><text style="color:black "><center> <%= temas.get(i).getUbicacion()%></center> </text></td>
+                                    <td><text style="color:black  ; background-color: white"><center> <%= temas.get(i).getDuracion().getHoras()%>:<%= temas.get(i).getDuracion().getMinutos()%>:<%= temas.get(i).getDuracion().getSegundos()%></center></text></td>
+                                    <td><text style="color:black ; background-color: white"><center>  <%= temas.get(i) instanceof DtTemaLocal ? ((DtTemaLocal) temas.get(i)).getDirectorio() : ((DtTemaRemoto) temas.get(i)).getUrl()%></center>  </text></td>
                                         <%
                                             if (request.getSession().getAttribute("usuario") != null) {
 
                                                 DtUsuario dtu = (DtUsuario) request.getSession().getAttribute("usuario");
+                                                
                                                 DtSuscripcion suscripcion = (DtSuscripcion) ((DtCliente) dtu).getSuscripcion();
                                                 if (suscripcion != null) {
                                                     if (suscripcion.getEstado().equals("Vigente")) {

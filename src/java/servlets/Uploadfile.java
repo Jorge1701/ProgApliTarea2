@@ -35,36 +35,36 @@ public class Uploadfile extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (
-            PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
+       
             String archivourl = "C:\\Users\\brian\\Documents\\NetBeansProjects\\Tarea1\\Recursos\\Imagenes\\Albumes";
-
+            
             DiskFileItemFactory factory = new DiskFileItemFactory();
-
+            
             factory.setSizeThreshold(1024);
-
+            
             factory.setRepository(new File(archivourl));
-
+            
             ServletFileUpload upload = new ServletFileUpload(factory);
-
-            try {
-
+            
+            
+            try{
+                
                 List<FileItem> partes = upload.parseRequest(request);
-
-                for (FileItem items : partes) {
-                    File file = new File(archivourl, items.getName());
+                
+                for(FileItem items: partes){
+                    File file = new File(archivourl,items.getName());
                     items.write(file);
                 }
-
-                out.print("<h2>ARCHIVO CORRECTAMENTE SUBIDO.....</h2>" + "\n\n" + "<a href='../index.html'>VOVLER AL MENU</a>");
-
-            } catch (Exception e) {
-                out.print("Exception: " + e.getMessage() + "");
+                
+               
+                
+            }catch(Exception e){
+      
             }
+            
 
         }
-    }
+  
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

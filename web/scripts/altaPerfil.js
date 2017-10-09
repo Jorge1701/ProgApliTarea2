@@ -31,7 +31,7 @@ $("#btnRegistro").click(function () {
         });
 
     } else {
-        window.alert("Hay algun campo erroneo, verifique");
+        window.alert("Hay algun campo erroneo o falta completar, verifique");
     }
 });
 
@@ -49,7 +49,8 @@ $("#txtNickname").keyup(function () {
     $.ajax({
         type: "POST",
         url: "/Tarea2/SRegistro",
-        data: {"nickname": $("#txtNickname").val().toString(),
+        data: {
+            "nickname": $("#txtNickname").val().toString(),
             "accion": "nickname"},
 
         success: function (data) {
