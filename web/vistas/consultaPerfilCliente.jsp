@@ -82,7 +82,7 @@
                                             <h4 style="color:black;"><%= dtPCliente.getInfo().getNombre()%>  <%= dtPCliente.getInfo().getApellido()%> </h4></span>
                                             <span><p>Cliente</p></span>
                                             <% if (usSesion.getNickname().equals(dtCli.getNickname()) && dtCli.getSuscripcion() != null && dtCli.getSuscripcion().getEstado() != null && dtCli.getSuscripcion().getEstado().equals("Vigente")) {%>
-                                                <h5><a href="/Tarea2/SLista" id="btnCrearLista">Crear Lista Reproduccion</a> </h5> 
+                                                <h5><a href="/Tarea2/SLista" class="btn btn-info" id="btnCrearLista">Crear Lista Reproduccion</a> </h5> 
                                             <%}                                                
                                             }%>
                                         </div>
