@@ -65,7 +65,7 @@
                                             <div   align="center"> <img height="250" width="250" alt="Album Pic" src="/Tarea2/SImagen?album=<%= imagen%>" id="album-imagen" class="img-circle img-responsive"> 
                                                 <input id="profile-image-upload" class="hidden" type="file">
                                             </div>
-                                            
+
                                             <td><h4 style="color: black">Nombre Album : <%= nombreAlbum%></h4></td>
                                             <td><h4 style="color: black">Año De Creacion : <%= anioCreacion%> </h4></td>
                                             <td><h4 style="color: black">Generos: <%=Generos%></h4></td>
@@ -88,6 +88,18 @@
                                     <th><center><text style="color:black ">Reproducir</text></center></th>
                                     <th><center><text style="color:black ">Descargar</text></center></th>
                                         <%
+
+                                            if (request.getSession().getAttribute("usuario") != null) {
+                                                DtUsuario user = (DtUsuario) request.getSession().getAttribute("usuario");
+                                                if (user instanceof DtCliente) {
+                                                    DtSuscripcion suscripcion = (DtSuscripcion) ((DtCliente) user).getSuscripcion();
+                                                    if (suscripcion != null) { %>
+                                    <th><center><text style="color:black ">Favorito</text></center></th>
+                                        <%
+                                                    }
+                                                }
+                                            }
+
                                             for (int i = 0; i < temas.size(); i++) {%>
                                     <tr>                              
                                         <td><text style="color:black"><center><%= temas.get(i).getNombre()%></center> </text></td>

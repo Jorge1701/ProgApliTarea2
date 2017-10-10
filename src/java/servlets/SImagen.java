@@ -1,6 +1,5 @@
 package servlets;
 
-import com.sun.org.apache.xml.internal.serializer.OutputPropertyUtils;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;

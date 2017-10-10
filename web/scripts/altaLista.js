@@ -43,11 +43,13 @@ $("#txtNombreLst").keyup(function () {
                 $("#nombreAlerta").show();
                 $("#nombreSuccess").hide();
                 $("#faltaNombre").hide();
+                $("#altaLstOK").hide(); 
                 return correctoNombre = false;
             } else {
                 $("#nombreAlerta").hide();
                 $("#nombreSuccess").show();
                 $("#faltaNombre").hide();
+                $("#altaLstOK").hide(); 
                 return correctoNombre = true;
             }
         },
