@@ -86,7 +86,7 @@ public class SSuscripcion extends HttpServlet {
 
             DtUsuario usuario = (DtUsuario) request.getSession().getAttribute("usuario");
             if (((DtCliente) usuario).getSuscripcion() != null) {
-                request.setAttribute("mensaje_error", "Ya posee una suscripción");
+                request.setAttribute("mensaje_error", "Ya posee una suscripción vigente");
                 request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
             }
             String nickname = usuario.getNickname();
@@ -101,39 +101,34 @@ public class SSuscripcion extends HttpServlet {
         } else if (request.getParameter("accion").equals("cancelar")) {
             //este cancelar es cuando pasa de pendiente a cancelada
             DtUsuario usuario = (DtUsuario) request.getSession().getAttribute("usuario");
+            String estado = request.getParameter("Estado");
 
             Calendar hoy = new GregorianCalendar();
+            DtFecha fechaHoy = new DtFecha(hoy.get(Calendar.DATE), (hoy.get(Calendar.MONTH) + 1), hoy.get(Calendar.YEAR));
 
-            DtFecha fecha = new DtFecha(hoy.get(Calendar.DAY_OF_MONTH), (hoy.get(Calendar.MONTH) + 1), hoy.get(Calendar.YEAR));
+            if (estado.equals("Pendiente")) {
+                if (iUsuario.cancelarSuscripcion(usuario.getNickname(), estado, "", "", "", fechaHoy)) {
+                    DtUsuario usr = iUsuario.getDataUsuario(usuario.getNickname());
+                    DtSuscripcion s = ((DtCliente) usr).getSuscripcion();
+                    request.getSession().setAttribute("usuario", usr);
+                    // request.getSession().setAttribute("suscripcion", s);
+                    // request.getSession().setAttribute("suscripciones", ((DtCliente) usr).getSuscripciones());
+                    // getServletContext().getRequestDispatcher("/SSuscripcion?accion=redir1").forward(request, response);
+                }
+            } else {
+                String cuota = request.getParameter("Cuota");
+                String fecha = request.getParameter("Fecha");
+                String fecha_venc = request.getParameter("FechaVenc");
 
-            if (iUsuario.cancelarSuscripcion(usuario.getNickname(), "Pendiente", "", "", "", fecha)) {
-                DtUsuario usr = iUsuario.getDataUsuario(usuario.getNickname());
-                DtSuscripcion s = ((DtCliente) usr).getSuscripcion();
-                request.getSession().setAttribute("usuario", usr);
-                request.getSession().setAttribute("suscripcion", s);
-                request.getSession().setAttribute("suscripciones", ((DtCliente) usr).getSuscripciones());
-                getServletContext().getRequestDispatcher("/SSuscripcion?accion=redir1").forward(request, response);
-            }
+                if (iUsuario.cancelarSuscripcion(usuario.getNickname(), estado, cuota, fecha, fecha_venc, fechaHoy)) {
+                    DtUsuario usr = iUsuario.getDataUsuario(usuario.getNickname());
+                    DtSuscripcion s = ((DtCliente) usr).getSuscripcion();
+                    request.getSession().setAttribute("usuario", usr);
+                    //request.getSession().setAttribute("suscripcion", s);
+                    //request.getSession().setAttribute("suscripciones", ((DtCliente) usr).getSuscripciones());
+                    //getServletContext().getRequestDispatcher("/SSuscripcion?accion=redir1").forward(request, response);
+                }
 
-        } else if (request.getParameter("accion").equals("cancelar2")) {
-
-            DtUsuario usuario = (DtUsuario) request.getSession().getAttribute("usuario");
-
-            String estado = request.getParameter("Estado");
-            String cuota = request.getParameter("Cuota");
-            String fecha = request.getParameter("Fecha");
-            String fecha_venc = request.getParameter("FechaVenc");
-
-            Calendar dia = new GregorianCalendar();
-            DtFecha hoy = new DtFecha(dia.get(Calendar.DAY_OF_MONTH), (dia.get(Calendar.MONTH) + 1), dia.get(Calendar.YEAR));
-
-            if (iUsuario.cancelarSuscripcion(usuario.getNickname(), estado, cuota, fecha, fecha_venc, hoy)) {
-                DtUsuario usr = iUsuario.getDataUsuario(usuario.getNickname());
-                DtSuscripcion s = ((DtCliente) usr).getSuscripcion();
-                request.getSession().setAttribute("usuario", usr);
-                request.getSession().setAttribute("suscripcion", s);
-                request.getSession().setAttribute("suscripciones", ((DtCliente) usr).getSuscripciones());
-                getServletContext().getRequestDispatcher("/SSuscripcion?accion=redir1").forward(request, response);
             }
 
         } else if (request.getParameter("accion").equals("renovar")) {
@@ -146,20 +141,29 @@ public class SSuscripcion extends HttpServlet {
             String fecha_venc = request.getParameter("FechaVenc");
 
             Calendar dia = new GregorianCalendar();
-            DtFecha hoy = new DtFecha(dia.get(Calendar.DAY_OF_MONTH), (dia.get(Calendar.MONTH) + 1), dia.get(Calendar.YEAR));
-            if (iUsuario.renovarSuscripcion(usuario.getNickname(), estado, cuota, fecha, fecha_venc, hoy)) {
-                DtUsuario usr = iUsuario.getDataUsuario(usuario.getNickname());
-                DtSuscripcion s = ((DtCliente) usr).getSuscripcion();
-                request.getSession().setAttribute("usuario", usr);
-                request.getSession().setAttribute("suscripcion", s);
-                request.getSession().setAttribute("suscripciones", ((DtCliente) usr).getSuscripciones());
-                getServletContext().getRequestDispatcher("/SSuscripcion?accion=redir1").forward(request, response);
+            DtFecha hoy = new DtFecha(dia.get(Calendar.DATE), (dia.get(Calendar.MONTH) + 1), dia.get(Calendar.YEAR));
+
+            if (((DtCliente) usuario).getSuscripcion() == null) {
+                if (iUsuario.renovarSuscripcion(usuario.getNickname(), estado, cuota, fecha, fecha_venc, hoy)) {
+                    DtUsuario usr = iUsuario.getDataUsuario(usuario.getNickname());
+                    DtSuscripcion s = ((DtCliente) usr).getSuscripcion();
+                    request.getSession().setAttribute("usuario", usr);
+                    //request.getSession().setAttribute("suscripcion", s);
+                    //request.getSession().setAttribute("suscripciones", ((DtCliente) usr).getSuscripciones());
+                    //getServletContext().getRequestDispatcher("/SSuscripcion?accion=redir1").forward(request, response);
+                }
+            } else {
+                response.setContentType("text/plain");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write("error");
+
             }
 
         }
+
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

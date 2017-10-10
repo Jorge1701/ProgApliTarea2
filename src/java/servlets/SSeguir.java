@@ -1,6 +1,8 @@
 package servlets;
 
+import Logica.DtArtista;
 import Logica.DtCliente;
+import Logica.DtSuscripcion;
 import Logica.DtUsuario;
 import Logica.Fabrica;
 import Logica.IUsuario;
@@ -21,96 +23,77 @@ public class SSeguir extends HttpServlet {
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("mensaje_error", "Ups, usted no deberia estar aqui   <span class=\"glyphicon glyphicon-eye-close\"></span>");
+        request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getSession().getAttribute("usuario") == null) {
             request.setAttribute("mensaje_error", "No se pudo completar la tarea, no tiene permisos para entrar aqui");
             request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
             return;
-        } else {
-            // TODO: Colocar que si no tiene suscripcion no lo deje.
         }
 
-        if (request.getParameter("accion") != null) {
-            if (request.getParameter("seguidor") != null && request.getParameter("seguido") != null) {
-                String accion = request.getParameter("accion");
-                String seguidor = request.getParameter("seguidor");
-                String seguido = request.getParameter("seguido");
+        DtUsuario dtu = (DtUsuario) request.getSession().getAttribute("usuario");
 
-                DtUsuario dtuSeguido;
-                switch (accion) {
-                    case "seguir":
-                        dtuSeguido = iUsuario.getDataUsuario(seguido);
-
-                        if (dtuSeguido == null) {
-                            request.setAttribute("mensaje_error", "El usuario que se desea seguir no existe");
-                            request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
-                        } else {
-                            iUsuario.seguirUsuario(seguidor, seguido);
-                            request.getRequestDispatcher("/SInicio?pestania=" + (dtuSeguido instanceof DtCliente ? "Clientes" : "Artistas")).forward(request, response);
-                        }
-                        break;
-                    case "dejarSeguir":
-                        dtuSeguido = iUsuario.getDataUsuario(seguido);
-
-                        if (dtuSeguido == null) {
-                            request.setAttribute("mensaje_error", "El usuario que se desea dejar de seguir no existe");
-                            request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
-                        } else {
-                            iUsuario.dejarSeguirUsuario(seguidor, seguido);
-                            request.getRequestDispatcher("/SInicio?pestania=" + (dtuSeguido instanceof DtCliente ? "Clientes" : "Artistas")).forward(request, response);
-                        }
-                        break;
-                    default:
-                        request.setAttribute("mensaje_error", "No se pudo completar la tarea, accion desconocida");
-                        request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
-                        break;
-                }
-            } else {
-                request.setAttribute("mensaje_error", "No se pudo completar la tarea, faltan parametros");
-                request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
-            }
-        } else {
-            request.setAttribute("mensaje_error", "No se pudo completar la tarea, falta una accion");
+        if (dtu instanceof DtArtista) {
+            request.setAttribute("mensaje_error", "Debe ser un cliente");
             request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+            return;
+        }
+
+        DtCliente dtc = (DtCliente) dtu;
+
+        if (request.getSession().getAttribute("suscripcion") == null || !((DtSuscripcion) request.getSession().getAttribute("suscripcion")).getEstado().equals("Vigente")) {
+            request.setAttribute("mensaje_error", "Debe tener suscripcion vigente");
+            request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+            return;
+        }
+
+        if (request.getParameter("accion") == null || request.getParameter("seguido") == null) {
+            request.setAttribute("mensaje_error", "No hay accion");
+            request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+            return;
+        }
+
+        String accion = request.getParameter("accion");
+        String seguido = request.getParameter("seguido");
+
+        DtUsuario dtuSeguido = iUsuario.getDataUsuario(seguido);
+
+        if (dtuSeguido == null) {
+            request.setAttribute("mensaje_error", "El usuario que se desea seguir no existe");
+            request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+            return;
+        }
+
+        switch (accion) {
+            case "seguir":
+                iUsuario.seguirUsuario(dtc.getNickname(), seguido);
+                request.getRequestDispatcher("/SInicio?pestania=" + (dtuSeguido instanceof DtCliente ? "Clientes" : "Artistas")).forward(request, response);
+
+                break;
+            case "dejarSeguir":
+                iUsuario.dejarSeguirUsuario(dtc.getNickname(), seguido);
+                request.getRequestDispatcher("/SInicio?pestania=" + (dtuSeguido instanceof DtCliente ? "Clientes" : "Artistas")).forward(request, response);
+
+                break;
+            default:
+                request.setAttribute("mensaje_error", "Accion desconocida");
+                request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+
+                break;
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
-
+    }
 }

@@ -21,50 +21,122 @@ public class SSesion extends HttpServlet {
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-
-        if (request.getParameter("cerrarSesion") != null) {
-            request.getSession().removeAttribute("usuario");
-            request.getRequestDispatcher("SInicio").forward(request, response);
-        } else if (request.getParameter("nickname") != null && request.getParameter("contrasenia") != null) {
-            String chequeo = iUsuario.chequearLogin(request.getParameter("nickname"), request.getParameter("contrasenia"));
-            if (chequeo.equals("")) {
-                DtUsuario u = iUsuario.getDataUsuario(request.getParameter("nickname"));
-                request.getSession().setAttribute("usuario", u);
-                if(u instanceof DtCliente){
-                request.getSession().setAttribute("suscripcion", ((DtCliente)u).getSuscripcion());
-                request.getSession().setAttribute("suscripciones", ((DtCliente)u).getSuscripciones());
-                }
-                request.getRequestDispatcher("SInicio").forward(request, response);
-            } else {
-                request.setAttribute("error", chequeo);
-                request.getRequestDispatcher("/vistas/iniciar_sesion.jsp").forward(request, response);
-            }
-        } else if (request.getParameter("redirigir") != null) {
-            request.getRequestDispatcher("/vistas/" + request.getParameter("redirigir")).forward(request, response);
-        }
-    }
-
-    public static boolean usuarioLogeado(HttpServletRequest request) {
-        return request.getSession().getAttribute("nickname") != null;
-    }
-
-    public static String errorDeContrasenia(HttpServletRequest request) {
-        if (request.getAttribute("error") != null) {
-            return request.getAttribute("error").toString();
-        } else {
-            return "";
-        }
+        request.setAttribute("mensaje_error", "Ups, usted no deberia estar aqui :s");
+        request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request, response);
+        if (request.getParameter("accion") == null) {
+            request.setAttribute("mensaje_error", "No hay una accion");
+            request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+            return;
+        }
+
+        String accion = request.getParameter("accion");
+
+        switch (accion) {
+            case "cerrarSesion":
+                if (request.getSession().getAttribute("usuario") == null) {
+                    request.setAttribute("mensaje_error", "Debe haber un usuario logueado");
+                    request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                    return;
+                }
+
+                request.getSession().removeAttribute("usuario");
+                request.getSession().removeAttribute("suscripcion");
+                request.getSession().removeAttribute("suscripciones");
+                request.getRequestDispatcher("SInicio").forward(request, response);
+
+                break;
+            case "redirigir":
+                request.getRequestDispatcher("vistas/iniciar_sesion.jsp").forward(request, response);
+
+                break;
+            case "error":
+                if (request.getParameter("mensaje") == null) {
+                    request.setAttribute("error", "Error desconocido");
+                    request.getRequestDispatcher("vistas/iniciar_sesion.jsp").forward(request, response);
+                } else {
+                    request.setAttribute("error", request.getParameter("mensaje"));
+                    request.getRequestDispatcher("vistas/iniciar_sesion.jsp").forward(request, response);
+                }
+
+                break;
+            default:
+                request.setAttribute("mensaje_error", "El resto de acciones van por POST");
+                request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+
+                break;
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request, response);
+        if (request.getParameter("accion") == null) {
+            request.setAttribute("mensaje_error", "No hay una accion");
+            request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+            return;
+        }
+
+        String accion = request.getParameter("accion");
+
+        switch (accion) {
+            case "iniciarSesion":
+                if (request.getSession().getAttribute("usuario") != null) {
+                    request.setAttribute("mensaje_error", "Ya hay un usuario logueado");
+                    request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                    return;
+                }
+
+                if (request.getParameter("nickname") == null || request.getParameter("contrasenia") == null) {
+                    request.setAttribute("mensaje_error", "Faltan parametros");
+                    request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                    return;
+                }
+
+                String nickname = iUsuario.chequearLogin(request.getParameter("nickname"), request.getParameter("contrasenia"));
+
+                if (!nickname.contains("Error")) {
+                    DtUsuario dtu = iUsuario.getDataUsuario(nickname);
+                    request.getSession().setAttribute("usuario", dtu);
+                    if (dtu instanceof DtCliente) {
+                        request.getSession().setAttribute("suscripcion", ((DtCliente) dtu).getSuscripcion());
+                        request.getSession().setAttribute("suscripciones", ((DtCliente) dtu).getSuscripciones());
+                    }
+                    response.setContentType("text/plain");
+                    response.setCharacterEncoding("UTF-8");
+                    response.getWriter().write("correcto");
+                } else {
+                    response.setContentType("text/plain");
+                    response.setCharacterEncoding("UTF-8");
+                    response.getWriter().write(nickname);
+                }
+
+                break;
+            case "cerrarSesion":
+                if (request.getSession().getAttribute("usuario") == null) {
+                    request.setAttribute("mensaje_error", "Debe haber un usuario logueado");
+                    request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                    return;
+                }
+
+                request.getSession().removeAttribute("usuario");
+                request.getSession().removeAttribute("suscripcion");
+                request.getSession().removeAttribute("suscripciones");
+                request.getRequestDispatcher("SInicio").forward(request, response);
+
+                break;
+            case "redirigir":
+                request.getRequestDispatcher("vistas/iniciar_sesion.jsp").forward(request, response);
+
+                break;
+            default:
+                request.setAttribute("mensaje_error", "Accion desconocida");
+                request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+
+                break;
+        }
     }
 
     @Override

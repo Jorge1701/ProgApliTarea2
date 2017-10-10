@@ -11,7 +11,7 @@ $("#btnRegistro").click(function () {
             data: {
                 "nickname": $("#txtNickname").val().toString(),
                 "email": $("#txtEmail").val().toString(),
-                "contrasenia": $("#txtContrasenia").val().toString(),
+                "contrasenia": md5($("#txtContrasenia").val().toString()),
                 "nombre": $("#txtNombre").val().toString(),
                 "apellido": $("#txtApellido").val().toString(),
                 "dia": $("#txtDia").val().toString(),
@@ -43,13 +43,23 @@ $("#txtNickname").keyup(function () {
         $("#nicknameAlerta").hide();
         $("#nicknameSuccess").hide();
         $("#faltaNickname").show();
+        $("#formatoErroneo").hide();
+        return correctoNickname = false;
+    }
+     
+    if($("#txtNickname").val().toString().indexOf("@") !== -1){
+        $("#nicknameAlerta").hide();
+        $("#nicknameSuccess").hide();
+        $("#faltaNickname").hide();
+        $("#formatoErroneo").show();
         return correctoNickname = false;
     }
 
     $.ajax({
         type: "POST",
         url: "/Tarea2/SRegistro",
-        data: {"nickname": $("#txtNickname").val().toString(),
+        data: {
+            "nickname": $("#txtNickname").val().toString(),
             "accion": "nickname"},
 
         success: function (data) {
@@ -57,11 +67,13 @@ $("#txtNickname").keyup(function () {
                 $("#nicknameAlerta").show();
                 $("#nicknameSuccess").hide();
                 $("#faltaNickname").hide();
+                $("#formatoErroneo").hide();
                 return correctoNickname = false;
             } else {
                 $("#nicknameAlerta").hide();
                 $("#nicknameSuccess").show();
                 $("#faltaNickname").hide();
+                $("#formatoErroneo").hide();
                 return correctoNickname = true;
             }
         },

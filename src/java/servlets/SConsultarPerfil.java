@@ -37,14 +37,12 @@ public class SConsultarPerfil extends HttpServlet {
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        String nickUs;
+        String nickUs="";
         if(request.getParameter("nickUs") != null){
-            nickUs = request.getParameter("nickUs");
-        }else{
-            nickUs = request.getAttribute("nickUs").toString();
+        nickUs = request.getParameter("nickUs");
+        }else{ 
+           nickUs = (String)request.getAttribute("nickUs");
         }
-        
         DtUsuario DtUs = iUsuario.getDataUsuario(nickUs);
         if (DtUs != null) {
             log(DtUs.getNickname());

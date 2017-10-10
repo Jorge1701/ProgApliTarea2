@@ -45,6 +45,7 @@ public class SInicio extends HttpServlet {
             }
         }
 
+        //Cuadros de buqueda de clientes y artistas
         request.setAttribute("generos", iContenido.obtenerGeneros());
         ArrayList<DtUsuario> clientes = iUsuario.listarClientes();
         ArrayList<DtUsuario> artistas = iUsuario.listarArtistas();
@@ -82,36 +83,38 @@ public class SInicio extends HttpServlet {
             request.setAttribute("artistas", artistas);
         }
 
+        //Chequear si la suscripcion actual esta vencida
         if (request.getSession().getAttribute("usuario") != null) {
 
             DtUsuario u = (DtUsuario) request.getSession().getAttribute("usuario");
 
-            /*esto agregue */
-            DtSuscripcion s = ((DtCliente) u).getSuscripcion();
+            if (u instanceof DtCliente) {
+                /*esto agregue */
+                DtSuscripcion s = ((DtCliente) u).getSuscripcion();
+                ArrayList<DtSuscripcion> dts = ((DtCliente) u).getSuscripciones();
 
-            ArrayList<DtSuscripcion> dts = ((DtCliente) u).getSuscripciones();
+                if (s != null) {
 
-            if (s != null) {
+                    if (s.getEstado().equals("Vigente")) {
 
-                if (s.getEstado().equals("Vigente")) {
+                        iUsuario.chequearSuscripcion(u.getNickname());
+                        DtUsuario usr = iUsuario.getDataUsuario(u.getNickname());
+                        request.getSession().setAttribute("usuario", usr);
+                        request.setAttribute("suscripcion", ((DtCliente) usr).getSuscripcion());
 
-                    iUsuario.chequearSuscripcion(u.getNickname());
-                    DtUsuario usr = iUsuario.getDataUsuario(u.getNickname());
-                    request.getSession().setAttribute("usuario", usr);
-                    request.getSession().setAttribute("suscripcion", ((DtCliente) usr).getSuscripcion());
+                    }
+
                 }
 
-            }
-
-            if (dts != null) {
-                DtUsuario usr = iUsuario.getDataUsuario(u.getNickname());
-                request.getSession().setAttribute("suscripciones", ((DtCliente) usr).getSuscripciones());
-            }
-            // hasta aca
-            if (u instanceof DtCliente) {
+                if (dts != null) {
+                    DtUsuario usr = iUsuario.getDataUsuario(u.getNickname());
+                    request.setAttribute("suscripciones", ((DtCliente) usr).getSuscripciones());
+                }
+                // hasta aca
                 request.setAttribute("seguidos", iUsuario.listarSeguidosDe(u.getNickname()));
             }
         }
+
         if (request.getParameter("pestania") != null) {
             request.setAttribute("pestania", request.getParameter("pestania"));
         }

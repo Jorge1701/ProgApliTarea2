@@ -1,15 +1,24 @@
 package servlets;
 
+import Logica.Album;
 import Logica.DtAlbumContenido;
+import Logica.DtArtista;
 import Logica.DtGenero;
 import Logica.DtCliente;
 import Logica.DtLista;
+import Logica.DtListaParticular;
+import Logica.DtTema;
+import Logica.DtTemaLocal;
+import Logica.DtTemaRemoto;
+import Logica.DtTime;
 import Logica.DtUsuario;
 import Logica.Fabrica;
 import Logica.IContenido;
 import Logica.IUsuario;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -32,53 +41,39 @@ public class SContenido extends HttpServlet {
         iContenido = Fabrica.getIControladorContenido();
     }
 
-    /*
-    Como utilizar:
-        Reemplazar los X con los valores reales
-    
-    Consultar Genero:
-        /Tarea2/SContenido?accion=consultarGenero&genero=X
-    
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String ruta = getServletContext().getRealPath("/");
+        String[] parte = ruta.split("Tarea2");
+        String tarea1 = parte[0] + "Tarea1" + File.separator;
+
         if (request.getParameter("accion") == null) {
             request.setAttribute("mensaje_error", "Falta una accion");
             request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
         } else {
             String accion = request.getParameter("accion");
+            String nickname = request.getParameter("nickArtista");
+            String nombreAlbum = request.getParameter("nombreAlbum");
 
             switch (accion) {
-            case "subirImagen":
-            String archivourl = "C:\\Users\\luis\\Documents\\NetBeansProjects\\ProgApliTarea1\\Recursos\\Imagenes\\Albumes";
-            
-            DiskFileItemFactory factory = new DiskFileItemFactory();
-            
-            factory.setSizeThreshold(1024);
-            
-            factory.setRepository(new File(archivourl));
-            
-            ServletFileUpload upload = new ServletFileUpload(factory);
-            
-            
-            try{
-                
-                List<FileItem> partes = upload.parseRequest(request);
-                
-                for(FileItem items: partes){
-                    File file = new File(archivourl,items.getName());
-                    items.write(file);
-                }
-                
-                System.out.println("<h2>ARCHIVO CORRECTAMENTE SUBIDO.....</h2>"+"\n\n"+"<a href='index.jsp'>VOVLER AL MENU</a>");
-                
-            }catch(Exception e){
-                System.out.println("Exception: "+e.getMessage()+"");
-            } 
-                break;
+
                 case "AltaAlbum":
                     ArrayList<DtGenero> generos = ((DtGenero) iContenido.listarGenero()).getSubGeneros();
                     request.setAttribute("Generos", generos);
                     request.getRequestDispatcher("/vistas/AltaAlbum.jsp").forward(request, response);
+                    break;
+
+                case "nombreAlbum":
+
+                    String existe = "";
+
+                    if (iContenido.ExisteAlbum(nickname, nombreAlbum) == true) {
+                        existe = "si";
+                    } else {
+                        existe = "no";
+                    }
+                    response.setContentType("text/plain");
+                    response.setCharacterEncoding("UTF-8");
+                    response.getWriter().write(existe);
                     break;
 
                 case "consultarGenero":
@@ -109,18 +104,52 @@ public class SContenido extends HttpServlet {
 
                 case "consultarAlbum":
                     String nickArtista = request.getParameter("nickArtista");
-                    String nomAlbum = request.getParameter("nomAlbum");
+                    String nomAlbum = URLDecoder.decode(request.getParameter("nomAlbum"), "UTF-8");
+                    //controlar null
                     DtAlbumContenido dtAlbum = iUsuario.obtenerAlbumContenido(nickArtista, nomAlbum);
                     request.setAttribute("Album", dtAlbum);
                     request.getRequestDispatcher("/vistas/consultaAlbum.jsp").forward(request, response);
                     break;
 
                 case "crearAlbum":
-                    String nombreAlbum = request.getParameter("nombreAlbum");
+
+                    String nombreA = request.getParameter("nombreAlbum");
+                    String nickArt = request.getParameter("nickArtista");
+                    String temas = request.getParameter("temas");
+                    String gen = request.getParameter("generos");
                     int anio = Integer.parseInt(request.getParameter("anio"));
-                    String[] generos1 = request.getParameterValues("genero");
-                    String imagen = request.getParameter("imagen");
-                    iContenido.ingresarAlbum(nombreAlbum, anio, null, imagen, null);
+                    log("Anio "+anio);
+                    log("nombreAlbum"+nombreA);
+                    log("temas "+temas);
+                    
+                    DtTema dtTema;
+                    ArrayList<DtTema> ArrayDeTemas = new ArrayList();
+                    ArrayList<String> ArrayDeGeneros = new ArrayList();
+                    String[] objGeneros = gen.split("&");
+                    int i;
+                    for (i = 0; i < objGeneros.length; i++) {
+                        log("Generos"+objGeneros[i]);
+                        ArrayDeGeneros.add(objGeneros[i]);
+                    }
+                    String[] todoTemas = temas.split("@");
+                    for (i = 0; i < todoTemas.length; i++) {
+                        log("Tema 1 :"+todoTemas[i] );                        
+                        String[] data = todoTemas[i].split("~");
+                        log("url: "+data[0]+" nombre: "+data[1]+" posicion: "+data[2]+" duracion"+data[3]);
+                        String[] duracion = data[3].split(":");
+
+                        DtTime time = new DtTime(Integer.parseInt(duracion[0]), Integer.parseInt(duracion[1]), Integer.parseInt(duracion[2]));
+                        if (data[0].contains("mp3") == true) {
+                            dtTema = new DtTemaLocal(data[0], data[1], time, Integer.parseInt(data[2]));
+                        } else {
+                            dtTema = new DtTemaRemoto(data[0], data[1], time, Integer.parseInt(data[2]));
+                        }
+                        ArrayDeTemas.add(dtTema);
+                    }
+                    //Album(String nickArtista, String nombre, int anio, String imagen, HashMap<String, Tema> temas, ArrayList<Genero> generos)
+                    iContenido.selectArtista(nickArt);
+                    iContenido.ingresarAlbum(nombreA, anio, ArrayDeGeneros, "", ArrayDeTemas);
+
                     break;
                 case "consultarListaDefecto":
                     if (request.getParameter("nomGenero") == null || request.getParameter("nomLista") == null) {
@@ -171,6 +200,20 @@ public class SContenido extends HttpServlet {
                             if (lEncontrada == null) {
                                 request.setAttribute("mensaje_error", "La lista no existe");
                                 request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                            } else if (((DtListaParticular) lEncontrada).isPrivada()) {
+                                if (request.getSession().getAttribute("usuario") == null) {
+                                    request.setAttribute("mensaje_error", "La lista es privada");
+                                    request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                                }
+                                DtUsuario usuario = (DtUsuario) request.getSession().getAttribute("usuario");
+                                if (!((DtListaParticular) lEncontrada).getNickDuenio().equals(usuario.getNickname())) {
+                                    request.setAttribute("mensaje_error", "La lista es privada");
+                                    request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                                } else {
+                                    request.setAttribute("lista", lEncontrada);
+                                    request.getRequestDispatcher("vistas/consultar_lista.jsp").forward(request, response);
+                                }
+
                             } else {
                                 request.setAttribute("lista", lEncontrada);
                                 request.getRequestDispatcher("vistas/consultar_lista.jsp").forward(request, response);
@@ -183,26 +226,38 @@ public class SContenido extends HttpServlet {
                     }
 
                     break;
-                case "publicarLista":
-                    if (request.getParameter("nickCliente") == null || request.getParameter("nomLista") == null) {
-                        request.setAttribute("mensaje_error", "Faltan parámetros");
-                        request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
-                    } else {
-                        String nickCliente = request.getParameter("nickCliente");
-                        if (iUsuario.getDataUsuario(nickCliente) != null) {
-                            String nomLista = request.getParameter("nomLista");
-                            iContenido.publicarLista(nickCliente, nomLista);
-                            request.setAttribute("nickUs", nickCliente);
-                            request.getRequestDispatcher("/SConsultarPerfil").forward(request, response);
 
+                case "publicarLista":
+                    DtUsuario usuario = (DtUsuario) request.getSession().getAttribute("usuario");
+                    if (usuario != null) {
+                        if (iUsuario.getDataUsuario(usuario.getNickname()) != null) {
+                            String nomLista = request.getParameter("nomLista");
+                            if (nomLista == null) {
+                                request.setAttribute("mensaje_error", "Faltan parámetros");
+                                request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                            } else {
+                                try {
+                                    iContenido.publicarLista(usuario.getNickname(), nomLista);
+                                    request.setAttribute("pestania", "Listas");
+                                    request.setAttribute("nickUs", usuario.getNickname());
+                                    request.getRequestDispatcher("/SConsultarPerfil").forward(request, response);
+                                } catch (UnsupportedOperationException e) {
+                                    request.setAttribute("mensaje_error", "No existe la lista '" + nomLista + "' en el sistema");
+                                    request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                                }
+
+                            }
                         } else {
                             request.setAttribute("mensaje_error", "El cliente no existe");
                             request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
                         }
+
+                    } else {
+                        request.setAttribute("mensaje_error", "Debe de iniciar sesion para utilizar esta opcion");
+                        request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
                     }
 
                     break;
-
                 default:
                     request.setAttribute("mensaje_error", "Accion desconocida");
                     request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
