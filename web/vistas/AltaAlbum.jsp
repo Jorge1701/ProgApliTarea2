@@ -186,7 +186,7 @@
                                 </table>
                             </div> 
                         </row>
-                        <row class="col-xs-4 "><input type="button" class="btn btn-default pull-right" style="margin-top: 15px" id="btnQuitarTema" value="Quitar"/></row>
+
 
                         <!-- Crear Album  -->   
                         <row class="col-xs-4 ">

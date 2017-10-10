@@ -8,6 +8,7 @@ package servlets;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -34,9 +35,9 @@ public class Uploadfile extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+            response.setContentType("text/html;charset=UTF-8");
        
-            String archivourl = "C:\\Users\\brian\\Documents\\NetBeansProjects\\Tarea1\\Recursos\\Imagenes\\Albumes";
+            String archivourl = "C:\\Users\\brian\\Documents\\NetBeansProjects\\Tarea1\\Recursos\\Musica";
             
             DiskFileItemFactory factory = new DiskFileItemFactory();
             
@@ -52,7 +53,8 @@ public class Uploadfile extends HttpServlet {
                 List<FileItem> partes = upload.parseRequest(request);
                 
                 for(FileItem items: partes){
-                    File file = new File(archivourl,items.getName());
+                    
+                    File file = new File(archivourl,URLEncoder.encode(items.getName(),"UTF-8"));
                     items.write(file);
                 }
                 
