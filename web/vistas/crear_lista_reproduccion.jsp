@@ -44,7 +44,7 @@
                             <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
                                 <div  id="nombreSuccess" hidden>
                                     <span class="glyphicon glyphicon-ok" style="color: green"></span>
-                                    <span style="color: green; padding-left: 5px" >Nickname disponible.</span>
+                                    <span style="color: green; padding-left: 5px" >Nombre disponible.</span>
                                 </div>
                             </row>
                             

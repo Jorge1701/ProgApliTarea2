@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlets;
 
 import Logica.DtArtista;
@@ -13,7 +8,6 @@ import Logica.DtSuscripcion;
 import Logica.Fabrica;
 import Logica.IUsuario;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -75,6 +69,7 @@ public class SSuscripcion extends HttpServlet {
             response.setContentType("text/plain");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(String.valueOf(monto));
+
         } else if (request.getParameter("accion").equals("registro")) {
             if (request.getSession().getAttribute("usuario") == null) {
                 request.setAttribute("mensaje_error", "Debe estar logueado para ver esta página");
@@ -82,7 +77,7 @@ public class SSuscripcion extends HttpServlet {
             }
             DtUsuario usuario = (DtUsuario) request.getSession().getAttribute("usuario");
             if (((DtCliente) usuario).getSuscripcion() != null) {
-                request.setAttribute("mensaje_error", "Ya posee una suscripción");
+                request.setAttribute("mensaje_error", "Ya posee una suscripción vigente");
                 request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
             }
             String nickname = usuario.getNickname();
@@ -97,13 +92,34 @@ public class SSuscripcion extends HttpServlet {
         } else if (request.getParameter("accion").equals("cancelar")) {
 
             DtUsuario usuario = (DtUsuario) request.getSession().getAttribute("usuario");
+            String estado = request.getParameter("Estado");
 
             Calendar hoy = new GregorianCalendar();
+            DtFecha fechaHoy = new DtFecha(hoy.get(Calendar.DATE), (hoy.get(Calendar.MONTH) + 1), hoy.get(Calendar.YEAR));
 
-            if (iUsuario.actualizarSuscripcion(usuario.getNickname(), "Cancelada", new DtFecha(hoy.get(Calendar.DATE), (hoy.get(Calendar.MONTH) + 1), hoy.get(Calendar.YEAR)))) {
-                DtUsuario usr = iUsuario.getDataUsuario(usuario.getNickname());
-                request.getSession().setAttribute("usuario", usr);
-                getServletContext().getRequestDispatcher("/SSuscripcion?accion=redir1").forward(request, response);
+            if (estado.equals("Pendiente")) {
+                if (iUsuario.cancelarSuscripcion(usuario.getNickname(), estado, "", "", "", fechaHoy)) {
+                    DtUsuario usr = iUsuario.getDataUsuario(usuario.getNickname());
+                    DtSuscripcion s = ((DtCliente) usr).getSuscripcion();
+                    request.getSession().setAttribute("usuario", usr);
+                    // request.getSession().setAttribute("suscripcion", s);
+                    // request.getSession().setAttribute("suscripciones", ((DtCliente) usr).getSuscripciones());
+                    // getServletContext().getRequestDispatcher("/SSuscripcion?accion=redir1").forward(request, response);
+                }
+            } else {
+                String cuota = request.getParameter("Cuota");
+                String fecha = request.getParameter("Fecha");
+                String fecha_venc = request.getParameter("FechaVenc");
+
+                if (iUsuario.cancelarSuscripcion(usuario.getNickname(), estado, cuota, fecha, fecha_venc, fechaHoy)) {
+                    DtUsuario usr = iUsuario.getDataUsuario(usuario.getNickname());
+                    DtSuscripcion s = ((DtCliente) usr).getSuscripcion();
+                    request.getSession().setAttribute("usuario", usr);
+                    //request.getSession().setAttribute("suscripcion", s);
+                    //request.getSession().setAttribute("suscripciones", ((DtCliente) usr).getSuscripciones());
+                    //getServletContext().getRequestDispatcher("/SSuscripcion?accion=redir1").forward(request, response);
+                }
+
             }
 
         } else if (request.getParameter("accion").equals("renovar")) {
@@ -113,21 +129,28 @@ public class SSuscripcion extends HttpServlet {
             String estado = request.getParameter("Estado");
             String cuota = request.getParameter("Cuota");
             String fecha = request.getParameter("Fecha");
+            String fecha_venc = request.getParameter("FechaVenc");
 
             Calendar dia = new GregorianCalendar();
             DtFecha hoy = new DtFecha(dia.get(Calendar.DATE), (dia.get(Calendar.MONTH) + 1), dia.get(Calendar.YEAR));
-            if (iUsuario.renovarSuscripcion(usuario.getNickname(), estado, cuota, fecha, hoy)) {
-                DtUsuario usr = iUsuario.getDataUsuario(usuario.getNickname());
-                DtSuscripcion s = ((DtCliente)usr).getSuscripcion();
-                request.getSession().setAttribute("usuario", usr);
-                request.getSession().setAttribute("suscripcion", s);
-                getServletContext().getRequestDispatcher("/SSuscripcion?accion=redir1").forward(request, response);
+
+            if (((DtCliente) usuario).getSuscripcion() == null) {
+                if (iUsuario.renovarSuscripcion(usuario.getNickname(), estado, cuota, fecha, fecha_venc, hoy)) {
+                    DtUsuario usr = iUsuario.getDataUsuario(usuario.getNickname());
+                    DtSuscripcion s = ((DtCliente) usr).getSuscripcion();
+                    request.getSession().setAttribute("usuario", usr);
+                }
+            } else {
+                response.setContentType("text/plain");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write("error");
             }
 
         }
+
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

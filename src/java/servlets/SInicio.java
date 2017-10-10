@@ -45,6 +45,7 @@ public class SInicio extends HttpServlet {
             }
         }
 
+        //Cuadros de buqueda de clientes y artistas
         request.setAttribute("generos", iContenido.obtenerGeneros());
         ArrayList<DtUsuario> clientes = iUsuario.listarClientes();
         ArrayList<DtUsuario> artistas = iUsuario.listarArtistas();
@@ -82,6 +83,7 @@ public class SInicio extends HttpServlet {
             request.setAttribute("artistas", artistas);
         }
 
+        //Chequear si la suscripcion actual esta vencida
         if (request.getSession().getAttribute("usuario") != null) {
 
             DtUsuario u = (DtUsuario) request.getSession().getAttribute("usuario");
@@ -89,6 +91,7 @@ public class SInicio extends HttpServlet {
             if (u instanceof DtCliente) {
                 /*esto agregue */
                 DtSuscripcion s = ((DtCliente) u).getSuscripcion();
+                ArrayList<DtSuscripcion> dts = ((DtCliente) u).getSuscripciones();
 
                 if (s != null) {
 
@@ -96,16 +99,22 @@ public class SInicio extends HttpServlet {
 
                         iUsuario.chequearSuscripcion(u.getNickname());
                         DtUsuario usr = iUsuario.getDataUsuario(u.getNickname());
-                        request.setAttribute("usuario", usr);
+                        request.getSession().setAttribute("usuario", usr);
                         request.setAttribute("suscripcion", ((DtCliente) usr).getSuscripcion());
 
                     }
 
                 }
+
+                if (dts != null) {
+                    DtUsuario usr = iUsuario.getDataUsuario(u.getNickname());
+                    request.setAttribute("suscripciones", ((DtCliente) usr).getSuscripciones());
+                }
                 // hasta aca
                 request.setAttribute("seguidos", iUsuario.listarSeguidosDe(u.getNickname()));
             }
         }
+
         if (request.getParameter("pestania") != null) {
             request.setAttribute("pestania", request.getParameter("pestania"));
         }

@@ -178,7 +178,7 @@
                                         <%
                                             // Si hay un usuario logueado
                                             if (request.getSession().getAttribute("usuario") != null) {
-                                                if (request.getSession().getAttribute("suscripcion") != null && ((DtSuscripcion) request.getSession().getAttribute("suscripcion")).getEstado().equals("Vigente")) {
+                                                if (request.getAttribute("suscripcion") != null && ((DtSuscripcion) request.getAttribute("suscripcion")).getEstado().equals("Vigente")) {
                                                     DtUsuario dtu = (DtUsuario) request.getSession().getAttribute("usuario");
                                                     // Si el usuario logueado es un cliente
                                                     if (dtu instanceof DtCliente) {
@@ -312,7 +312,7 @@
                                         <%
                                             // Misma logica que en artistas
                                             if (request.getSession().getAttribute("usuario") != null) {
-                                                if (request.getSession().getAttribute("suscripcion") != null && ((DtSuscripcion) request.getSession().getAttribute("suscripcion")).getEstado().equals("Vigente")) {
+                                                if (request.getAttribute("suscripcion") != null && ((DtSuscripcion) request.getAttribute("suscripcion")).getEstado().equals("Vigente")) {
                                                     DtUsuario dtu = (DtUsuario) request.getSession().getAttribute("usuario");
                                                     if (dtu instanceof DtCliente) {
                                                         boolean siguiendo = false;
