@@ -60,14 +60,15 @@
                         <div id="home" class="tab-pane fade in active">                
                             <div class="panel-body ">
                                 <div class="row "  >
-                                    <div class=" col-md-9 col-lg-9 " >
+                                    <div class=" col-md-10 col-lg-10 " >
                                         <div class="col-sm-6 centrar">
                                             <div   align="center"> <img height="250" width="250" alt="Album Pic" src="/Tarea2/SImagen?album=<%= imagen%>" id="album-imagen" class="img-circle img-responsive"> 
                                                 <input id="profile-image-upload" class="hidden" type="file">
                                             </div>
-                                            <td ><h4>Nombre Album : <%= nombreAlbum%></h4></td>
-                                            <td> <h4>Año De Creacion : <%= anioCreacion%> </h4></td>
-                                            <td><h4>Generos: <%=Generos%></h4></td>
+                                            
+                                            <td><h4 style="color: black">Nombre Album : <%= nombreAlbum%></h4></td>
+                                            <td><h4 style="color: black">Año De Creacion : <%= anioCreacion%> </h4></td>
+                                            <td><h4 style="color: black">Generos: <%=Generos%></h4></td>
                                         </div>
                                     </div>          
                                 </div> 
@@ -75,7 +76,7 @@
                         </div>
                         <%-- Temas --%>
 
-                        <div id="menu1" class="table-responsive">     
+                        <div id="menu1" class="table-responsive tab-pane">     
                             <div>
                                 <table class="table table-condensed" >
                                     <caption ><center><text style="color:black ">Temas</text></center></caption>
@@ -84,34 +85,37 @@
                                     <th><center><text style="color:black ">Posicion</text></center></th>
                                     <th><center><text style="color:black ">Duracion</text></center></th>
                                     <th><center><text style="color:black ">Ubicacion</text></center></th>
+                                    <th><center><text style="color:black ">Reproducir</text></center></th>
                                     <th><center><text style="color:black ">Descargar</text></center></th>
                                         <%
-                                            for (int i = 0; i < temas.size(); i++) {
-                                                if (temas.get(i) instanceof DtTemaLocal) {
-                                                    DtTemaLocal local = (DtTemaLocal) temas.get(i);
-                                        %> 
-                                    <tr onclick="reproducirLocal('<%= local.getDirectorio().replace("'", "\\'")%>', '<%= local.getNombre().replace("'", "\\'")%>', '<%= local.getArtista().replace("'", "\\'")%>', '<%= local.getImagenAlbum().replace("'", "\\'")%>')">
-                                        <%} else {
-                                        %>
-                                    <tr  onclick="reproducirRemoto('<%= ((DtTemaRemoto) temas.get(i)).getUrl()%>')">
-                                        <% }%>
+                                            for (int i = 0; i < temas.size(); i++) {%>
+                                    <tr>                              
                                         <td><text style="color:black"><center><%= temas.get(i).getNombre()%></center> </text></td>
                                     <td><text style="color:black "><center> <%= temas.get(i).getUbicacion()%></center> </text></td>
                                     <td><text style="color:black  ; background-color: white"><center> <%= temas.get(i).getDuracion().getHoras()%>:<%= temas.get(i).getDuracion().getMinutos()%>:<%= temas.get(i).getDuracion().getSegundos()%></center></text></td>
                                     <td><text style="color:black ; background-color: white"><center> <%= temas.get(i) instanceof DtTemaLocal ? ((DtTemaLocal) temas.get(i)).getDirectorio() : ((DtTemaRemoto) temas.get(i)).getUrl()%></center> </text></td>
-                                        <%
-                                            if ( request.getSession().getAttribute("usuario") != null) {
-                                                DtUsuario user = (DtUsuario) request.getSession().getAttribute("usuario");
-                                                if (user instanceof DtCliente) {
-                                                    DtSuscripcion suscripcion = (DtSuscripcion) ((DtCliente) user).getSuscripcion();
-                                                    if (suscripcion != null) {
-                                                        if (suscripcion.getEstado().equals("Vigente")) {
-                                                            if (temas.get(i) instanceof DtTemaLocal) {
-                                        %>
+                                        <%  if (temas.get(i) instanceof DtTemaLocal) {
+                                                DtTemaLocal local = (DtTemaLocal) temas.get(i);%>
+                                    <td><center><button type="button" class="btn btn-default" aria-label="Left Align">
+                                            <span class="glyphicon glyphicon-play-circle" aria-hidden="true"  onclick="reproducirLocal('<%= local.getDirectorio().replace("'", "\\'")%>', '<%= local.getNombre().replace("'", "\\'")%>', '<%= local.getArtista().replace("'", "\\'")%>', '<%= local.getImagenAlbum().replace("'", "\\'")%>')"></span>
+                                        </button></center></td>
+                                        <%} else {%>
+                                    <td><center><button type="button" class="btn btn-default" aria-label="Left Align">
+                                            <span class="glyphicon glyphicon-play-circle" aria-hidden="true"  onclick="reproducirRemoto('<%= ((DtTemaRemoto) temas.get(i)).getUrl()%>')"></span></button></center></td>
+                                            <% }%>
+                                            <%
+                                                if (request.getSession().getAttribute("usuario") != null) {
+                                                    DtUsuario user = (DtUsuario) request.getSession().getAttribute("usuario");
+                                                    if (user instanceof DtCliente) {
+                                                        DtSuscripcion suscripcion = (DtSuscripcion) ((DtCliente) user).getSuscripcion();
+                                                        if (suscripcion != null) {
+                                                            if (suscripcion.getEstado().equals("Vigente")) {
+                                                                if (temas.get(i) instanceof DtTemaLocal) {
+                                            %>
                                     <td><center><input onclick="Descarga('<%=((DtTemaLocal) temas.get(i)).getDirectorio()%>')" class="button buttton1" id="btnDescargar" value="Descargar"></center></td>
                                         <% } else {%>
-                                <td><center><input onclick="reproducirRemoto('<%= ((DtTemaRemoto) temas.get(i)).getUrl()%>')" class="button buttton1" id="btnOnlie" value="On-Line" ></center></td> 
-                                    <!-- Poner Lin para Que Vaya A Esuchar Online -->
+                                    <td><center><text style="color:black ">No Se Puede Descargar</text></center></td> 
+
                                     <%}%>
                                     <%} else { %>
                                     <td><center><text style="color:black ">Su Suscripcion No Esta Vigente</text></center></td> 
