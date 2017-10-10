@@ -83,7 +83,7 @@ public class SSuscripcion extends HttpServlet {
             }
             DtUsuario usuario = (DtUsuario) request.getSession().getAttribute("usuario");
             if (((DtCliente) usuario).getSuscripcion() != null) {
-                request.setAttribute("mensaje_error", "Ya posee una suscripción");
+                request.setAttribute("mensaje_error", "Ya posee una suscripción vigente");
                 request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
             }
             String nickname = usuario.getNickname();
@@ -108,9 +108,9 @@ public class SSuscripcion extends HttpServlet {
                     DtUsuario usr = iUsuario.getDataUsuario(usuario.getNickname());
                     DtSuscripcion s = ((DtCliente) usr).getSuscripcion();
                     request.getSession().setAttribute("usuario", usr);
-                    request.getSession().setAttribute("suscripcion", s);
-                    request.getSession().setAttribute("suscripciones", ((DtCliente) usr).getSuscripciones());
-                    getServletContext().getRequestDispatcher("/SSuscripcion?accion=redir1").forward(request, response);
+                    // request.getSession().setAttribute("suscripcion", s);
+                    // request.getSession().setAttribute("suscripciones", ((DtCliente) usr).getSuscripciones());
+                    // getServletContext().getRequestDispatcher("/SSuscripcion?accion=redir1").forward(request, response);
                 }
             } else {
                 String cuota = request.getParameter("Cuota");
@@ -121,9 +121,9 @@ public class SSuscripcion extends HttpServlet {
                     DtUsuario usr = iUsuario.getDataUsuario(usuario.getNickname());
                     DtSuscripcion s = ((DtCliente) usr).getSuscripcion();
                     request.getSession().setAttribute("usuario", usr);
-                    request.getSession().setAttribute("suscripcion", s);
-                    request.getSession().setAttribute("suscripciones", ((DtCliente) usr).getSuscripciones());
-                    getServletContext().getRequestDispatcher("/SSuscripcion?accion=redir1").forward(request, response);
+                    //request.getSession().setAttribute("suscripcion", s);
+                    //request.getSession().setAttribute("suscripciones", ((DtCliente) usr).getSuscripciones());
+                    //getServletContext().getRequestDispatcher("/SSuscripcion?accion=redir1").forward(request, response);
                 }
 
             }
@@ -140,18 +140,27 @@ public class SSuscripcion extends HttpServlet {
             Calendar dia = new GregorianCalendar();
             DtFecha hoy = new DtFecha(dia.get(Calendar.DATE), (dia.get(Calendar.MONTH) + 1), dia.get(Calendar.YEAR));
 
-            if (iUsuario.renovarSuscripcion(usuario.getNickname(), estado, cuota, fecha, fecha_venc, hoy)) {
-                DtUsuario usr = iUsuario.getDataUsuario(usuario.getNickname());
-                DtSuscripcion s = ((DtCliente) usr).getSuscripcion();
-                request.getSession().setAttribute("usuario", usr);
-                request.getSession().setAttribute("suscripcion", s);
-                request.getSession().setAttribute("suscripciones", ((DtCliente) usr).getSuscripciones());
-                getServletContext().getRequestDispatcher("/SSuscripcion?accion=redir1").forward(request, response);
+            if (((DtCliente) usuario).getSuscripcion() == null) {
+                if (iUsuario.renovarSuscripcion(usuario.getNickname(), estado, cuota, fecha, fecha_venc, hoy)) {
+                    DtUsuario usr = iUsuario.getDataUsuario(usuario.getNickname());
+                    DtSuscripcion s = ((DtCliente) usr).getSuscripcion();
+                    request.getSession().setAttribute("usuario", usr);
+                    //request.getSession().setAttribute("suscripcion", s);
+                    //request.getSession().setAttribute("suscripciones", ((DtCliente) usr).getSuscripciones());
+                    //getServletContext().getRequestDispatcher("/SSuscripcion?accion=redir1").forward(request, response);
+                }
+            } else {
+                response.setContentType("text/plain");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write("error");
+
             }
+
         }
+
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

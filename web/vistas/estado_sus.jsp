@@ -63,12 +63,14 @@
                                         <td><%= dts.getFecha()%></td>
                                         <td><%= dts.getFechaVenc()%></td>
 
-                                        <td>
-                                            <% if (dts.getEstado().equals("Vencida")) {%>
 
+                                        <% if (dts.getEstado().equals("Vencida")) {%>
+                                        <td>
+                                            <%if (request.getAttribute("suscripcion") == null) {%>
                                             <button onclick="renovarSuscripcion('<%= dts.getEstado()%>', '<%=dts.getCuota()%>', '<%=dts.getFecha()%>', '<%=dts.getFechaVenc()%>')" class="btn btn-default btn-xs">
                                                 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                             </button>
+                                            <%}%>
                                             <button onclick="cancelarSuscripcion('<%= dts.getEstado()%>', '<%=dts.getCuota()%>', '<%=dts.getFecha()%>', '<%=dts.getFechaVenc()%>')" class="btn btn-default btn-xs">
                                                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                             </button>
@@ -86,13 +88,15 @@
                                         <td><% if (activa.getFechaVenc() != null) {%>
                                             <%= activa.getFechaVenc()%> <% } else { %>
                                             No Corresponde <% } %>
-                                        <td>
+
                                             <% if (activa.getEstado().equals("Pendiente")) { %>
+                                        <td>
                                             <button onclick="cancelarSuscripcion('Pendiente', '', '', '')" class="btn btn-default btn-xs">
                                                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                             </button>
-                                            <%}%>
-                                        </td>    
+                                        </td>
+                                        <%}%>
+
                                         <%}%>
                             </table>
                         </div>
