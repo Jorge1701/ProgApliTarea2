@@ -200,7 +200,7 @@ public class SContenido extends HttpServlet {
                             if (lEncontrada == null) {
                                 request.setAttribute("mensaje_error", "La lista no existe");
                                 request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
-                            } else if (lEncontrada instanceof DtListaParticular && ((DtListaParticular) lEncontrada).isPrivada()) {
+                            } else if (((DtListaParticular) lEncontrada).isPrivada()) {
                                 if (request.getSession().getAttribute("usuario") == null) {
                                     request.setAttribute("mensaje_error", "La lista es privada");
                                     request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
