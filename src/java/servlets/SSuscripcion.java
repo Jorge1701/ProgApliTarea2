@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlets;
 
 import Logica.DtArtista;
@@ -13,7 +8,6 @@ import Logica.DtSuscripcion;
 import Logica.Fabrica;
 import Logica.IUsuario;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -118,7 +112,7 @@ public class SSuscripcion extends HttpServlet {
             DtFecha hoy = new DtFecha(dia.get(Calendar.DATE), (dia.get(Calendar.MONTH) + 1), dia.get(Calendar.YEAR));
             if (iUsuario.renovarSuscripcion(usuario.getNickname(), estado, cuota, fecha, hoy)) {
                 DtUsuario usr = iUsuario.getDataUsuario(usuario.getNickname());
-                DtSuscripcion s = ((DtCliente)usr).getSuscripcion();
+                DtSuscripcion s = ((DtCliente) usr).getSuscripcion();
                 request.getSession().setAttribute("usuario", usr);
                 request.getSession().setAttribute("suscripcion", s);
                 getServletContext().getRequestDispatcher("/SSuscripcion?accion=redir1").forward(request, response);
