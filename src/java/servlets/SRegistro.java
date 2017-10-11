@@ -35,6 +35,11 @@ public class SRegistro extends HttpServlet {
 
         switch (accion) {
             case "redirigir":
+                if (request.getSession().getAttribute("usuario") != null) {
+                    request.setAttribute("mensaje_error", "Ya hay un usuario logueado");
+                    request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                    return;
+                }
                 request.getRequestDispatcher("vistas/registrarse.jsp").forward(request, response);
 
                 break;

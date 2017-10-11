@@ -50,6 +50,11 @@ public class SSesion extends HttpServlet {
 
                 break;
             case "redirigir":
+                if (request.getSession().getAttribute("usuario") != null) {
+                    request.setAttribute("mensaje_error", "Ya hay un usuario logueado");
+                    request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+                    return;
+                }
                 request.getRequestDispatcher("vistas/iniciar_sesion.jsp").forward(request, response);
 
                 break;

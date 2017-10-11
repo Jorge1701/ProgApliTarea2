@@ -1,3 +1,4 @@
+<%@page import="Logica.DtCliente"%>
 <%@page import="Logica.DtUsuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="servlets.SSesion"%>
@@ -55,9 +56,10 @@
                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                             <img src="/Tarea2/SImagen?usuario=<%= usuario.getImagen()%>" class="img-circle pull-left" width="65" height="65" style="margin-right: 20px" id="puImagen">
                             <div style="margin: 0px; color:lavender; text-shadow: 2px 2px 4px #000000" id="puNombre"><a href="/Tarea2/SConsultarPerfil?nickUs=<%= usuario.getNickname()%>"><%= nombre%></a></div>
-
+                            <% if(usuario instanceof DtCliente){ %>
                             <div> <a href="/Tarea2/SSuscripcion?accion=redir" class="btn btn-link btn-xs">Contratar Suscripción</a></div>
                             <div><a href="/Tarea2/SSuscripcion?accion=redir1" class="btn btn-link btn-xs">Estado Suscripciones</a></div>
+                            <% } %>
                             <div><a href="/Tarea2/SInicio?cargarDatosPrueba=si" class="btn btn-link btn-xs">Cargar Datos de Prueba</a></div>
 
                             <form action="/Tarea2/SSesion" method="POST">
