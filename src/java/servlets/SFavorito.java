@@ -128,11 +128,8 @@ public class SFavorito extends HttpServlet {
                         return;
                 }
 
-                if (request.getParameter("redirigir") != null) {
-                    request.getRequestDispatcher(request.getParameter("redirigir")).forward(request, response);
-                } else {
-                    request.getRequestDispatcher("/SInicio?mensaje=" + mensaje).forward(request, response);
-                }
+                request.getRequestDispatcher("/SInicio?mensaje=" + mensaje).forward(request, response);
+
                 break;
             case "listaParticular":
                 if (request.getParameter("nickDuenio") == null || request.getParameter("nomLista") == null) {
@@ -175,11 +172,8 @@ public class SFavorito extends HttpServlet {
                         return;
                 }
 
-                if (request.getParameter("redirigir") != null) {
-                    request.getRequestDispatcher(request.getParameter("redirigir")).forward(request, response);
-                } else {
-                    request.getRequestDispatcher("/SInicio?mensaje=" + mensaje).forward(request, response);
-                }
+                request.getRequestDispatcher("/SInicio?mensaje=" + mensaje).forward(request, response);
+
                 break;
             case "album":
                 if (request.getParameter("nickArtista") == null || request.getParameter("nomAlbum") == null) {
@@ -222,11 +216,8 @@ public class SFavorito extends HttpServlet {
                         return;
                 }
 
-                if (request.getParameter("redirigir") != null) {
-                    request.getRequestDispatcher(request.getParameter("redirigir")).forward(request, response);
-                } else {
-                    request.getRequestDispatcher("/SInicio?mensaje=" + mensaje).forward(request, response);
-                }
+                request.getRequestDispatcher("/SInicio?mensaje=" + mensaje).forward(request, response);
+
                 break;
             case "tema":
                 if (request.getParameter("nickArtista") == null || request.getParameter("nomAlbum") == null || request.getParameter("nomTema") == null) {

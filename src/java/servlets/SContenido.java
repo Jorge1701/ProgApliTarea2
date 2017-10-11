@@ -97,10 +97,9 @@ public class SContenido extends HttpServlet {
                         request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
                         return;
                     }
-
+                    
                     String nomAlbum = URLDecoder.decode(request.getParameter("nomAlbum"), "UTF-8");
                     //controlar null
-
                     DtAlbumContenido dtAlbum = null;
                     try {
                         dtAlbum = iUsuario.obtenerAlbumContenido(nickArtista, nomAlbum);
@@ -325,5 +324,5 @@ public class SContenido extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
 }

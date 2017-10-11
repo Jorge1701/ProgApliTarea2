@@ -1,3 +1,5 @@
+<%@page import="Logica.DtListaDefecto"%>
+<%@page import="Logica.DtListaParticular"%>
 <%@page import="Logica.DtTemaLocal"%>
 <%@page import="Logica.DtTemaRemoto"%>
 <%@page import="Logica.DtLista"%>
@@ -33,6 +35,13 @@
                             <div id="resultados"><text><%= lista.getNombre()%></text></div>
                             <div id="resultados">
                                 <text><%= lista.getTemas().size()%> temas</text>
+                            </div>
+                            <div id="resultados">
+                                <%
+                                    if (lista instanceof DtListaParticular) {
+                                %>
+                                <text><%= "Duenio: " + ((DtListaParticular) lista).getNickDuenio()%></text>
+                                <% } %>
                             </div>
                             <div id="leyenda">
                                 <text>Leyenda:</text>

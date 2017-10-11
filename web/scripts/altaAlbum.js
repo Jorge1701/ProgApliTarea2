@@ -67,32 +67,22 @@ $("#btnQuitar").click(function () {
         lista.add(genero);
     }
 });
-$("#btnTemaRemoto").click(function () {
-    var url = document.getElementById("txtTemaRemoto");
-    var temas = document.getElementById("listaTemas");
-    var tema = document.createElement("option");
-    tema.textContent = url.value;
-    temas.add(tema);
-    url.value = "";
 
-});
+
 
 $("#btnAgregarTema").click(function () {
     var temas = "";
     var checLocal = document.getElementById("ChecLocal");
     var checUrl = document.getElementById("ChecUrl");
     if (checLocal.checked) {
-        
-         document.getElementById("form").submit();
-         var archivo = document.getElementById("file").value;
-         archivo = archivo.split('\\');
-         temas = archivo[2].toString();
-     }
-
+        document.getElementById("form").submit();
+        var archivo = document.getElementById("file").value;
+        archivo = archivo.split('\\');
+        temas = archivo[2].toString();
+    }
     if (checUrl.checked) {
         temas = document.getElementById("txtTemaRemoto").value;
-        temas = temas.split("//");
-        temas = temas[1];
+
     }
     if (temas === "") {
         alert("Falta Seleccionar Tema");
@@ -113,10 +103,12 @@ $("#btnAgregarTema").click(function () {
                 var columna2 = document.createElement("td");
                 var columna3 = document.createElement("td");
                 var columna4 = document.createElement("td");
+
                 var textoCelda1 = document.createTextNode(temas);
                 var textoCelda2 = document.createTextNode(nombre);
                 var textoCelda3 = document.createTextNode(posicion);
                 var textoCelda4 = document.createTextNode(duracion);
+
                 columna1.appendChild(textoCelda1);
                 columna2.appendChild(textoCelda2);
                 columna3.appendChild(textoCelda3);
@@ -128,6 +120,7 @@ $("#btnAgregarTema").click(function () {
                 fila.onclick = function () {
                     $(this).remove();
                 };
+                fila.align = "center";
                 tabla.appendChild(fila);
                 tabla.style.background = "white";
                 document.getElementById("txtNombre").value = "";
