@@ -5,10 +5,13 @@
  */
 package servlets;
 
+import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +28,8 @@ public class DownloadFile extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
+     *
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -32,23 +37,37 @@ public class DownloadFile extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            String filename = "NAT.pdf";
-            String filepath = "C:\\Users\\brian\\Desktop\\";
-            response.setContentType("APPLICATION/OCTET-STREAM");
-            response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
-            log("filePath"+filepath);
-            log("filename"+filename);
-            FileInputStream fileInputStream = new FileInputStream(filepath + filename);
+        ServletOutputStream stream = null;
+        BufferedInputStream buf = null;
+        try {
+            String filename = "Juan Gabriel.mp3";
+            String filepath= "C:\\Users\\brian\\Desktop\\";
+            stream = response.getOutputStream();
+            File mp3 = new File(filepath + filename);
 
-            int i;
-            while ((i = fileInputStream.read()) != -1) {
-                out.write(i);
+            //set response headers
+            response.setContentType("audio/mpeg");
+
+            response.addHeader("Content-Disposition", "attachment; filename=" + filename);
+
+            response.setContentLength((int) mp3.length());
+
+            FileInputStream input = new FileInputStream(mp3);
+            buf = new BufferedInputStream(input);
+            int readBytes = 0;
+            //read from the file; write to the ServletOutputStream
+            while ((readBytes = buf.read()) != -1) {
+                stream.write(readBytes);
             }
-            fileInputStream.close();
-            out.close();
+        } catch (IOException ioe) {
+            throw new ServletException(ioe.getMessage());
+        } finally {
+            if (stream != null) {
+                stream.close();
+            }
+            if (buf != null) {
+                buf.close();
+            }
         }
     }
 
