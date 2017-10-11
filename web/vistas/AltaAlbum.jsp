@@ -10,13 +10,13 @@
 <html>
     <head>
         <jsp:include page="include.html"/>
-   
+
 
         <%
             if (request.getSession().getAttribute("usuario") == null) {
                 request.setAttribute("mensaje_error", "Esta página está reservada para nuestros Artistas ");
                 request.getRequestDispatcher("pagina_error.jsp").forward(request, response);
-                    }%>
+            }%>
         <%
             DtUsuario user = (DtUsuario) request.getSession().getAttribute("usuario");
             if (user instanceof DtCliente) {
@@ -30,14 +30,14 @@
         <style>
             table, td, th {
                 border: 1px solid black;
-                
+
             }
 
             table {
                 border-collapse: collapse;
                 width: 85%;
             }
-            
+
 
             th {
                 height: 50px;
@@ -51,7 +51,7 @@
             <!-- Header -->
             <jsp:include page="header.jsp"/>
 
-    
+
 
             <input type="hidden" id="nick" value="<%= user.getNickname()%>">
             <hr>

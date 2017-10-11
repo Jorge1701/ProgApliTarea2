@@ -11,15 +11,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 @WebServlet(name = "SImagen", urlPatterns = {"/SImagen"})
 public class SImagen extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (request.getParameter("usuario") == null && request.getParameter("album") == null && request.getParameter("lista") == null) {
+            request.setAttribute("mensaje_error", "No ingreso nada");
+            request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+            return;
+        }
+
         String ruta = getServletContext().getRealPath("/");
         String[] parte = ruta.split("Tarea2");
         String tarea1 = parte[0] + "Tarea1" + File.separator;
-  if (request.getParameter("usuario") != null) {
+        if (request.getParameter("usuario") != null) {
             BufferedImage bi = null;
             try {
                 bi = ImageIO.read(new File(tarea1 + "Recursos/Imagenes/Usuarios/" + request.getParameter("usuario")));
@@ -30,7 +35,7 @@ public class SImagen extends HttpServlet {
             ImageIO.write(bi, "png", out);
             out.close();
         }
-  if (request.getParameter("album") != null){
+        if (request.getParameter("album") != null) {
             BufferedImage bi = null;
             try {
                 bi = ImageIO.read(new File(tarea1 + "Recursos/Imagenes/Albumes/" + request.getParameter("album")));
@@ -40,8 +45,8 @@ public class SImagen extends HttpServlet {
             OutputStream out = response.getOutputStream();
             ImageIO.write(bi, "png", out);
             out.close();
-  }
-    if (request.getParameter("lista") != null){
+        }
+        if (request.getParameter("lista") != null) {
             BufferedImage bi = null;
             try {
                 bi = ImageIO.read(new File(tarea1 + "Recursos/Imagenes/Listas/" + request.getParameter("lista")));
@@ -51,7 +56,7 @@ public class SImagen extends HttpServlet {
             OutputStream out = response.getOutputStream();
             ImageIO.write(bi, "png", out);
             out.close();
-  }
+        }
     }
 
     @Override

@@ -24,13 +24,6 @@
     </head>
     <body>
         <%
-            if (request.getSession().getAttribute("usuario") != null) {
-                DtUsuario Artista = (DtUsuario) request.getSession().getAttribute("usuario");
-                if (Artista instanceof DtArtista) {
-                    request.setAttribute("mensaje_error", "Esta página está reservada para Cliente o Visitantes");
-                    request.getRequestDispatcher("pagina_error.jsp").forward(request, response);
-                }
-            }
 
             DtAlbumContenido albumes = (DtAlbumContenido) request.getAttribute("Album");
             DtAlbum inf = (DtAlbum) albumes.getInfo();

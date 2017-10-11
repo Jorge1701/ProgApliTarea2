@@ -37,18 +37,24 @@ public class SConsultarPerfil extends HttpServlet {
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String nickUs="";
-        if(request.getParameter("nickUs") != null){
-        nickUs = request.getParameter("nickUs");
-        }else{ 
-           nickUs = (String)request.getAttribute("nickUs");
+        if (request.getParameter("nickUs") == null) {
+            request.setAttribute("mensaje_error", "No se ingreso que usuario quiere consultar");
+            request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+            return;
+        }
+
+        String nickUs = "";
+        if (request.getParameter("nickUs") != null) {
+            nickUs = request.getParameter("nickUs");
+        } else {
+            nickUs = (String) request.getAttribute("nickUs");
         }
         DtUsuario DtUs = iUsuario.getDataUsuario(nickUs);
         if (DtUs != null) {
             log(DtUs.getNickname());
         } else {
             log("Usuario es null");
-            request.setAttribute("mensaje_error", "No existe Perfil de Usuario");
+            request.setAttribute("mensaje_error", "No existe el usuario " + nickUs);
             request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
         }
 
