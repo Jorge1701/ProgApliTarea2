@@ -1,5 +1,3 @@
-
-
 <%@page import="Logica.DtArtista"%>
 <%@page import="Logica.DtTemaRemoto"%>
 <%@page import="Logica.DtTemaLocal"%>
@@ -28,7 +26,7 @@
 
             DtAlbumContenido albumes = (DtAlbumContenido) request.getAttribute("Album");
             DtAlbum inf = (DtAlbum) albumes.getInfo();
-            String Generos = albumes.getGeneros2(Genero);
+            String Generos = albumes.getGeneros2();
             ArrayList<DtTema> temas = albumes.getTemas();
             String nickArtista = inf.getNickArtista();
             String imagen = inf.getImagen();
@@ -104,25 +102,27 @@
                                                             if (suscripcion.getEstado().equals("Vigente")) {
                                                                 if (temas.get(i) instanceof DtTemaLocal) {
                                             %>
-                                    <td><center><input onclick="Descarga('<%=((DtTemaLocal) temas.get(i)).getDirectorio()%>')" class="button buttton1" id="btnDescargar" value="Descargar"></center></td>
+                                            <td><center><input readonly onclick="Descarga('<%=((DtTemaLocal) temas.get(i)).getDirectorio()%>')" class="btn btn-info" id="btnDescargar" value="Descargar"></center></td>
                                         <% } else {%>
                                     <td><center><text style="color:black ">No Se Puede Descargar</text></center></td> 
 
                                     <%}%>
                                     <%} else { %>
-                                    <td><center><text style="color:black ">Su Suscripcion No Esta Vigente</text></center></td> 
+                                    <td><center><a href="/Tarea2/SSuscripcion?accion=redir1" class="btn btn-info">Renovar Suscripción</a></center></td>
 
 
                                     <%}%>
                                     <%} else { %>
-                                    <td><center><text style="color:black ">Sin Suscripcion</text></center></td>                                   
+                                    <td><center><a href="/Tarea2/SSuscripcion?accion=redir" class="btn btn-info">Contratar Suscripción</a></center></td>                                   
                                         <% }
-                                            }
-                                        } else {%> 
+                                          }else{ %>
+                                          <td><center><text style="color:black ">No Se Puede Descargar</text></center></td>   
+                                            
+                                       <% } }else{ %> 
                                     <td><center><text style="color:black ">Debe Iniciar Sesion</text></center></td>     
-                                        <%}%>
+                                        
                                     </tr>
-                                    <%     }%>
+                                    <% } } %>
 
                                 </table>
                             </div>

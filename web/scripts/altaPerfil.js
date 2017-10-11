@@ -1,9 +1,11 @@
+
 //Hacer registro y redireccionar al index
 $("#btnRegistro").click(function () {
     if (correctoNickname === true && correctoEmail === true
             && correctoContrasenia === true && correctoConfContrasenia === true
             && correctoNombre === true && correctoApellido === true
             && correctoDia === true && correctoAnio === true && correctoMes === true) {
+
 
         $.ajax({
             type: "POST",
@@ -46,8 +48,8 @@ $("#txtNickname").keyup(function () {
         $("#formatoErroneo").hide();
         return correctoNickname = false;
     }
-     
-    if($("#txtNickname").val().toString().indexOf("@") !== -1){
+
+    if ($("#txtNickname").val().toString().indexOf("@") !== -1) {
         $("#nicknameAlerta").hide();
         $("#nicknameSuccess").hide();
         $("#faltaNickname").hide();

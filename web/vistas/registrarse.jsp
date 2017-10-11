@@ -35,8 +35,8 @@
                                     <span style="color: red; padding-left: 5px">Debes de ingresar un nickname.</span>
                                 </div>
                             </row>
-                            
-                             <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
+
+                            <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
                                 <div  id="formatoErroneo" hidden>
                                     <span class="glyphicon glyphicon-alert" style="color: red"></span>
                                     <span style="color: red; padding-left: 5px">El nickname no puede contener "@".</span>
@@ -149,7 +149,7 @@
                             </row>
 
 
-                            <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> <div style="margin: 10px"></div> 
+                            <row class="col-lg-5 col-md-5 col-sm-5 col-xs-5"> <div style="margin: 10px"></div> 
                                 <div class="btn-group" data-toggle="buttons">
 
                                     <label class="btn btn-primary active" id="btnCliente" >
@@ -160,6 +160,7 @@
                                         <input type="radio" name="options" autocomplete="off"> Artista
                                     </label>
                                 </div>
+
                             </row>
 
                             <div id="datosArtista" hidden >  

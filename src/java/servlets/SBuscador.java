@@ -19,6 +19,12 @@ public class SBuscador extends HttpServlet {
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (request.getParameter("busqueda") == null) {
+            request.setAttribute("mensaje_error", "Debe de ingresar el parametro busqueda");
+            request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
+            return;
+        }
+
         String busqueda = request.getParameter("busqueda");
         request.setAttribute("busqueda", busqueda);
         request.setAttribute("resultado", iContenido.buscar(busqueda, (request.getParameter("orden") != null ? request.getParameter("orden") : "")));
@@ -26,14 +32,12 @@ public class SBuscador extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
 

@@ -28,20 +28,6 @@
         <title>Espotify</title>
 
         <style>
-            table, td, th {
-                border: 1px solid black;
-
-            }
-
-            table {
-                border-collapse: collapse;
-                width: 85%;
-            }
-
-
-            th {
-                height: 50px;
-            }
 
 
         </style>
@@ -92,7 +78,7 @@
 
                             <row class="col-xs-4">
 
-      
+
                                 <input style="border-color: black " required="Campo obligatorio"  type="number"  min="1900" max="2017" step="1" value="2017" class="form-control" placeholder="Año De Creacion" id="txtAnio">
                             </row>
                             <!-- Generos  -->                                                      
@@ -132,7 +118,7 @@
                             </row>
 
                             <row class="col-xs-12" style="display: none" id="Url" >
-                                <table>
+                                <table >
                                     <tr>
                                     <row class="col-xs-6"><input  required="Campo obligatorio" type="text" class="form-control" placeholder="Url" id="txtTemaRemoto" ></row>
                                     </tr>
@@ -176,15 +162,16 @@
                         <row class="col-xs-12 " >
                             <span style="color: lavender; font-weight: bold">Lista De Temas :</span>
 
-                            <div >     
-                                <table id="tabla" class="table-hover">
-
-                                    <tr style="background:white">
-                                        <th><center><text style="color: black " align="text-center">Url/Directorio</text></center></th>
+                            <div  >     
+                                <table id="tabla" class="table table-user-information">
+                                    <tbody> 
+                                        <tr style="background:white">
+                                            <th><center><text style="color: black " align="text-center">Url/Directorio</text></center></th>
                                     <th><center><text style="color: black " align="text-center">Nombre</text></center></th>
                                     <th><center><text style="color: black">Posicion</text></center></th>
                                     <th><center><text style="color: black">Duracion</text></center></th>   
                                     </tr>
+                                    </tbody>
                                 </table>
                             </div> 
                         </row>

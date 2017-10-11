@@ -1,9 +1,3 @@
-<%-- 
-    Document   : consultaPerfilArtista
-    Created on : 18/09/2017, 02:04:18 PM
-    Author     : Diego
---%>
-
 <%@page import="Logica.DtUsuario"%>
 <%@page import="Logica.DtCliente"%>
 <%@page import="java.util.Collection"%>
@@ -60,13 +54,6 @@
                                         <div class="col-sm-6">
                                             <h4><%= dtPArtista.getInfo().getNombre()%>  <%= dtPArtista.getInfo().getApellido()%> </h4></span>
                                             <span><p>Artista</p></span>
-                                            <% if (session.getAttribute("usuario") != null) {
-                                                    DtUsuario u = (DtUsuario) session.getAttribute("usuario");
-                                                    if (dtPArtista.getInfo().getNickname().equals(u.getNickname())) {
-                                            %>
-                                            <h5><a href="/Tarea2/SContenido?accion=AltaAlbum" class="btn btn-info" id="btnCrearAlbum">Crear Album</a></h5>   
-                                            <%}
-                                                }%>
                                         </div>
                                         <div class="clearfix"></div>
                                         <table class="table table-user-information">
@@ -127,6 +114,13 @@
                                                 <% }%>  
                                             </tbody>
                                         </table>
+                                        <% if (session.getAttribute("usuario") != null) {
+                                                DtUsuario u = (DtUsuario) session.getAttribute("usuario");
+                                                if (dtPArtista.getInfo().getNickname().equals(u.getNickname())) {
+                                        %>
+                                        <h5><a href="/Tarea2/SContenido?accion=AltaAlbum" class="btn btn-info" id="btnCrearAlbum">Crear Album</a></h5>   
+                                        <%}
+                                                }%>
 
 
                                     </div>
