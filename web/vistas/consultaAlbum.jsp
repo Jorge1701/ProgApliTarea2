@@ -71,29 +71,15 @@
                                 <table class="table table-condensed" >
                                     <caption ><center><text style="color:black ">Temas</text></center></caption>
                                     <tr>
-                                        <th><center><text style="color:black ">Nombre</text></center></th>
-                                    <th><center><text style="color:black ">Posicion</text></center></th>
+                                        <th><center><text style="color:black ">Nombre</text></center></th>                                  
                                     <th><center><text style="color:black ">Duracion</text></center></th>
                                     <th><center><text style="color:black ">Ubicacion</text></center></th>
                                     <th><center><text style="color:black ">Reproducir</text></center></th>
                                     <th><center><text style="color:black ">Descargar</text></center></th>
-                                        <%
 
-                                            if (request.getSession().getAttribute("usuario") != null) {
-                                                DtUsuario user = (DtUsuario) request.getSession().getAttribute("usuario");
-                                                if (user instanceof DtCliente) {
-                                                    DtSuscripcion suscripcion = (DtSuscripcion) ((DtCliente) user).getSuscripcion();
-                                                    if (suscripcion != null) { %>
-                                    <th><center><text style="color:black ">Favorito</text></center></th>
-                                        <%
-                                                    }
-                                                }
-                                            }
-
-                                            for (int i = 0; i < temas.size(); i++) {%>
+                                    <% for (int i = 0; i < temas.size(); i++) {%>
                                     <tr>                              
                                         <td><text style="color:black"><center><%= temas.get(i).getNombre()%></center> </text></td>
-                                    <td><text style="color:black "><center> <%= temas.get(i).getUbicacion()%></center> </text></td>
                                     <td><text style="color:black  ; background-color: white"><center> <%= temas.get(i).getDuracion().getHoras()%>:<%= temas.get(i).getDuracion().getMinutos()%>:<%= temas.get(i).getDuracion().getSegundos()%></center></text></td>
                                     <td><text style="color:black ; background-color: white"><center> <%= temas.get(i) instanceof DtTemaLocal ? ((DtTemaLocal) temas.get(i)).getDirectorio() : ((DtTemaRemoto) temas.get(i)).getUrl()%></center> </text></td>
                                         <%  if (temas.get(i) instanceof DtTemaLocal) {

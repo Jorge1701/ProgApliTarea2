@@ -50,7 +50,7 @@ public class SContenido extends HttpServlet {
             switch (accion) {
 
                 case "AltaAlbum":
-                    ArrayList<DtGenero> generos = ((DtGenero) iContenido.listarGenero()).getSubGeneros();
+                    ArrayList<String> generos = (ArrayList<String>)iContenido.obtenerGeneros();                
                     request.setAttribute("Generos", generos);
                     request.getRequestDispatcher("/vistas/AltaAlbum.jsp").forward(request, response);
                     break;
