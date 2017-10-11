@@ -35,11 +35,12 @@ public class DownloadFile extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String filename = request.getParameter("Ruta");
-            String filepath = "C:\\Users\\brian\\Desktop";
+            String filename = "NAT.pdf";
+            String filepath = "C:\\Users\\brian\\Desktop\\";
             response.setContentType("APPLICATION/OCTET-STREAM");
             response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
-
+            log("filePath"+filepath);
+            log("filename"+filename);
             FileInputStream fileInputStream = new FileInputStream(filepath + filename);
 
             int i;
