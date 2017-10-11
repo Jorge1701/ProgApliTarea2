@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlets;
 
 import Logica.DtArtista;
@@ -13,7 +8,6 @@ import Logica.DtSuscripcion;
 import Logica.Fabrica;
 import Logica.IUsuario;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -42,6 +36,8 @@ public class SSuscripcion extends HttpServlet {
                     request.setAttribute("mensaje_error", "Esta página esta reservada para nuestros clientes");
                     request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
                 } else {
+                    request.getSession().setAttribute("suscripcion", ((DtCliente) usr).getSuscripcion());
+                    request.getSession().setAttribute("suscripciones", ((DtCliente) usr).getSuscripciones());
                     this.getServletContext().getRequestDispatcher("/vistas/suscripcion.jsp").forward(request, response);
                 }
 
@@ -81,6 +77,7 @@ public class SSuscripcion extends HttpServlet {
                 request.setAttribute("mensaje_error", "Debe estar logueado para ver esta página");
                 request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
             }
+
             DtUsuario usuario = (DtUsuario) request.getSession().getAttribute("usuario");
             if (((DtCliente) usuario).getSuscripcion() != null) {
                 request.setAttribute("mensaje_error", "Ya posee una suscripción vigente");
@@ -96,7 +93,7 @@ public class SSuscripcion extends HttpServlet {
             }
 
         } else if (request.getParameter("accion").equals("cancelar")) {
-
+            //este cancelar es cuando pasa de pendiente a cancelada
             DtUsuario usuario = (DtUsuario) request.getSession().getAttribute("usuario");
             String estado = request.getParameter("Estado");
 
@@ -145,15 +142,11 @@ public class SSuscripcion extends HttpServlet {
                     DtUsuario usr = iUsuario.getDataUsuario(usuario.getNickname());
                     DtSuscripcion s = ((DtCliente) usr).getSuscripcion();
                     request.getSession().setAttribute("usuario", usr);
-                    //request.getSession().setAttribute("suscripcion", s);
-                    //request.getSession().setAttribute("suscripciones", ((DtCliente) usr).getSuscripciones());
-                    //getServletContext().getRequestDispatcher("/SSuscripcion?accion=redir1").forward(request, response);
                 }
             } else {
                 response.setContentType("text/plain");
                 response.setCharacterEncoding("UTF-8");
                 response.getWriter().write("error");
-
             }
 
         }

@@ -74,7 +74,7 @@
 
                             <%
                                 if (request.getSession().getAttribute("usuario") != null) {
-                                    if (request.getSession().getAttribute("suscripcion") != null && ((DtSuscripcion) request.getSession().getAttribute("suscripcion")).getEstado().equals("Vigente")) {
+                                    if (request.getAttribute("suscripcion") != null && ((DtSuscripcion) request.getAttribute("suscripcion")).getEstado().equals("Vigente")) {
 
                                         DtUsuario dtu = (DtUsuario) request.getSession().getAttribute("usuario");
                                         if (dtu instanceof DtCliente) {
@@ -166,7 +166,7 @@
 
                             <%
                                 if (request.getSession().getAttribute("usuario") != null) {
-                                    if (request.getSession().getAttribute("suscripcion") != null && ((DtSuscripcion) request.getSession().getAttribute("suscripcion")).getEstado().equals("Vigente")) {
+                                    if (request.getAttribute("suscripcion") != null && ((DtSuscripcion) request.getAttribute("suscripcion")).getEstado().equals("Vigente")) {
 
                                         DtUsuario dtu = (DtUsuario) request.getSession().getAttribute("usuario");
                                         if (dtu instanceof DtCliente) {

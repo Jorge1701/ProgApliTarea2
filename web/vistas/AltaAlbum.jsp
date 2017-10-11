@@ -10,13 +10,13 @@
 <html>
     <head>
         <jsp:include page="include.html"/>
-   
+
 
         <%
             if (request.getSession().getAttribute("usuario") == null) {
                 request.setAttribute("mensaje_error", "Esta página está reservada para nuestros Artistas ");
                 request.getRequestDispatcher("pagina_error.jsp").forward(request, response);
-                    }%>
+            }%>
         <%
             DtUsuario user = (DtUsuario) request.getSession().getAttribute("usuario");
             if (user instanceof DtCliente) {
@@ -30,14 +30,14 @@
         <style>
             table, td, th {
                 border: 1px solid black;
-                
+
             }
 
             table {
                 border-collapse: collapse;
                 width: 85%;
             }
-            
+
 
             th {
                 height: 50px;
@@ -51,7 +51,7 @@
             <!-- Header -->
             <jsp:include page="header.jsp"/>
 
-    
+
 
             <input type="hidden" id="nick" value="<%= user.getNickname()%>">
             <hr>
@@ -91,19 +91,21 @@
 
 
                             <row class="col-xs-4">
-                                <input style="border-color: black " required="Campo obligatorio"  type="text" class="form-control" placeholder="Año De Creacion" id="txtAnio">
+
+      
+                                <input style="border-color: black " required="Campo obligatorio"  type="number"  min="1900" max="2017" step="1" value="2017" class="form-control" placeholder="Año De Creacion" id="txtAnio">
                             </row>
                             <!-- Generos  -->                                                      
                             <row class="col-xs-12">
                                 <row class="col-xs-12" ><h4 class="text-center col-xs-10" style="color:white ">Generos A Los Que Pertenece</h4></row>
                                 <row>
                                     <div>
-                                        <% ArrayList<DtGenero> generos = (ArrayList<DtGenero>) request.getAttribute("Generos");
+                                        <% ArrayList<String> generos = (ArrayList<String>) request.getAttribute("Generos");
                                         %>
                                         <select  id="listaGeneros"  class="form-control" size="2" style="width: 100px; height: 100px">
-                                            <%                                                for (DtGenero genero : generos) {
+                                            <% for (int i = 0; i < generos.size(); i++) {
                                             %>
-                                            <option> <%= genero.getNombre()%> </option>   
+                                            <option> <%=generos.get(i)%> </option>   
                                             <%}%>
                                         </select>
                                     </div>
@@ -144,10 +146,10 @@
                         </row>
 
                         <row class="col-xs-12 " style="display: none" id="Local">
-                            <form target="iframe" action="Uploadfile" method="post" enctype="multipart/form-data" id="form">
-                                <table>
+                            <form target="iframe" action="Uploadfile" method="post" enctype="multipart/form-data" id="form"  >
+                                <table  style="background-color: white">
                                     <tr>
-                                        <th><input type="file" name="file" id="file"/></th>                                    
+                                        <th><input type="file" name="file" id="file" /></th>                                    
                                     <iframe name="iframe" style="display: none"></iframe>
                                     </tr>
                                 </table>
@@ -157,7 +159,7 @@
                         <row class="col-xs-12 " style="margin-top: 10px; padding-left: 0px">             
                             <div class="form-group"> 
                                 <div class="col-xs-2"><span style="color: lavender; font-weight: bold">Posicion: </span></div>
-                                <div class="col-xs-2"><input style="border-color: black" required="Campo obligatorio"  type="text" class="form-control" id="txtPosicion"></div>
+                                <div class="col-xs-3"><input style="border-color: black" required="Campo obligatorio"  type="number" class="form-control" id="txtPosicion"></div>
                                 <div class="col-xs-2"> <span style="color: lavender; font-weight: bold">Duracion: </span></div>
                                 <div class="col-xs-4"> <input style="border-color: black" type="time" step='1' min="00:00:00" max="20:00:00" class="form-control" placeholder="Duracion" id="txtDuracion"></div>                           
                             </div> 
@@ -186,7 +188,7 @@
                                 </table>
                             </div> 
                         </row>
-                        <row class="col-xs-4 "><input type="button" class="btn btn-default pull-right" style="margin-top: 15px" id="btnQuitarTema" value="Quitar"/></row>
+
 
                         <!-- Crear Album  -->   
                         <row class="col-xs-4 ">
