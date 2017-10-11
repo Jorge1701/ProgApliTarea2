@@ -24,13 +24,7 @@
     </head>
     <body>
         <%
-            if (request.getSession().getAttribute("usuario") != null) {
-                DtUsuario Artista = (DtUsuario) request.getSession().getAttribute("usuario");
-                if (Artista instanceof DtArtista) {
-                    request.setAttribute("mensaje_error", "Esta página está reservada para Cliente o Visitantes");
-                    request.getRequestDispatcher("pagina_error.jsp").forward(request, response);
-                }
-            }
+
 
             DtAlbumContenido albumes = (DtAlbumContenido) request.getAttribute("Album");
             DtAlbum inf = (DtAlbum) albumes.getInfo();
@@ -120,12 +114,13 @@
                                     <td><center><text style="color:black ">Su Suscripcion No Esta Vigente</text></center></td> 
 
 
-                                    <%}%>
-                                    <%} else { %>
-                                    <td><center><text style="color:black ">Sin Suscripcion</text></center></td>                                   
-                                        <% }
-                                            }
-                                            for (int i = 0; i < temas.size(); i++) {%>
+                                    <%} else {%> 
+                                    <td><center><text style="color:black ">Debe Iniciar Sesion</text></center></td>     
+                                        <%}%>
+                                    </tr>
+                                   <% } %>
+
+                                    <% for (int i = 0; i < temas.size(); i++) {%>
                                     <tr>                              
                                         <td><text style="color:black"><center><%= temas.get(i).getNombre()%></center> </text></td>
                                     <td><text style="color:black  ; background-color: white"><center> <%= temas.get(i).getDuracion().getHoras()%>:<%= temas.get(i).getDuracion().getMinutos()%>:<%= temas.get(i).getDuracion().getSegundos()%></center></text></td>
