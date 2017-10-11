@@ -147,7 +147,7 @@
                                 <div class="col-xs-2"><span style="color: lavender; font-weight: bold">Posicion: </span></div>
                                 <div class="col-xs-3"><input style="border-color: black" required="Campo obligatorio"  type="number" class="form-control" id="txtPosicion"></div>
                                 <div class="col-xs-2"> <span style="color: lavender; font-weight: bold">Duracion: </span></div>
-                                <div class="col-xs-4"> <input style="border-color: black" type="time" step='1' min="00:00:00" max="20:00:00" class="form-control" placeholder="Duracion" id="txtDuracion"></div>                           
+                                <div class="col-xs-4"> <input style="border-color: black" required="Campo obligatorio"  type="number" class="form-control" id="txtHora"><input style="border-color: black" required="Campo obligatorio"  type="number" class="form-control" id="txtMin"><input style="border-color: black" required="Campo obligatorio"  type="number" class="form-control" id="txtSegundos"></div>                           
                             </div> 
                         </row>
 

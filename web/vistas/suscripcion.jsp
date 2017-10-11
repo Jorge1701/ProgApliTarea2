@@ -10,7 +10,7 @@
                 request.setAttribute("mensaje_error", "Esta página está reservada para nuestros clientes");
                 request.getRequestDispatcher("pagina_error.jsp").forward(request, response);
             } else if (((DtCliente)usr).getSuscripcion() != null) {
-                request.setAttribute("mensaje_error", "Ya posee una suscripción vigente");
+                request.setAttribute("mensaje_error", "Ya posee una suscripción");
                 request.getRequestDispatcher("pagina_error.jsp").forward(request, response);
             }
         %>

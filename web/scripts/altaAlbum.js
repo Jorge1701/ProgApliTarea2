@@ -88,15 +88,22 @@ $("#btnAgregarTema").click(function () {
         alert("Falta Seleccionar Tema");
     } else {
         var nombre = document.getElementById("txtNombre").value;
-        var duracion = document.getElementById("txtDuracion").value;
+        var hora = document.getElementById("txtHora").value;
+        var min = document.getElementById("txtMin").value;
+        var seg = document.getElementById("txtSegundos").value;
         var posicion = document.getElementById("txtPosicion").value;
 
         if (nombre === "" || posicion === "") {
             alert("Falta Completar Algun Campo Del Tema");
         } else {
-            if (duracion === "") {
+            if (hora === "" || min === "" || seg === "") {
+                
                 alert("Rellene Con Ceros La Duracion");
             } else {
+                if(hora < 0 || min < 0 || seg < 0){
+                    alert("numeros negativos");
+                    return;
+                }
                 var tabla = document.getElementById("tabla");
                 var fila = document.createElement("tr");
                 var columna1 = document.createElement("td");
@@ -107,7 +114,7 @@ $("#btnAgregarTema").click(function () {
                 var textoCelda1 = document.createTextNode(temas);
                 var textoCelda2 = document.createTextNode(nombre);
                 var textoCelda3 = document.createTextNode(posicion);
-                var textoCelda4 = document.createTextNode(duracion);
+                var textoCelda4 = document.createTextNode(hora + ":" + min + ":" + seg);
 
                 columna1.appendChild(textoCelda1);
                 columna2.appendChild(textoCelda2);
