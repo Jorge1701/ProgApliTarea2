@@ -43,18 +43,18 @@
                     <ul class="nav nav-tabs" >
                         <li <%= (pestania.equals("") ? " class=\"active\"" : "")%>><a data-toggle="tab" href="#home" style="color: black"><h5 class="pestaniaP">Informacion Basica</h5></a></li>
                         <li <%= (pestania.equals("Listas") ? " class=\"active\"" : "")%>><a data-toggle="tab" href="#menu1" style="color: black"><h5 class="pestaniaP">Listas</h5></a></li>
-                            <% if (session.getAttribute("usuario") != null) {    
-   %>
+                            <% if (session.getAttribute("usuario") != null) {
+                            %>
                         <li><a data-toggle="tab" href="#menu2" style="color: black"><h5 class="pestaniaP">Seguidores</h5></a></li>
 
-                       
+
                         <%if (dtCli.getSuscripcion() != null && dtCli.getSuscripcion().getEstado() != null && dtCli.getSuscripcion().getEstado().equals("Vigente")) { %>
                         <li><a data-toggle="tab" href="#menu6" style="color: black"><h5 class="pestaniaP">Sigue</h5></a></li>
                             <%}%> 
                         <li><a data-toggle="tab" href="#menu3" style="color: black"><h5 class="pestaniaP">Album Favoritos</h5></a></li>
                         <li><a data-toggle="tab" href="#menu4" style="color: black"><h5 class="pestaniaP">Listas Favoritos</h5></a></li>
                         <li><a data-toggle="tab" href="#menu5" style="color: black"><h5 class="pestaniaP">Temas Favoritos</h5></a></li>
-                         <%}%>
+                            <%}%>
                     </ul>
 
                     <div class="tab-content panel panel-default">
@@ -75,16 +75,10 @@
                                             <!-- /input-group -->
                                         </div>
                                         <div class="col-sm-6" >
-                                            <% if (session.getAttribute(
-                                                        "usuario") != null) {
-                                                DtUsuario usSesion = (DtUsuario) session.getAttribute("usuario");
-                                            %>
+
                                             <h4 style="color:black;"><%= dtPCliente.getInfo().getNombre()%>  <%= dtPCliente.getInfo().getApellido()%> </h4></span>
                                             <span><p>Cliente</p></span>
-                                            <% if (usSesion.getNickname().equals(dtCli.getNickname()) && dtCli.getSuscripcion() != null && dtCli.getSuscripcion().getEstado() != null && dtCli.getSuscripcion().getEstado().equals("Vigente")) {%>
-                                                <h5><a href="/Tarea2/SLista" class="btn btn-info" id="btnCrearLista">Crear Lista Reproduccion</a> </h5> 
-                                            <%}                                                
-                                            }%>
+
                                         </div>
                                         <div class="clearfix"></div>
                                         <table class="table table-user-information">
@@ -157,6 +151,12 @@
                                                     }%>  
                                             </tbody>
                                         </table>
+                                        <% if (session.getAttribute("usuario") != null) {
+                                                DtUsuario usSesion = (DtUsuario) session.getAttribute("usuario");
+                                                if (usSesion.getNickname().equals(dtCli.getNickname()) && dtCli.getSuscripcion() != null && dtCli.getSuscripcion().getEstado() != null && dtCli.getSuscripcion().getEstado().equals("Vigente")) {%>
+                                        <h5><a href="/Tarea2/SLista" class="btn btn-info" id="btnCrearLista">Crear Lista Reproduccion</a> </h5> 
+                                        <%}
+                                            }%>
 
 
                                     </div>
