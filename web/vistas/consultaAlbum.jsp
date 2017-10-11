@@ -102,7 +102,7 @@
                                                             if (suscripcion.getEstado().equals("Vigente")) {
                                                                 if (temas.get(i) instanceof DtTemaLocal) {
                                             %>
-                                    <td><center><input onclick="Descarga('<%=((DtTemaLocal) temas.get(i)).getDirectorio()%>')" class="button buttton1" id="btnDescargar" value="Descargar"></center></td>
+                                            <td><center><input readonly onclick="Descarga('<%=((DtTemaLocal) temas.get(i)).getDirectorio()%>')" class="btn btn-info" id="btnDescargar" value="Descargar"></center></td>
                                         <% } else {%>
                                     <td><center><text style="color:black ">No Se Puede Descargar</text></center></td> 
 
@@ -113,7 +113,7 @@
 
                                     <%}%>
                                     <%} else { %>
-                                    <td><center><text style="color:black ">Sin Suscripcion</text></center></td>                                   
+                                    <td><center><a href="/Tarea2/SSuscripcion?accion=redir" class="btn btn-info">Contratar Suscripción</a></center></td>                                   
                                         <% }
                                             }
                                         } else {%> 
