@@ -98,7 +98,6 @@
                                                     }
                                                 }
                                             }
-
                                             for (int i = 0; i < temas.size(); i++) {%>
                                     <tr>                              
                                         <td><text style="color:black"><center><%= temas.get(i).getNombre()%></center> </text></td>

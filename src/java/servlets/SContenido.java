@@ -57,7 +57,7 @@ public class SContenido extends HttpServlet {
             switch (accion) {
 
                 case "AltaAlbum":
-                    ArrayList<DtGenero> generos = ((DtGenero) iContenido.listarGenero()).getSubGeneros();
+                    ArrayList<String> generos = (ArrayList<String>)iContenido.obtenerGeneros();                
                     request.setAttribute("Generos", generos);
                     request.getRequestDispatcher("/vistas/AltaAlbum.jsp").forward(request, response);
                     break;
@@ -118,10 +118,6 @@ public class SContenido extends HttpServlet {
                     String temas = request.getParameter("temas");
                     String gen = request.getParameter("generos");
                     int anio = Integer.parseInt(request.getParameter("anio"));
-                    log("Anio "+anio);
-                    log("nombreAlbum"+nombreA);
-                    log("temas "+temas);
-                    
                     DtTema dtTema;
                     ArrayList<DtTema> ArrayDeTemas = new ArrayList();
                     ArrayList<String> ArrayDeGeneros = new ArrayList();
@@ -133,9 +129,9 @@ public class SContenido extends HttpServlet {
                     }
                     String[] todoTemas = temas.split("@");
                     for (i = 0; i < todoTemas.length; i++) {
-                        log("Tema 1 :"+todoTemas[i] );                        
+                                          
                         String[] data = todoTemas[i].split("~");
-                        log("url: "+data[0]+" nombre: "+data[1]+" posicion: "+data[2]+" duracion"+data[3]);
+                       
                         String[] duracion = data[3].split(":");
 
                         DtTime time = new DtTime(Integer.parseInt(duracion[0]), Integer.parseInt(duracion[1]), Integer.parseInt(duracion[2]));

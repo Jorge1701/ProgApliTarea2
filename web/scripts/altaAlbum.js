@@ -82,16 +82,17 @@ $("#btnAgregarTema").click(function () {
     var checLocal = document.getElementById("ChecLocal");
     var checUrl = document.getElementById("ChecUrl");
     if (checLocal.checked) {
-        document.getElementById("form").submit();
-        var archivo = document.getElementById("file").value;
-        archivo = archivo.split('\\');
-        temas = archivo[2].toString();
-        alert(temas);
         
-   
-    }
+         document.getElementById("form").submit();
+         var archivo = document.getElementById("file").value;
+         archivo = archivo.split('\\');
+         temas = archivo[2].toString();
+     }
+
     if (checUrl.checked) {
         temas = document.getElementById("txtTemaRemoto").value;
+        temas = temas.split("//");
+        temas = temas[1];
     }
     if (temas === "") {
         alert("Falta Seleccionar Tema");
@@ -100,40 +101,40 @@ $("#btnAgregarTema").click(function () {
         var duracion = document.getElementById("txtDuracion").value;
         var posicion = document.getElementById("txtPosicion").value;
 
-        if (nombre === ""|| posicion === "") {
+        if (nombre === "" || posicion === "") {
             alert("Falta Completar Algun Campo Del Tema");
         } else {
-            if( duracion === "" ){
+            if (duracion === "") {
                 alert("Rellene Con Ceros La Duracion");
-            }else{
-            var tabla = document.getElementById("tabla");
-            var fila = document.createElement("tr");
-            var columna1 = document.createElement("td");
-            var columna2 = document.createElement("td");
-            var columna3 = document.createElement("td");
-            var columna4 = document.createElement("td");
-            var textoCelda1 = document.createTextNode(temas);
-            var textoCelda2 = document.createTextNode(nombre);
-            var textoCelda3 = document.createTextNode(posicion);
-            var textoCelda4 = document.createTextNode(duracion);
-            columna1.appendChild(textoCelda1);
-            columna2.appendChild(textoCelda2);
-            columna3.appendChild(textoCelda3);
-            columna4.appendChild(textoCelda4);
-            fila.appendChild(columna1);
-            fila.appendChild(columna2);
-            fila.appendChild(columna3);
-            fila.appendChild(columna4);
-            fila.onclick = function () {
-                $(this).remove();
-            };
-            tabla.appendChild(fila);
-            tabla.style.background = "white";
-            document.getElementById("txtNombre").value = "";
-            document.getElementById("txtDuracion").value = "";
-            document.getElementById("txtPosicion").value = "";
-            document.getElementById("txtTemaRemoto").value = "";
-        }
+            } else {
+                var tabla = document.getElementById("tabla");
+                var fila = document.createElement("tr");
+                var columna1 = document.createElement("td");
+                var columna2 = document.createElement("td");
+                var columna3 = document.createElement("td");
+                var columna4 = document.createElement("td");
+                var textoCelda1 = document.createTextNode(temas);
+                var textoCelda2 = document.createTextNode(nombre);
+                var textoCelda3 = document.createTextNode(posicion);
+                var textoCelda4 = document.createTextNode(duracion);
+                columna1.appendChild(textoCelda1);
+                columna2.appendChild(textoCelda2);
+                columna3.appendChild(textoCelda3);
+                columna4.appendChild(textoCelda4);
+                fila.appendChild(columna1);
+                fila.appendChild(columna2);
+                fila.appendChild(columna3);
+                fila.appendChild(columna4);
+                fila.onclick = function () {
+                    $(this).remove();
+                };
+                tabla.appendChild(fila);
+                tabla.style.background = "white";
+                document.getElementById("txtNombre").value = "";
+                document.getElementById("txtDuracion").value = "";
+                document.getElementById("txtPosicion").value = "";
+                document.getElementById("txtTemaRemoto").value = "";
+            }
         }
     }
 });

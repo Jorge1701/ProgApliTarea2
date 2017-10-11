@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.net.URLEncoder;
 import java.util.List;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +23,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  *
  * @author brian
  */
+@WebServlet(name = "Uploadfile", urlPatterns = {"/Uploadfile"})
 public class Uploadfile extends HttpServlet {
 
     /**
@@ -35,40 +37,37 @@ public class Uploadfile extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            response.setContentType("text/html;charset=UTF-8");
-       
-            String archivourl = "C:\\Users\\brian\\Documents\\NetBeansProjects\\Tarea1\\Recursos\\Musica";
-            
-            DiskFileItemFactory factory = new DiskFileItemFactory();
-            
-            factory.setSizeThreshold(1024);
-            
-            factory.setRepository(new File(archivourl));
-            
-            ServletFileUpload upload = new ServletFileUpload(factory);
-            
-            
-            try{
-                
-                List<FileItem> partes = upload.parseRequest(request);
-                
-                for(FileItem items: partes){
-                    
-                    File file = new File(archivourl,URLEncoder.encode(items.getName(),"UTF-8"));
-                    log(URLEncoder.encode(items.getName(),"UTF-8"));
-                    items.write(file);
-                    
-                }
-                
-               
-                
-            }catch(Exception e){
-      
+        response.setContentType("text/html;charset=UTF-8");
+
+        String archivourl = "C:\\Users\\brian\\Documents\\NetBeansProjects\\Tarea1\\Recursos\\Musica";
+
+
+
+        DiskFileItemFactory factory = new DiskFileItemFactory();
+
+        factory.setSizeThreshold(1024);
+
+        factory.setRepository(new File(archivourl));
+
+        ServletFileUpload upload = new ServletFileUpload(factory);
+
+        try {
+
+            List<FileItem> partes = upload.parseRequest(request);
+
+            for (FileItem items : partes) {
+
+                File file = new File(archivourl, items.getName());
+
+                items.write(file);
+
             }
-            
+
+        } catch (Exception e) {
 
         }
-  
+
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
