@@ -1,5 +1,3 @@
-
-
 <%@page import="Logica.DtArtista"%>
 <%@page import="Logica.DtTemaRemoto"%>
 <%@page import="Logica.DtTemaLocal"%>
@@ -24,7 +22,6 @@
     </head>
     <body>
         <%
-
             DtAlbumContenido albumes = (DtAlbumContenido) request.getAttribute("Album");
             DtAlbum inf = (DtAlbum) albumes.getInfo();
             String Generos = albumes.getGeneros2();
