@@ -22,6 +22,8 @@
     </head>
     <body>
         <%
+
+
             DtAlbumContenido albumes = (DtAlbumContenido) request.getAttribute("Album");
             DtAlbum inf = (DtAlbum) albumes.getInfo();
             String Generos = albumes.getGeneros2();
@@ -106,19 +108,21 @@
 
                                     <%}%>
                                     <%} else { %>
-                                    <td><center><text style="color:black ">Su Suscripcion No Esta Vigente</text></center></td> 
+                                    <td><center><a href="/Tarea2/SSuscripcion?accion=redir1" class="btn btn-info">Renovar Suscripción</a></center></td>
 
 
                                     <%}%>
                                     <%} else { %>
                                     <td><center><a href="/Tarea2/SSuscripcion?accion=redir" class="btn btn-info">Contratar Suscripción</a></center></td>                                   
                                         <% }
-                                            }
-                                        } else {%> 
+                                          }else{ %>
+                                          <td><center><text style="color:black ">No Se Puede Descargar</text></center></td>   
+                                            
+                                       <% } }else{ %> 
                                     <td><center><text style="color:black ">Debe Iniciar Sesion</text></center></td>     
-                                        <%}%>
+                                        
                                     </tr>
-                                    <%     }%>
+                                    <% } } %>
 
                                 </table>
                             </div>
