@@ -1,5 +1,3 @@
-
-
 <%@page import="Logica.DtArtista"%>
 <%@page import="Logica.DtTemaRemoto"%>
 <%@page import="Logica.DtTemaLocal"%>
