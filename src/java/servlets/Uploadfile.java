@@ -55,7 +55,9 @@ public class Uploadfile extends HttpServlet {
                 for(FileItem items: partes){
                     
                     File file = new File(archivourl,URLEncoder.encode(items.getName(),"UTF-8"));
+                    log(URLEncoder.encode(items.getName(),"UTF-8"));
                     items.write(file);
+                    
                 }
                 
                
