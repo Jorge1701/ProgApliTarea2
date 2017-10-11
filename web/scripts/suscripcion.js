@@ -68,6 +68,12 @@ $("#Cuota").change(function () {
 
 $("#btnConfirmar").click(function () {
 
+if ($("#Cuota").val().toString() === "Cuota") {
+        alert("Porfavor seleccione una cuota válida");
+        return;
+    }
+
+
     $.ajax({
         type: "POST",
         url: "/Tarea2/SSuscripcion",
