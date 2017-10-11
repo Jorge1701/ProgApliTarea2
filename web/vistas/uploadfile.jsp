@@ -19,7 +19,7 @@
     <body>
         <%
         
-            String archivourl = "C:\\Users\\brian\\Documents\\NetBeansProjects\\Tarea1\\Recursos\\Imagenes\\Albumes";
+            String archivourl = "C:\\Users\\Ale\\Documents\\NetBeansProjects\\ProgApliTarea1\\Recursos\\Imagenes\\Albumes";
             
             DiskFileItemFactory factory = new DiskFileItemFactory();
             
