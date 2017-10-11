@@ -36,6 +36,8 @@ public class SSuscripcion extends HttpServlet {
                     request.setAttribute("mensaje_error", "Esta página esta reservada para nuestros clientes");
                     request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
                 } else {
+                    request.getSession().setAttribute("suscripcion", ((DtCliente) usr).getSuscripcion());
+                    request.getSession().setAttribute("suscripciones", ((DtCliente) usr).getSuscripciones());
                     this.getServletContext().getRequestDispatcher("/vistas/suscripcion.jsp").forward(request, response);
                 }
 
@@ -75,6 +77,7 @@ public class SSuscripcion extends HttpServlet {
                 request.setAttribute("mensaje_error", "Debe estar logueado para ver esta página");
                 request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
             }
+
             DtUsuario usuario = (DtUsuario) request.getSession().getAttribute("usuario");
             if (((DtCliente) usuario).getSuscripcion() != null) {
                 request.setAttribute("mensaje_error", "Ya posee una suscripción vigente");
@@ -90,7 +93,7 @@ public class SSuscripcion extends HttpServlet {
             }
 
         } else if (request.getParameter("accion").equals("cancelar")) {
-
+            //este cancelar es cuando pasa de pendiente a cancelada
             DtUsuario usuario = (DtUsuario) request.getSession().getAttribute("usuario");
             String estado = request.getParameter("Estado");
 

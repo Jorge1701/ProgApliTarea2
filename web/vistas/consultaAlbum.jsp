@@ -87,16 +87,43 @@
                                     <th><center><text style="color:black ">Reproducir</text></center></th>
                                     <th><center><text style="color:black ">Descargar</text></center></th>
                                         <%
+                                            for (int i = 0; i < temas.size(); i++) {%>
+                                    <tr>                              
+                                        <td><text style="color:black"><center><%= temas.get(i).getNombre()%></center> </text></td>
+                                    <td><text style="color:black "><center> <%= temas.get(i).getUbicacion()%></center> </text></td>
+                                    <td><text style="color:black  ; background-color: white"><center> <%= temas.get(i).getDuracion().getHoras()%>:<%= temas.get(i).getDuracion().getMinutos()%>:<%= temas.get(i).getDuracion().getSegundos()%></center></text></td>
+                                    <td><text style="color:black ; background-color: white"><center> <%= temas.get(i) instanceof DtTemaLocal ? ((DtTemaLocal) temas.get(i)).getDirectorio() : ((DtTemaRemoto) temas.get(i)).getUrl()%></center> </text></td>
+                                        <%  if (temas.get(i) instanceof DtTemaLocal) {
+                                                DtTemaLocal local = (DtTemaLocal) temas.get(i);%>
+                                    <td><center><button type="button" class="btn btn-default" aria-label="Left Align">
+                                            <span class="glyphicon glyphicon-play-circle" aria-hidden="true"  onclick="reproducirLocal('<%= local.getDirectorio().replace("'", "\\'")%>', '<%= local.getNombre().replace("'", "\\'")%>', '<%= local.getArtista().replace("'", "\\'")%>', '<%= local.getImagenAlbum().replace("'", "\\'")%>')"></span>
+                                        </button></center></td>
+                                        <%} else {%>
+                                    <td><center><button type="button" class="btn btn-default" aria-label="Left Align">
+                                            <span class="glyphicon glyphicon-play-circle" aria-hidden="true"  onclick="reproducirRemoto('<%= ((DtTemaRemoto) temas.get(i)).getUrl()%>')"></span></button></center></td>
+                                            <% }%>
+                                            <%
+                                                if (request.getSession().getAttribute("usuario") != null) {
+                                                    DtUsuario user = (DtUsuario) request.getSession().getAttribute("usuario");
+                                                    if (user instanceof DtCliente) {
+                                                        DtSuscripcion suscripcion = (DtSuscripcion) ((DtCliente) user).getSuscripcion();
+                                                        if (suscripcion != null) {
+                                                            if (suscripcion.getEstado().equals("Vigente")) {
+                                                                if (temas.get(i) instanceof DtTemaLocal) {
+                                            %>
+                                    <td><center><input onclick="Descarga('<%=((DtTemaLocal) temas.get(i)).getDirectorio()%>')" class="button buttton1" id="btnDescargar" value="Descargar"></center></td>
+                                        <% } else {%>
+                                    <td><center><text style="color:black ">No Se Puede Descargar</text></center></td> 
 
-                                            if (request.getSession().getAttribute("usuario") != null) {
-                                                DtUsuario user = (DtUsuario) request.getSession().getAttribute("usuario");
-                                                if (user instanceof DtCliente) {
-                                                    DtSuscripcion suscripcion = (DtSuscripcion) ((DtCliente) user).getSuscripcion();
-                                                    if (suscripcion != null) { %>
-                                    <th><center><text style="color:black ">Favorito</text></center></th>
-                                        <%
-                                                    }
-                                                }
+                                    <%}%>
+                                    <%} else { %>
+                                    <td><center><text style="color:black ">Su Suscripcion No Esta Vigente</text></center></td> 
+
+
+                                    <%}%>
+                                    <%} else { %>
+                                    <td><center><text style="color:black ">Sin Suscripcion</text></center></td>                                   
+                                        <% }
                                             }
                                             for (int i = 0; i < temas.size(); i++) {%>
                                     <tr>                              
