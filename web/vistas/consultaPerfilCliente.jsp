@@ -141,7 +141,7 @@
                                                     <td onclick="irListaParticular('<%= dtLP.getNombre().replace("'", "\\'")%>', '<%=dtLP.getNickDuenio().replace("'", "\\'")%>')"><a><%= dtLP.getNombre()%></a></td>
                                                     <td><span class="badge"> <%= dtLP.getTemas().size()%> </span></td>
                                                     <% if (dtLP.isPrivada()) {%>
-                                                    <td id="privada"><form method="POST" action="/Tarea2/SContenido?accion=publicarLista"><div class="glyphicon glyphicon-remove-sign" style="color: red"></div><input name="nomLista" hidden value="<%= dtLP.getNombre()%>"><button type="submit" id="btnPublicar" class="btn btn-info" style="margin-left: 50px" >Publicar</button></form></td>
+                                                    <td id="privada"><form method="POST" action="/Tarea2/SContenido"><div class="glyphicon glyphicon-remove-sign" style="color: red"></div><input type="text" class="hidden" name="accion" value="publicarLista"><input name="nomLista" hidden value="<%= dtLP.getNombre()%>"><button type="submit" id="btnPublicar" class="btn btn-info" style="margin-left: 50px" >Publicar</button></form></td>
                                                             <% } else {%>
                                                     <td><div class="glyphicon glyphicon-ok-sign" style="color:green"></div></td>
                                                         <%}%>
