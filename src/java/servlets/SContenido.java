@@ -50,7 +50,7 @@ public class SContenido extends HttpServlet {
             switch (accion) {
 
                 case "AltaAlbum":
-                    ArrayList<String> generos = (ArrayList<String>)iContenido.obtenerGeneros();                
+                    ArrayList<String> generos = (ArrayList<String>) iContenido.obtenerGeneros();
                     request.setAttribute("Generos", generos);
                     request.getRequestDispatcher("/vistas/AltaAlbum.jsp").forward(request, response);
                     break;
@@ -296,8 +296,7 @@ public class SContenido extends HttpServlet {
                             try {
                                 iContenido.publicarLista(usuario.getNickname(), nomLista);
                                 request.setAttribute("pestania", "Listas");
-                                request.setAttribute("nickUs", usuario.getNickname());
-                                request.getRequestDispatcher("/SConsultarPerfil").forward(request, response);
+                                request.getRequestDispatcher("/SConsultarPerfil?nickUs=" + usuario.getNickname()).forward(request, response);
                             } catch (UnsupportedOperationException e) {
                                 request.setAttribute("mensaje_error", "No existe la lista '" + nomLista + "' en el sistema");
                                 request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);

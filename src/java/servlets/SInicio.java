@@ -38,7 +38,7 @@ public class SInicio extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getParameter("cargarDatosPrueba") != null) {
             if (request.getSession().getAttribute("usuario") == null) {
-                request.setAttribute("mensaje_error", "Ustede no puede cargar los datos de prueba");
+                request.setAttribute("mensaje_error", "Usted no puede cargar los datos de prueba");
                 request.getRequestDispatcher("vistas/pagina_error.jsp").forward(request, response);
                 return;
             }
