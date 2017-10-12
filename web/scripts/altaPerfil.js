@@ -5,7 +5,7 @@ $("#btnRegistro").click(function () {
             && correctoNombre === true && correctoApellido === true
             && correctoDia === true && correctoAnio === true && correctoMes === true) {
 
-        if (dynamicUpload() === false) {
+        if (subirImagen() === false) {
             return;
         }
 
@@ -42,18 +42,17 @@ $("#btnRegistro").click(function () {
 
 //Subir imagen
 var imagen = "";
-function dynamicUpload() {
+function subirImagen() {
     var formElement = $("[name='formArchivo']")[0];
     var fd = new FormData(formElement);
     var fileInput = $("[name='archivo']")[0];
     fd.append('file', fileInput.files[0]);
 
-
     var ruta = $("#archivo").val();
     if (ruta !== "") {
         imagen = ruta.split("\\")[2];
-        var ext = imagen.split(".")[1];
-        if (ext === "jpg" || ext === "png" || ext === "PNG" || ext === "jpeg") {
+        var ext = imagen.split(".").splice(-1, 1);
+        if (ext.toString().localeCompare("jpg") === 0 || ext.toString().localeCompare("jpeg") === 0 || ext.toString().localeCompare("png") === 0 || ext.toString().localeCompare("PNG") === 0) {
             $.ajax({
                 url: '/Tarea2/Uploadfile',
                 data: fd,
@@ -96,7 +95,7 @@ $("#txtNickname").keyup(function () {
         type: "POST",
         url: "/Tarea2/SRegistro",
         data: {
-            "nickname": $("#txtNickname").val().toString(),
+            "nickname": $("#txtNickname").val().toString().toLowerCase(),
             "accion": "nickname"},
 
         success: function (data) {
