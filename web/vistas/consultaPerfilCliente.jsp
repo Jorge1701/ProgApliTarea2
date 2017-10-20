@@ -174,7 +174,8 @@
                                             <thead>                                                      
                                                 <tr>
                                                     <th>NickName:</th>
-                                                    <th>Nombre</th>                                                        
+                                                    <th>Nombre</th>
+                                                    <th>Email</th>
                                                 </tr>
                                             </thead>
                                             <tbody>     
@@ -183,6 +184,7 @@
                                                 <tr>
                                                     <td><a href="/Tarea2/SConsultarPerfil?nickUs=<%= dtC.getNickname()%>"><%= dtC.getNickname()%></a></td>
                                                     <td><%= dtC.getNombre()%>  <%= dtC.getApellido()%> </td>
+                                                    <td><%= dtC.getEmail() %></td>
                                                 </tr>
 
                                                 <% }%>  
