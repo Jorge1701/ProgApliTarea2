@@ -248,6 +248,7 @@ public class SContenido extends HttpServlet {
                 String nickArt = request.getParameter("nickArtista");
                 String temas = request.getParameter("temas");
                 String gen = request.getParameter("generos");
+                String imagen = request.getParameter("imagen");
                 int anio = Integer.parseInt(request.getParameter("anio"));
                 log("Anio " + anio);
                 log("nombreAlbum" + nombreA);
@@ -279,7 +280,7 @@ public class SContenido extends HttpServlet {
                 }
                 //Album(String nickArtista, String nombre, int anio, String imagen, HashMap<String, Tema> temas, ArrayList<Genero> generos)
                 iContenido.selectArtista(nickArt);
-                iContenido.ingresarAlbum(nombreA, anio, ArrayDeGeneros, "", ArrayDeTemas);
+                iContenido.ingresarAlbum(nombreA, anio, ArrayDeGeneros, imagen, ArrayDeTemas);
 
                 break;
 

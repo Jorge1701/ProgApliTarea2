@@ -1,4 +1,3 @@
-
 //Hacer registro y redireccionar al index
 $("#btnRegistro").click(function () {
     if (correctoNickname === true && correctoEmail === true
@@ -6,6 +5,9 @@ $("#btnRegistro").click(function () {
             && correctoNombre === true && correctoApellido === true
             && correctoDia === true && correctoAnio === true && correctoMes === true) {
 
+        if (subirImagen() === false) {
+            return;
+        }
 
         $.ajax({
             type: "POST",
@@ -22,6 +24,7 @@ $("#btnRegistro").click(function () {
                 "biografia": $("#txtBiografia").val().toString(),
                 "link": $("#txtLink").val().toString(),
                 "artista": artista,
+                "imagen": imagen,
                 "accion": "registro"},
             success: function (data) {
                 window.location = "/Tarea2/SInicio?mensaje=¡Bienvenido! Disfrute de la musica online en vivo";
@@ -37,6 +40,37 @@ $("#btnRegistro").click(function () {
     }
 });
 
+//Subir imagen
+var imagen = "";
+function subirImagen() {
+    var formElement = $("[name='formArchivo']")[0];
+    var fd = new FormData(formElement);
+    var fileInput = $("[name='archivo']")[0];
+    fd.append('file', fileInput.files[0]);
+
+    var ruta = $("#archivo").val();
+    if (ruta !== "") {
+        imagen = ruta.split("\\")[2];
+        var ext = imagen.split(".").splice(-1, 1);
+        if (ext.toString().localeCompare("jpg") === 0 || ext.toString().localeCompare("jpeg") === 0 || ext.toString().localeCompare("png") === 0 || ext.toString().localeCompare("PNG") === 0) {
+            $.ajax({
+                url: '/Tarea2/Uploadfile',
+                data: fd,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                success: function (data) {
+                    return true;
+                }
+            });
+        } else {
+            alert("Solo puede subir imágenes");
+            imagen = "";
+            return false;
+
+        }
+    }
+}
 
 //Verificar que no exista el nickname
 var correctoNickname = false;
@@ -61,7 +95,7 @@ $("#txtNickname").keyup(function () {
         type: "POST",
         url: "/Tarea2/SRegistro",
         data: {
-            "nickname": $("#txtNickname").val().toString(),
+            "nickname": $("#txtNickname").val().toString().toLowerCase(),
             "accion": "nickname"},
 
         success: function (data) {

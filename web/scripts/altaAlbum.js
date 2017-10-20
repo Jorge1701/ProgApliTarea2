@@ -14,6 +14,9 @@ $("#btnCrearAlbum").click(function () {
             generos = generos + lista.options[i].text + "&";
         }
 
+        if (subirImagen() === false) {
+            return;
+        }
 
         $.ajax({
             type: "POST",
@@ -24,6 +27,7 @@ $("#btnCrearAlbum").click(function () {
                 "anio": $("#txtAnio").val().toString(),
                 "generos": generos,
                 "temas": temas,
+                "imagen": imagen,
                 "accion": "crearAlbum"
             },
             success: function (data) {
@@ -71,32 +75,37 @@ $("#btnQuitar").click(function () {
 
 
 $("#btnAgregarTema").click(function () {
-    var temas = "";
     var checLocal = document.getElementById("ChecLocal");
     var checUrl = document.getElementById("ChecUrl");
     if (checLocal.checked) {
-        document.getElementById("form").submit();
-        var archivo = document.getElementById("file").value;
-        archivo = archivo.split('\\');
-        temas = archivo[2].toString();
+        if (subirTema() === false) {
+            return;
+        }
     }
     if (checUrl.checked) {
-        temas = document.getElementById("txtTemaRemoto").value;
+        tema = document.getElementById("txtTemaRemoto").value;
 
     }
-    if (temas === "") {
+    if (tema === "") {
         alert("Falta Seleccionar Tema");
     } else {
         var nombre = document.getElementById("txtNombre").value;
-        var duracion = document.getElementById("txtDuracion").value;
+        var hora = document.getElementById("txtHora").value;
+        var min = document.getElementById("txtMin").value;
+        var seg = document.getElementById("txtSegundos").value;
         var posicion = document.getElementById("txtPosicion").value;
 
         if (nombre === "" || posicion === "") {
             alert("Falta Completar Algun Campo Del Tema");
         } else {
-            if (duracion === "") {
+            if (hora === "" || min === "" || seg === "") {
+
                 alert("Rellene Con Ceros La Duracion");
             } else {
+                if (hora < 0 || min < 0 || seg < 0) {
+                    alert("numeros negativos");
+                    return;
+                }
                 var tabla = document.getElementById("tabla");
                 var fila = document.createElement("tr");
                 var columna1 = document.createElement("td");
@@ -104,10 +113,10 @@ $("#btnAgregarTema").click(function () {
                 var columna3 = document.createElement("td");
                 var columna4 = document.createElement("td");
 
-                var textoCelda1 = document.createTextNode(temas);
+                var textoCelda1 = document.createTextNode(tema);
                 var textoCelda2 = document.createTextNode(nombre);
                 var textoCelda3 = document.createTextNode(posicion);
-                var textoCelda4 = document.createTextNode(duracion);
+                var textoCelda4 = document.createTextNode(hora + ":" + min + ":" + seg);
 
                 columna1.appendChild(textoCelda1);
                 columna2.appendChild(textoCelda2);
@@ -131,6 +140,70 @@ $("#btnAgregarTema").click(function () {
         }
     }
 });
+
+//Subir tema
+var tema = "";
+function subirTema() {
+    var formElement = $("[name='formTema']")[0];
+    var fd = new FormData(formElement);
+    var fileInput = $("[name='tema']")[0];
+    fd.append('file', fileInput.files[0]);
+
+    var ruta = $("#tema").val();
+    if (ruta !== "") {
+        tema = ruta.split("\\")[2];
+        var ext = tema.split(".").splice(-1,1);
+        if (ext.toString().localeCompare("mp3") === 0) {
+            $.ajax({
+                url: '/Tarea2/Uploadfile',
+                data: fd,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                success: function (data) {
+                    return true;
+                }
+            });
+        } else {
+            alert("Solo puede subir temas");
+            tema = "";
+            return false;
+
+        }
+    }
+}
+
+//Subir imagen
+var imagen = "";
+function subirImagen() {
+    var formElement = $("[name='formImagen']")[0];
+    var fd = new FormData(formElement);
+    var fileInput = $("[name='imagen']")[0];
+    fd.append('file', fileInput.files[0]);
+
+    var ruta = $("#imagen").val();
+    if (ruta !== "") {
+        imagen = ruta.split("\\")[2];
+        var ext = imagen.split(".").splice(-1, 1);
+        if (ext.toString().localeCompare("jpg") === 0 || ext.toString().localeCompare("jpeg") === 0 || ext.toString().localeCompare("png") === 0 || ext.toString().localeCompare("PNG") === 0) {
+            $.ajax({
+                url: '/Tarea2/Uploadfile',
+                data: fd,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                success: function (data) {
+                    return true;
+                }
+            });
+        } else {
+            alert("Solo puede subir imágenes");
+            imagen = "";
+            return false;
+
+        }
+    }
+}
 
 var correctoNombreAlbum = false;
 $("#txtnombreAlbum").keyup(function () {

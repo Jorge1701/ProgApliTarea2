@@ -163,8 +163,19 @@
 
                             </row>
 
-                            <div id="datosArtista" hidden >  
-                                <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input style="border-color: black" type="text" class="form-control" placeholder="Biografia" style="margin-top:10px" id="txtBiografia"></row>
+
+                            <row class="col-lg-7 col-md-7 col-sm-7 col-xs-7"><div style="margin: 10px"></div>
+                                <form enctype="multipart/form-data" method="post" id="attachfileform" name="formArchivo" >
+                                    <input accept="image/*" type="file" name="archivo" id="archivo" class="btn btn-info" style="font-size: 11px"/>
+                                    <input hidden type="text" name="accion" value="registro"/>
+                                </form>
+                            </row>
+
+                            
+                            <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> <div style="margin: 10px"></div></row>
+
+                            <div id="datosArtista" hidden>  
+                                <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input style="border-color: black" type="text" class="form-control" placeholder="Biografia" id="txtBiografia"></row>
                                 <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><input style="border-color: black" class="form-control" placeholder="Link" id="txtLink"></row>
                             </div>
 

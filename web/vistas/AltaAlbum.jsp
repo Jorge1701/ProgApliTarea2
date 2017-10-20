@@ -46,7 +46,7 @@
                 <!-- Contenido -->
                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                     <!-- Relleno a la izquiera -->
-                    <div class="col-lg-3 col-md-3 col-sm-2 col-xs-1"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-1"></div>
 
                     <div class="col-lg-6 col-md-6 col-sm-8 col-xs-10" style="background-color: transparent">
 
@@ -113,11 +113,35 @@
 
                             <!-- Temas  -->   
                             <row class="col-xs-12" ><h4 class="text-center col-xs-10" style="color:white ">Temas</h4></row>
+
+                            <row class="col-xs-12 " style="margin-top: 10px ;padding-left: 0px">
+                                <div class="form-group" > 
+                                    <div class="col-xs-2"><span style="color: lavender; font-weight: bold">Nombre: </span></div>
+                                    <div class="col-xs-9"><input style="border-color: black; max-width:283px" required="Campo obligatorio"  type="text" class="form-control" id="txtNombre"></div>
+                                </div>
+                            </row>
+
+                            <row class="col-xs-12 " style="margin-top: 10px; padding-left: 0px">             
+                                <div> 
+                                    <div class="col-xs-2"> <span style="color: lavender; font-weight: bold">Duracion: </span></div>
+                                    <div class="col-xs-3"> <input style="border-color: black; max-width:60px" type="number" class="form-control" id="txtHora" placeholder="hh"></div>
+                                    <div class="col-xs-3"> <input style="border-color: black; max-width:60px" type="number" class="form-control" id="txtMin" placeholder="mm"></div>
+                                    <div class="col-xs-3"> <input style="border-color: black; max-width:60px" type="number" class="form-control" id="txtSegundos" placeholder="ss"></div>                  
+                                </div> 
+                            </row>
+
+                            <row class="col-xs-12 " style="margin-top: 10px; padding-left: 0px">             
+                                <div class="form-group"> 
+                                    <div class="col-xs-2"><span style="color: lavender; font-weight: bold">Posicion: </span></div>
+                                    <div class="col-xs-3"><input style="border-color: black; max-width:60px" required="Campo obligatorio"  type="number" class="form-control" id="txtPosicion"></div>                        
+                                </div> 
+                            </row>
+
                             <row class="col-xs-12">
                                 <div class="col-xs-6"style="padding-left: 0px"><input type="checkbox" id="ChecUrl" value="Url" onclick="mostrar('Url', this, 'Local', 'ChecLocal')"><text style="color: lavender"> Por Url</text></div>
                             </row>
 
-                            <row class="col-xs-12" style="display: none" id="Url" >
+                            <row class="col-xs-12" style="display: none" id="Url">
                                 <table >
                                     <tr>
                                     <row class="col-xs-6"><input  required="Campo obligatorio" type="text" class="form-control" placeholder="Url" id="txtTemaRemoto" ></row>
@@ -127,39 +151,19 @@
                         </div>
 
                         <row class="col-xs-12">
-
                             <div class="col-xs-6" style="padding-left: 0px"><input type="checkbox" id="ChecLocal"  onclick="mostrar('Local', this, 'Url', 'ChecUrl')"><text style="color: lavender"> Temas Locales</text></div>
                         </row>
 
                         <row class="col-xs-12 " style="display: none" id="Local">
-                            <form target="iframe" action="Uploadfile" method="post" enctype="multipart/form-data" id="form"  >
-                                <table  style="background-color: white">
-                                    <tr>
-                                        <th><input type="file" name="file" id="file" /></th>                                    
-                                    <iframe name="iframe" style="display: none"></iframe>
-                                    </tr>
-                                </table>
+                            <form enctype="multipart/form-data" method="post" id="formTema" name="formTema" >
+                                <input accept=".mp3" type="file" name="tema" id="tema" class="btn btn-info" style="font-size: 11px"/>
+                                <input hidden type="text" name="accion" value="tema"/>
                             </form>
                         </row>
 
-                        <row class="col-xs-12 " style="margin-top: 10px; padding-left: 0px">             
-                            <div class="form-group"> 
-                                <div class="col-xs-2"><span style="color: lavender; font-weight: bold">Posicion: </span></div>
-                                <div class="col-xs-3"><input style="border-color: black" required="Campo obligatorio"  type="number" class="form-control" id="txtPosicion"></div>
-                                <div class="col-xs-2"> <span style="color: lavender; font-weight: bold">Duracion: </span></div>
-                                <div class="col-xs-4"> <input style="border-color: black" type="time" step='1' min="00:00:00" max="20:00:00" class="form-control" placeholder="Duracion" id="txtDuracion"></div>                           
-                            </div> 
-                        </row>
+                        <row class="col-xs-12 "style="margin-top: 10px; margin-bottom: 10px"><button class="btn"id="btnAgregarTema" value="Agregar">Agregar Tema</button></row>
 
-                        <row class="col-xs-12 " style="margin-top: 10px ;padding-left: 0px">
-                            <div class="form-group" > 
-                                <div class="col-xs-2"><span style="color: lavender; font-weight: bold">Nombre: </span></div>
-                                <div class="col-xs-6"><input style="border-color: black" required="Campo obligatorio"  type="text" class="form-control" id="txtNombre"></div>
-                            </div>
-                        </row>
-                        <br>
-                        <row class="col-xs-12 "style="margin-top: 10px"><button class="btn"id="btnAgregarTema" value="Agregar">Agregar Tema</button></row>              
-                        <row class="col-xs-12 " >
+                        <row class="col-xs-10 " >
                             <span style="color: lavender; font-weight: bold">Lista De Temas :</span>
 
                             <div  >     
@@ -175,6 +179,15 @@
                                 </table>
                             </div> 
                         </row>
+
+                        <row class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><div style="margin: 10px"></div>
+                             <div class="col-xs-2"> <span style="color: lavender; font-weight: bold">Imagen: </span></div>
+                            <form enctype="multipart/form-data" method="post" id="formImagen" name="formImagen" >
+                                <input accept="image/*" type="file" name="imagen" id="imagen" class="btn btn-info" style="font-size: 11px"/>
+                                <input hidden type="text" name="accion" value="album"/>
+                            </form>
+                        </row>
+
 
 
                         <!-- Crear Album  -->   

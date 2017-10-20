@@ -60,97 +60,105 @@ public class SRegistro extends HttpServlet {
         String nickname = request.getParameter("nickname");
         String email = request.getParameter("email");
 
-        if ("redirigir".equals(accion)) {                                         //Reridigir a la pagina de registro
-            this.getServletContext().getRequestDispatcher("/vistas/registrarse.jsp").forward(request, response);
+        if (null != accion) {
+            switch (accion) {
+                case "redirigir":
+                    //Reridigir a la pagina de registro
+                    this.getServletContext().getRequestDispatcher("/vistas/registrarse.jsp").forward(request, response);
+                    break;
+                case "nickname":
+                    //Verficacion de nickname
+                    DtUsuario usuario = iUsuario.getDataUsuario(nickname);
+                    if (usuario != null) {
+                        existe = "si";
+                    } else {
+                        existe = "no";
+                    }
+                    response.setContentType("text/plain");
+                    response.setCharacterEncoding("UTF-8");
+                    response.getWriter().write(existe);
+                    break;
+                case "email":
+                    //Verficacion de email
+                    if (!iUsuario.correoExiste(email)) {
+                        existe = "si";
+                    } else {
+                        existe = "no";
+                    }
+                    response.setContentType("text/plain");
+                    response.setCharacterEncoding("UTF-8");
+                    response.getWriter().write(existe);
+                    break;
+                case "registro":
+                    //Ingreso del perfil
+                    String contrasenia = request.getParameter("contrasenia");
+                    String nombre = request.getParameter("nombre");
+                    String apellido = request.getParameter("apellido");
+                    String dia = request.getParameter("dia");
+                    String mes = request.getParameter("mes");
+                    String anio = request.getParameter("anio");
+                    String biografia = request.getParameter("biografia");
+                    String link = request.getParameter("link");
+                    String artista = request.getParameter("artista");
+                    String imagen = request.getParameter("imagen");
 
-        } else if ("nickname".equals(accion)) {                                  //Verficacion de nickname
-            DtUsuario usuario = iUsuario.getDataUsuario(nickname);
-            if (usuario != null) {
-                existe = "si";
-            } else {
-                existe = "no";
-            }
-            response.setContentType("text/plain");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(existe);
+                    int nMes;
+                    switch (mes) {
+                        case "enero":
+                            nMes = 1;
+                            break;
+                        case "febrero":
+                            nMes = 2;
+                            break;
+                        case "marzo":
+                            nMes = 3;
+                            break;
+                        case "abril":
+                            nMes = 4;
+                            break;
+                        case "mayo":
+                            nMes = 5;
+                            break;
+                        case "junio":
+                            nMes = 6;
+                            break;
+                        case "julio":
+                            nMes = 7;
+                            break;
+                        case "agosto":
+                            nMes = 8;
+                            break;
+                        case "setiembre":
+                            nMes = 9;
+                            break;
+                        case "octubre":
+                            nMes = 10;
+                            break;
+                        case "noviembre":
+                            nMes = 11;
+                            break;
+                        case "diciembre":
+                            nMes = 12;
+                            break;
+                        default:
+                            nMes = 0;
+                            break;
+                    }
+                    DtFecha fechaNac = new DtFecha(Integer.valueOf(dia), nMes, Integer.valueOf(anio));
+                    DtUsuario dtu;
+                    if ("si".equals(artista)) {
+                        dtu = new DtArtista(nickname, nombre, apellido, email, fechaNac, imagen, biografia, link, contrasenia);
+                    } else {
+                        dtu = new DtCliente(nickname, nombre, apellido, email, fechaNac, imagen, contrasenia, null);
+                    }
+                    iUsuario.ingresarUsuario(dtu);
+                    request.getSession().setAttribute("usuario", dtu);
 
-        } else if ("email".equals(accion)) {                              //Verficacion de email
-
-            if (!iUsuario.correoExiste(email)) {
-                existe = "si";
-            } else {
-                existe = "no";
-            }
-            response.setContentType("text/plain");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(existe);
-
-        } else if ("registro".equals(accion)) {                            //Ingreso del perfil
-            String contrasenia = request.getParameter("contrasenia");
-            String nombre = request.getParameter("nombre");
-            String apellido = request.getParameter("apellido");
-            String dia = request.getParameter("dia");
-            String mes = request.getParameter("mes");
-            String anio = request.getParameter("anio");
-            String biografia = request.getParameter("biografia");
-            String link = request.getParameter("link");
-            String artista = request.getParameter("artista");
-
-            int nMes;
-            switch (mes) {
-                case "enero":
-                    nMes = 1;
-                    break;
-                case "febrero":
-                    nMes = 2;
-                    break;
-                case "marzo":
-                    nMes = 3;
-                    break;
-                case "abril":
-                    nMes = 4;
-                    break;
-                case "mayo":
-                    nMes = 5;
-                    break;
-                case "junio":
-                    nMes = 6;
-                    break;
-                case "julio":
-                    nMes = 7;
-                    break;
-                case "agosto":
-                    nMes = 8;
-                    break;
-                case "setiembre":
-                    nMes = 9;
-                    break;
-                case "octubre":
-                    nMes = 10;
-                    break;
-                case "noviembre":
-                    nMes = 11;
-                    break;
-                case "diciembre":
-                    nMes = 12;
+                    //request.getRequestDispatcher("SInicio").forward(request, response);      //Redirigir utilizando el nombre del servlet
                     break;
                 default:
-                    nMes = 0;
                     break;
             }
-
-            DtFecha fechaNac = new DtFecha(Integer.valueOf(dia), nMes, Integer.valueOf(anio));
-
-            DtUsuario dtu;
-            if ("si".equals(artista)) {
-                dtu = new DtArtista(nickname, nombre, apellido, email, fechaNac, "", biografia, link, contrasenia);
-            } else {
-                dtu = new DtCliente(nickname, nombre, apellido, email, fechaNac, "", contrasenia, null);
-            }
-            iUsuario.ingresarUsuario(dtu);
-            request.getSession().setAttribute("usuario", dtu);
-
-            //request.getRequestDispatcher("SInicio").forward(request, response);      //Redirigir utilizando el nombre del servlet
         }
     }
 

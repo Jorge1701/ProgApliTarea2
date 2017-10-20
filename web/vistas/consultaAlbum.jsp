@@ -113,7 +113,7 @@
 
                                     <%}%>
                                     <%} else { %>
-                                    <td><center><a href="/Tarea2/SSuscripcion?accion=redir" class="btn btn-info">Contratar Suscripción</a></center></td>                                   
+                                    <td><center><a href="/Tarea2/SSuscripcion?accion=redir" class="btn btn-info">Modificar Suscripción</a></center></td>                                   
                                         <% }
                                           }else{ %>
                                           <td><center><text style="color:black ">No Se Puede Descargar</text></center></td>   
